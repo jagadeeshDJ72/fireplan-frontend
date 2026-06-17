@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Income Tax Calculator India FY 2025-26 — New vs Old Regime | FirePlan.in</title>
+<meta name="description" content="Compare old vs new tax regime FY 2025-26. Zero tax up to ₹12 lakh under new regime. Instant India income tax calculator with take-home pay.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › Income Tax Calculator India FY 2025-26 — New vs Old Regime</div>
+<div class="calc-page">
+<div>
+<div class="calc-card-main">
+  <h1 class="calc-title">🧾 Income Tax Calculator India FY 2025-26 — New vs Old Regime</h1>
+  <p class="calc-subtitle">Compare old vs new tax regime for FY 2025-26 with ₹12 lakh zero-tax rebate, 80C deductions, HRA, and home loan interest.</p>
+  
+  <div class="form-row">
+    <div class="form-group"><label>Annual gross income (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="income" value="1200000"></div></div>
+    <div class="form-group"><label>Age</label>
+      <select id="ageGroup"><option value="below60">Below 60</option><option value="60to80">60–80 (Senior)</option><option value="above80">Above 80 (Super Senior)</option></select>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group"><label>Section 80C deductions (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="sec80c" value="150000"></div></div>
+    <div class="form-group"><label>HRA exemption (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="hra" value="0"></div></div>
+  </div>
+  <div class="form-row">
+    <div class="form-group"><label>Other deductions 80D/80E etc. (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="otherDed" value="0"></div></div>
+    <div class="form-group"><label>Home loan interest (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="hlInt" value="0"></div></div>
+  </div>
+  <button class="btn-calc" onclick="calculate()">Calculate →</button>
+  <div class="results-section" id="results">
+    <hr class="calc-divider">
+    <div class="result-cards" id="resultCards"></div>
+    <div class="chart-row" style="margin:24px 0">
+      <div class="chart-container"><canvas id="pieChart" role="img" aria-label="Breakdown chart"></canvas></div>
+      <div class="chart-legend" id="pieLegend"></div>
+    </div>
+    <div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart" role="img" aria-label="Projection chart"></canvas></div>
+    
+    <div class="download-section">
+      <div class="download-title">📄 Download your report</div>
+      <div class="download-sub">Free with account signup — get a branded PDF with full projections and action checklist.</div>
+      <div class="download-btns">
+        <button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button>
+        <button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button>
+      </div>
+    </div>
+    <hr class="calc-divider">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div style="font-size:15px;font-weight:600">Projection table</div>
+      <button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button>
+    </div>
+    <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+  </div>
+</div>
+<div class="seo-section">
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Who benefits from the new tax regime?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Taxpayers with fewer deductions (no home loan, minimal 80C) benefit from the new regime. If total deductions including 80C (₹1.5L), HRA, and home loan interest exceed ₹3.75 lakh, the old regime usually wins.</div></div><div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is there zero tax up to ₹12 lakh in new regime?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes — under FY 2025-26, there is a ₹60,000 rebate under Section 87A for income up to ₹12 lakh under the new regime, effectively making it zero tax. Above ₹12 lakh, tax applies as per slabs.</div></div>
+</div>
+</div>
+<div class="sidebar">
+  <div id="affSidebar"></div>
+  <div id="adBox1"></div>
+  <div class="sidebar-card">
+    <div class="sidebar-title">Related calculators</div>
+    <a href="capital-gains-tax-calculator.html" class="related-calc"><div class="rc-icon">📋</div><div><div class="rc-name">Capital Gains Tax</div><div class="rc-tag">Tax on investments</div></div></a><a href="inflation-calculator.html" class="related-calc"><div class="rc-icon">📅</div><div><div class="rc-name">Inflation Calc</div><div class="rc-tag">Real return planning</div></div></a><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Plan retirement</div></div></a>
+  </div>
+  <div id="adBox2"></div>
+</div>
+</div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password (min 6)" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button><p class="modal-note">No spam. Free forever.</p></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+
+function calcTaxOld(income){
+  if(income<=250000)return 0;
+  let t=0;
+  if(income>1000000)t+=(income-1000000)*0.30;
+  if(income>500000)t+=(Math.min(income,1000000)-500000)*0.20;
+  if(income>250000)t+=(Math.min(income,500000)-250000)*0.05;
+  return t;
+}
+function calcTaxNew(income){
+  // FY 2025-26 new regime slabs
+  if(income<=1200000)return 0; // rebate u/s 87A
+  let t=0;
+  const slabs=[[300000,0],[400000,.05],[300000,.10],[300000,.15],[300000,.20],[Infinity,.30]];
+  let rem=income;
+  for(const [lim,rate] of slabs){
+    if(rem<=0)break;
+    const taxable=isFinite(lim)?Math.min(rem,lim):rem;
+    t+=taxable*rate;rem-=taxable;
+  }
+  return t;
+}
+function calculate(){
+  const gross=+document.getElementById('income').value;
+  const s80c=Math.min(+document.getElementById('sec80c').value,150000);
+  const hra=+document.getElementById('hra').value;
+  const other=+document.getElementById('otherDed').value;
+  const hlInt=Math.min(+document.getElementById('hlInt').value,200000);
+  const stdDed=75000;
+  // Old regime
+  const oldTaxable=Math.max(0,gross-stdDed-s80c-hra-other-hlInt);
+  const oldTax=calcTaxOld(oldTaxable);
+  const oldCess=oldTax*0.04;
+  const oldTotal=oldTax+oldCess;
+  // New regime
+  const newStdDed=75000;
+  const newTaxable=Math.max(0,gross-newStdDed);
+  const newTax=calcTaxNew(newTaxable);
+  const newCess=newTax*0.04;
+  const newTotal=newTax+newCess;
+  const saving=Math.abs(oldTotal-newTotal);
+  const betterRegime=newTotal<=oldTotal?'New':'Old';
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">Tax — new regime</div><div class="rc-val">${fmt(newTotal)}</div><div class="rc-sub">incl. 4% cess · FY 2025-26</div></div>
+    <div class="result-card"><div class="rc-label">Tax — old regime</div><div class="rc-val">${fmt(oldTotal)}</div><div class="rc-sub">incl. 4% cess</div></div>
+    <div class="result-card" style="border-color:var(--green)"><div class="rc-label">Better regime</div><div class="rc-val" style="color:var(--green)">${betterRegime} regime</div><div class="rc-sub">saves you ${fmt(saving)}</div></div>
+    <div class="result-card"><div class="rc-label">Effective tax rate (new)</div><div class="rc-val">${gross>0?((newTotal/gross)*100).toFixed(1):'0'}%</div><div class="rc-sub">on gross income</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Take-home (new regime)</div><div class="legend-val">${fmtL(gross-newTotal)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Tax payable (new)</div><div class="legend-val">${fmt(newTotal)}</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Take-home','Tax (new)'],datasets:[{data:[Math.round(gross-newTotal),Math.round(newTotal)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmt(c.raw)}}}}});
+  tableData=[['Component','Old regime','New regime'],['Gross income',fmt(gross),fmt(gross)],['Standard deduction',fmt(stdDed),fmt(newStdDed)],['80C deductions',fmt(s80c),'—'],['HRA exemption',fmt(hra),'—'],['Home loan interest',fmt(hlInt),'—'],['Taxable income',fmt(oldTaxable),fmt(newTaxable)],['Income tax',fmt(oldTax),fmt(newTax)],['Cess (4%)',fmt(oldCess),fmt(newCess)],['Total tax',fmt(oldTotal),fmt(newTotal)],['Take-home',fmt(gross-oldTotal),fmt(gross-newTotal)]];
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'bar',data:{labels:['Old regime','New regime'],datasets:[{label:'Tax payable',data:[Math.round(oldTotal),Math.round(newTotal)],backgroundColor:['#C8860A','#1B6B45'],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Tax: '+fmt(c.raw)}}},scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'rgba(0,0,0,.04)'}}}}});
+  renderTable(false);
+  document.getElementById('results').classList.add('visible');
+  setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+function doDownload(){generatePDF({title:'Income Tax Calculator FY 2025-26',summary:[{label:'Gross income',value:fmt(+document.getElementById('income').value)},{label:'80C deductions',value:fmt(+document.getElementById('sec80c').value)}],table:tableData,filename:'FirePlan-IncomeTax.pdf'});}
+
+function renderTable(all){
+  document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');
+  const rows=all?tableData.slice(1):tableData.slice(1,11);
+  document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map((c,i)=>`<td ${i===r.length-1||i===3||i===4?'class="positive"':''}>${c}</td>`).join('')}</tr>`).join('');
+}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){
+  if(isLoggedIn()){doDownload();}
+  else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}
+}
+function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Calculator Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer>
+  <div class="affiliate-note">ⓘ Affiliate disclosure: Links may earn us commission. All calculators free. Not investment advice.</div>
+  <div class="footer-grid">
+    <div><div class="footer-logo">Fire<span>Plan</span>.in</div><p class="footer-brand-text">India's complete FIRE calculator suite.</p></div>
+    <div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div>
+    <div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a><a href="fd-laddering-calculator.html">FD ladder</a></div>
+    <div class="footer-col"><h4>Tax & loans</h4><a href="income-tax-calculator.html">Income tax</a><a href="home-loan-emi-calculator.html">Home loan EMI</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 FirePlan.in</span><span><a href="privacy.html">Privacy</a> · <a href="disclaimer.html">Disclaimer</a></span></div>
+</footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="toast" id="toast"></div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Personal Loan EMI Calculator | FirePlan.in</title><meta name="description" content="Calculate personal loan monthly EMI, total interest cost, and compare across tenures. Free India personal loan calculator.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css"></head><body>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › Personal Loan EMI Calculator</div>
+<div class="calc-page"><div><div class="calc-card-main">
+<h1 class="calc-title">💳 Personal Loan EMI Calculator</h1>
+<p class="calc-subtitle">Personal Loan EMI Calculator India — Interest & Total Cost</p>
+<div class="form-row"><div class="form-group"><label>Loan amount (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="plAmt" value="500000"></div></div><div class="form-group"><label>Interest rate (%)</label><div class="input-wrap has-suffix"><input type="number" id="plRate" value="12" step="0.1"><span class="input-suffix">%</span></div></div></div>
+   <div class="form-group"><label>Loan tenure</label><div class="input-wrap has-suffix"><input type="number" id="plTenure" value="3" min="1" max="7"><span class="input-suffix">yrs</span></div></div>
+<button class="btn-calc" onclick="calculate()">Calculate →</button>
+<div class="results-section" id="results">
+<hr class="calc-divider">
+<div class="result-cards" id="resultCards"></div>
+<div class="chart-row" style="margin:24px 0"><div class="chart-container"><canvas id="pieChart" role="img" aria-label="Breakdown chart"></canvas></div><div class="chart-legend" id="pieLegend"></div></div>
+<div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart" role="img" aria-label="Projection chart"></canvas></div>
+<div class="download-section"><div class="download-title">📄 Download your report</div><div class="download-sub">Free with account signup — branded PDF with projections.</div><div class="download-btns"><button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button><button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button></div></div>
+<hr class="calc-divider">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
+<div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+</div></div></div>
+<div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
+<div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="home-loan-emi-calculator.html" class="related-calc"><div class="rc-icon">🏠</div><div><div class="rc-name">Home Loan EMI</div><div class="rc-tag">Larger loan planning</div></div></a><a href="income-tax-calculator.html" class="related-calc"><div class="rc-icon">🧾</div><div><div class="rc-name">Income Tax</div><div class="rc-tag">Tax on EMI deductions</div></div></a></div>
+<div id="adBox2"></div></div></div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+function calculate(){
+  const P=+document.getElementById('plAmt').value,r=+document.getElementById('plRate').value/100/12;
+  const n=+document.getElementById('plTenure').value*12;
+  const emi=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  const totalPay=emi*n,totalInt=totalPay-P;
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">Monthly EMI</div><div class="rc-val">${fmt(emi)}</div><div class="rc-sub">for ${document.getElementById('plTenure').value} years</div></div>
+    <div class="result-card"><div class="rc-label">Loan amount</div><div class="rc-val">${fmtL(P)}</div><div class="rc-sub">principal borrowed</div></div>
+    <div class="result-card"><div class="rc-label">Total interest</div><div class="rc-val" style="color:var(--red)">${fmtL(totalInt)}</div><div class="rc-sub">${((totalInt/P)*100).toFixed(0)}% of loan amount</div></div>
+    <div class="result-card"><div class="rc-label">Total amount paid</div><div class="rc-val">${fmtL(totalPay)}</div><div class="rc-sub">principal + interest</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Principal</div><div class="legend-val">${fmtL(P)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Total interest</div><div class="legend-val">${fmtL(totalInt)}</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Principal','Interest'],datasets:[{data:[Math.round(P),Math.round(totalInt)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmtL(c.raw)}}}}});
+  const labs=[],balD=[],intD=[];let bal=P;
+  tableData=[['Month','EMI','Principal','Interest','Balance']];
+  for(let m=1;m<=n;m++){const i=bal*r,p=emi-i;bal=Math.max(0,bal-p);if(m%12===0||m===n){labs.push('Mo '+m);balD.push(Math.round(bal));intD.push(Math.round(i*12));tableData.push([m,fmt(emi),fmt(p),fmt(i),fmt(bal)]);}}
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'bar',data:{labels:labs,datasets:[{label:'Balance',data:balD,backgroundColor:'#1B6B45',borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Balance: '+fmtL(c.raw)}}},scales:{y:{ticks:{callback:v=>fmtL(v)},grid:{color:'rgba(0,0,0,.04)'}},x:{title:{display:true,text:'Month'}}}}});
+  renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
+function doDownload(){generatePDF({title:'Personal Loan EMI Calculator',summary:[{label:'Loan amount',value:fmtL(+document.getElementById('plAmt').value)},{label:'Rate',value:document.getElementById('plRate').value+'%'},{label:'Tenure',value:document.getElementById('plTenure').value+' years'}],table:tableData,filename:'FirePlan-PersonalLoan.pdf'});}
+function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
+function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div><div class="footer-grid"><div><div class="footer-logo">Fire<span>Plan</span>.in</div></div><div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div><div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a></div></div><div class="footer-bottom"><span>© 2026 FirePlan.in</span></div></footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button><div class="toast" id="toast"></div>
+</body></html>

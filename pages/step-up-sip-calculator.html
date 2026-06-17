@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Step-up SIP Calculator India — Annual SIP Increase Calculator | FirePlan.in</title>
+<meta name="description" content="See how increasing your SIP by 10-15% every year creates dramatically more wealth. Step-up vs flat SIP comparison with charts.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › Step-up SIP Calculator India — Annual SIP Increase Calculator</div>
+<div class="calc-page">
+<div>
+<div class="calc-card-main">
+  <h1 class="calc-title">🪜 Step-up SIP Calculator India — Annual SIP Increase Calculator</h1>
+  <p class="calc-subtitle">See the massive difference when you increase SIP annually alongside your salary hike — step-up vs flat SIP comparison with chart.</p>
+  
+  <div class="form-row">
+    <div class="form-group"><label>Starting monthly SIP (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="startSIP" value="10000"></div></div>
+    <div class="form-group"><label>Annual step-up (%)</label><div class="input-wrap has-suffix"><input type="number" id="stepUp" value="10" step="1"><span class="input-suffix">%</span></div></div>
+  </div>
+  <div class="form-row">
+    <div class="form-group"><label>Investment period</label><div class="input-wrap has-suffix"><input type="number" id="stepYrs" value="20" min="1"><span class="input-suffix">yrs</span></div></div>
+    <div class="form-group"><label>Expected CAGR (%)</label><div class="input-wrap has-suffix"><input type="number" id="stepCAGR" value="12" step="0.5"><span class="input-suffix">%</span></div></div>
+  </div>
+  <button class="btn-calc" onclick="calculate()">Calculate →</button>
+  <div class="results-section" id="results">
+    <hr class="calc-divider">
+    <div class="result-cards" id="resultCards"></div>
+    <div class="chart-row" style="margin:24px 0">
+      <div class="chart-container"><canvas id="pieChart" role="img" aria-label="Breakdown chart"></canvas></div>
+      <div class="chart-legend" id="pieLegend"></div>
+    </div>
+    <div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart" role="img" aria-label="Projection chart"></canvas></div>
+    
+    <div class="download-section">
+      <div class="download-title">📄 Download your report</div>
+      <div class="download-sub">Free with account signup — get a branded PDF with full projections and action checklist.</div>
+      <div class="download-btns">
+        <button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button>
+        <button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button>
+      </div>
+    </div>
+    <hr class="calc-divider">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div style="font-size:15px;font-weight:600">Projection table</div>
+      <button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button>
+    </div>
+    <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+  </div>
+</div>
+<div class="seo-section">
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How much should I step up my SIP each year?</span><span class="faq-chevron">▾</span></div><div class="faq-a">A good rule of thumb is to increase your SIP by 10–15% every year, matching your expected salary hike. Even a 10% annual step-up can increase your final corpus by 60–80% compared to a flat SIP over 20 years.</div></div>
+</div>
+</div>
+<div class="sidebar">
+  <div id="affSidebar"></div>
+  <div id="adBox1"></div>
+  <div class="sidebar-card">
+    <div class="sidebar-title">Related calculators</div>
+    <a href="sip-calculator.html" class="related-calc"><div class="rc-icon">📈</div><div><div class="rc-name">SIP Calculator</div><div class="rc-tag">Basic SIP returns</div></div></a><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Goal to aim for</div></div></a><a href="lumpsum-calculator.html" class="related-calc"><div class="rc-icon">💰</div><div><div class="rc-name">Lumpsum</div><div class="rc-tag">Compare lumpsum vs SIP</div></div></a>
+  </div>
+  <div id="adBox2"></div>
+</div>
+</div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password (min 6)" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button><p class="modal-note">No spam. Free forever.</p></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+
+function calculate(){
+  const startSIP=+document.getElementById('startSIP').value;
+  const stepUp=+document.getElementById('stepUp').value/100;
+  const yrs=+document.getElementById('stepYrs').value;
+  const cagr=+document.getElementById('stepCAGR').value/100;
+  const mr=cagr/12;
+  // Flat SIP for comparison
+  const flatMonths=yrs*12;
+  const flatCorpus=startSIP*(Math.pow(1+mr,flatMonths)-1)/mr*(1+mr);
+  const flatInvested=startSIP*flatMonths;
+  // Step-up SIP
+  let stepCorpus=0,stepInvested=0,stepSIP=startSIP;
+  const labels=[],stepD=[],flatD=[],invD=[];
+  tableData=[['Year','Monthly SIP','Total invested','Step-up corpus','Flat corpus','Benefit']];
+  for(let y=1;y<=yrs;y++){
+    if(y>1)stepSIP*=(1+stepUp);
+    const m=12;
+    stepCorpus=stepCorpus*(Math.pow(1+mr,m))+(stepSIP*(Math.pow(1+mr,m)-1)/mr*(1+mr));
+    stepInvested+=stepSIP*12;
+    const flatC=startSIP*(Math.pow(1+mr,y*12)-1)/mr*(1+mr);
+    const flatInv=startSIP*12*y;
+    labels.push('Yr '+y);stepD.push(Math.round(stepCorpus));flatD.push(Math.round(flatC));invD.push(Math.round(stepInvested));
+    tableData.push([y,fmt(Math.round(stepSIP)),fmtL(stepInvested),fmtL(stepCorpus),fmtL(flatC),fmtL(stepCorpus-flatC)]);
+  }
+  const benefit=stepCorpus-flatCorpus;
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">Step-up corpus</div><div class="rc-val">${fmtL(stepCorpus)}</div><div class="rc-sub">with ${document.getElementById('stepUp').value}% annual increase</div></div>
+    <div class="result-card"><div class="rc-label">Flat SIP corpus</div><div class="rc-val">${fmtL(flatCorpus)}</div><div class="rc-sub">at constant ${fmt(startSIP)}/month</div></div>
+    <div class="result-card"><div class="rc-label">Extra wealth created</div><div class="rc-val" style="color:var(--green)">${fmtL(benefit)}</div><div class="rc-sub">benefit of annual step-up</div></div>
+    <div class="result-card"><div class="rc-label">Total invested (step-up)</div><div class="rc-val">${fmtL(stepInvested)}</div><div class="rc-sub">vs ${fmtL(flatInvested)} flat</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Step-up corpus</div><div class="legend-val">${fmtL(stepCorpus)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Flat SIP corpus</div><div class="legend-val">${fmtL(flatCorpus)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2A9460"></div><div><div class="legend-label">Extra wealth</div><div class="legend-val">${fmtL(benefit)}</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Step-up','Flat SIP'],datasets:[{data:[Math.round(stepCorpus),Math.round(flatCorpus)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmtL(c.raw)}}}}});
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'line',data:{labels,datasets:[{label:'Step-up SIP corpus',data:stepD,borderColor:'#1B6B45',backgroundColor:'rgba(27,107,69,.1)',fill:true,tension:.4,pointRadius:3},{label:'Flat SIP corpus',data:flatD,borderColor:'#C8860A',borderDash:[6,4],fill:false,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtL(c.raw)}}},scales:{y:{ticks:{callback:v=>fmtL(v)},grid:{color:'rgba(0,0,0,.04)'}},x:{title:{display:true,text:'Year'}}}}});
+  renderTable(false);
+  document.getElementById('results').classList.add('visible');
+  setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+function doDownload(){generatePDF({title:'Step-up SIP Calculator',summary:[{label:'Starting SIP',value:fmt(+document.getElementById('startSIP').value)},{label:'Annual step-up',value:document.getElementById('stepUp').value+'%'},{label:'Period',value:document.getElementById('stepYrs').value+' years'},{label:'CAGR',value:document.getElementById('stepCAGR').value+'%'}],table:tableData,filename:'FirePlan-StepUpSIP.pdf'});}
+
+function renderTable(all){
+  document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');
+  const rows=all?tableData.slice(1):tableData.slice(1,11);
+  document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map((c,i)=>`<td ${i===r.length-1||i===3||i===4?'class="positive"':''}>${c}</td>`).join('')}</tr>`).join('');
+}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){
+  if(isLoggedIn()){doDownload();}
+  else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}
+}
+function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Calculator Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer>
+  <div class="affiliate-note">ⓘ Affiliate disclosure: Links may earn us commission. All calculators free. Not investment advice.</div>
+  <div class="footer-grid">
+    <div><div class="footer-logo">Fire<span>Plan</span>.in</div><p class="footer-brand-text">India's complete FIRE calculator suite.</p></div>
+    <div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div>
+    <div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a><a href="fd-laddering-calculator.html">FD ladder</a></div>
+    <div class="footer-col"><h4>Tax & loans</h4><a href="income-tax-calculator.html">Income tax</a><a href="home-loan-emi-calculator.html">Home loan EMI</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 FirePlan.in</span><span><a href="privacy.html">Privacy</a> · <a href="disclaimer.html">Disclaimer</a></span></div>
+</footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="toast" id="toast"></div>
+</body>
+</html>

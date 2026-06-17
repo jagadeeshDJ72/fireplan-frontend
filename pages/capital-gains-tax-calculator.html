@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Capital Gains Tax Calculator | FirePlan.in</title><meta name="description" content="Calculate LTCG and STCG tax on equity, mutual funds and property India. Updated for Budget 2024 rate changes.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css"></head><body>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › Capital Gains Tax Calculator</div>
+<div class="calc-page"><div><div class="calc-card-main">
+<h1 class="calc-title">📋 Capital Gains Tax Calculator</h1>
+<p class="calc-subtitle">Capital Gains Tax Calculator India — LTCG STCG on Equity & Mutual Funds</p>
+<div class="form-group"><label>Asset type</label><select id="assetType" onchange="updateFields()"><option value="equity">Equity / Mutual Funds (Equity)</option><option value="debt">Debt Mutual Funds / Bonds</option><option value="property">Property / Real Estate</option></select></div>
+   <div class="form-row"><div class="form-group"><label>Purchase value (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="buyVal" value="500000"></div></div><div class="form-group"><label>Sale value (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="sellVal" value="900000"></div></div></div>
+   <div class="form-row"><div class="form-group"><label>Holding period</label><div class="input-wrap has-suffix"><input type="number" id="holdPeriod" value="2" step="0.5"><span class="input-suffix">yrs</span></div></div><div class="form-group"><label>Annual income (₹) <span style="font-size:11px;color:var(--ink-3)">(for slab)</span></label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="annIncome" value="800000"></div></div></div>
+<button class="btn-calc" onclick="calculate()">Calculate →</button>
+<div class="results-section" id="results">
+<hr class="calc-divider">
+<div class="result-cards" id="resultCards"></div>
+<div class="chart-row" style="margin:24px 0"><div class="chart-container"><canvas id="pieChart" role="img" aria-label="Breakdown chart"></canvas></div><div class="chart-legend" id="pieLegend"></div></div>
+<div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart" role="img" aria-label="Projection chart"></canvas></div>
+<div class="download-section"><div class="download-title">📄 Download your report</div><div class="download-sub">Free with account signup — branded PDF with projections.</div><div class="download-btns"><button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button><button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button></div></div>
+<hr class="calc-divider">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
+<div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+</div></div></div>
+<div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
+<div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="income-tax-calculator.html" class="related-calc"><div class="rc-icon">🧾</div><div><div class="rc-name">Income Tax</div><div class="rc-tag">Overall tax planning</div></div></a><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Invest gains for FIRE</div></div></a><a href="sip-calculator.html" class="related-calc"><div class="rc-icon">📈</div><div><div class="rc-name">SIP</div><div class="rc-tag">Tax-efficient investing</div></div></a></div>
+<div id="adBox2"></div></div></div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+function updateFields(){}
+function calculate(){
+  const asset=document.getElementById('assetType').value;
+  const buy=+document.getElementById('buyVal').value,sell=+document.getElementById('sellVal').value;
+  const hold=+document.getElementById('holdPeriod').value;
+  const income=+document.getElementById('annIncome').value;
+  const gain=sell-buy;
+  let taxRate,taxType,exemption=0,taxableGain=gain;
+  if(asset==='equity'){
+    if(hold>=1){taxType='LTCG';exemption=Math.min(gain,100000);taxableGain=Math.max(0,gain-exemption);taxRate=0.125;}
+    else{taxType='STCG';taxRate=0.20;}
+  }else if(asset==='debt'){
+    taxType='Taxed as income (slab rate)';
+    taxRate=income>1000000?0.30:income>500000?0.20:income>250000?0.05:0;
+  }else{
+    if(hold>=2){taxType='LTCG (with indexation)';taxRate=0.20;const cii=400/280;taxableGain=Math.max(0,sell-buy*cii);}
+    else{taxType='STCG (slab rate)';taxRate=income>1000000?0.30:income>500000?0.20:income>250000?0.05:0;}
+  }
+  const tax=taxableGain*taxRate,cess=tax*0.04,totalTax=tax+cess,netGain=gain-totalTax;
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">Total tax payable</div><div class="rc-val">${fmt(totalTax)}</div><div class="rc-sub">${taxType}</div></div>
+    <div class="result-card"><div class="rc-label">Capital gain</div><div class="rc-val">${fmtL(gain)}</div><div class="rc-sub">sell − buy price</div></div>
+    <div class="result-card"><div class="rc-label">Taxable gain</div><div class="rc-val">${fmtL(taxableGain)}</div><div class="rc-sub">${exemption>0?'After ₹1L exemption':'No exemption'}</div></div>
+    <div class="result-card"><div class="rc-label">Net gain after tax</div><div class="rc-val" style="color:var(--green)">${fmtL(netGain)}</div><div class="rc-sub">actual profit in hand</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Net gain (after tax)</div><div class="legend-val">${fmtL(netGain)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Tax paid</div><div class="legend-val">${fmt(totalTax)}</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Net gain','Tax'],datasets:[{data:[Math.round(netGain),Math.round(totalTax)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmt(c.raw)}}}}});
+  tableData=[['Component','Amount'],['Purchase price',fmt(buy)],['Sale price',fmt(sell)],['Total gain',fmt(gain)],['Exemption',fmt(exemption)],['Taxable gain',fmt(taxableGain)],['Tax rate',(taxRate*100).toFixed(1)+'%'],['Tax',fmt(tax)],['Cess (4%)',fmt(cess)],['Total tax',fmt(totalTax)],['Net gain after tax',fmt(netGain)]];
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'bar',data:{labels:['Purchase','Gain','Taxable gain','Tax','Net gain'],datasets:[{data:[Math.round(buy),Math.round(gain),Math.round(taxableGain),Math.round(totalTax),Math.round(netGain)],backgroundColor:['#888','#1B6B45','#2A9460','#C8860A','#1B6B45'],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.raw)}}},scales:{y:{ticks:{callback:v=>fmt(v)},grid:{color:'rgba(0,0,0,.04)'}}}}});
+  renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
+function doDownload(){generatePDF({title:'Capital Gains Tax Calculator',summary:[{label:'Asset',value:document.getElementById('assetType').value},{label:'Purchase',value:fmtL(+document.getElementById('buyVal').value)},{label:'Sale',value:fmtL(+document.getElementById('sellVal').value)},{label:'Holding period',value:document.getElementById('holdPeriod').value+' years'}],table:tableData,filename:'FirePlan-CapitalGains.pdf'});}
+function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
+function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div><div class="footer-grid"><div><div class="footer-logo">Fire<span>Plan</span>.in</div></div><div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div><div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a></div></div><div class="footer-bottom"><span>© 2026 FirePlan.in</span></div></footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button><div class="toast" id="toast"></div>
+</body></html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SIP Calculator India — Mutual Fund Returns Calculator | FirePlan.in</title>
+<meta name="description" content="Calculate SIP returns with year-by-year corpus growth charts. Invested amount vs returns breakdown. Free India mutual fund SIP calculator.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › SIP Calculator India — Mutual Fund Returns Calculator</div>
+<div class="calc-page">
+<div>
+<div class="calc-card-main">
+  <h1 class="calc-title">📈 SIP Calculator India — Mutual Fund Returns Calculator</h1>
+  <p class="calc-subtitle">Calculate monthly SIP returns with step-up option. See year-by-year corpus growth with invested vs returns breakdown.</p>
+  
+  <div class="form-row">
+    <div class="form-group"><label>Monthly SIP amount (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="sipAmt" value="10000"></div></div>
+    <div class="form-group"><label>Investment period</label><div class="input-wrap has-suffix"><input type="number" id="sipYears" value="20" min="1" max="40"><span class="input-suffix">yrs</span></div></div>
+  </div>
+  <div class="form-row">
+    <div class="form-group"><label>Expected CAGR (%)</label><div class="input-wrap has-suffix"><input type="number" id="sipCAGR" value="12" step="0.5"><span class="input-suffix">%</span></div></div>
+    <div class="form-group"><label>Inflation (%)</label><div class="input-wrap has-suffix"><input type="number" id="sipInf" value="6" step="0.5"><span class="input-suffix">%</span></div></div>
+  </div>
+  <button class="btn-calc" onclick="calculate()">Calculate →</button>
+  <div class="results-section" id="results">
+    <hr class="calc-divider">
+    <div class="result-cards" id="resultCards"></div>
+    <div class="chart-row" style="margin:24px 0">
+      <div class="chart-container"><canvas id="pieChart" role="img" aria-label="Breakdown chart"></canvas></div>
+      <div class="chart-legend" id="pieLegend"></div>
+    </div>
+    <div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart" role="img" aria-label="Projection chart"></canvas></div>
+    
+    <div class="download-section">
+      <div class="download-title">📄 Download your report</div>
+      <div class="download-sub">Free with account signup — get a branded PDF with full projections and action checklist.</div>
+      <div class="download-btns">
+        <button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button>
+        <button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button>
+      </div>
+    </div>
+    <hr class="calc-divider">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div style="font-size:15px;font-weight:600">Projection table</div>
+      <button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button>
+    </div>
+    <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+  </div>
+</div>
+<div class="seo-section">
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What CAGR should I assume for SIP in India?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Nifty 50 index funds have delivered 12–14% CAGR over 20-year horizons. Actively managed large-cap funds average 11–13%. A conservative assumption for long-term SIP planning is 11–12%.</div></div>
+</div>
+</div>
+<div class="sidebar">
+  <div id="affSidebar"></div>
+  <div id="adBox1"></div>
+  <div class="sidebar-card">
+    <div class="sidebar-title">Related calculators</div>
+    <a href="step-up-sip-calculator.html" class="related-calc"><div class="rc-icon">🪜</div><div><div class="rc-name">Step-up SIP</div><div class="rc-tag">Annual SIP increase</div></div></a><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Use SIP for FIRE</div></div></a><a href="lumpsum-calculator.html" class="related-calc"><div class="rc-icon">💰</div><div><div class="rc-name">Lumpsum</div><div class="rc-tag">One-time investment</div></div></a><a href="immortal-swp-calculator.html" class="related-calc"><div class="rc-icon">♾️</div><div><div class="rc-name">Immortal SWP</div><div class="rc-tag">Sustainable withdrawal</div></div></a>
+  </div>
+  <div id="adBox2"></div>
+</div>
+</div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password (min 6)" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button><p class="modal-note">No spam. Free forever.</p></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+
+function calculate(){
+  const sip=+document.getElementById('sipAmt').value;
+  const yrs=+document.getElementById('sipYears').value;
+  const cagr=+document.getElementById('sipCAGR').value/100;
+  const inf=+document.getElementById('sipInf').value/100;
+  const mr=cagr/12,months=yrs*12;
+  const maturity=sip*(Math.pow(1+mr,months)-1)/mr*(1+mr);
+  const invested=sip*months;
+  const returns=maturity-invested;
+  const realMaturity=maturity/Math.pow(1+inf,yrs);
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">Maturity value</div><div class="rc-val">${fmtL(maturity)}</div><div class="rc-sub">after ${yrs} years</div></div>
+    <div class="result-card"><div class="rc-label">Total invested</div><div class="rc-val">${fmtL(invested)}</div><div class="rc-sub">${fmt(sip)}/month × ${months} months</div></div>
+    <div class="result-card"><div class="rc-label">Returns generated</div><div class="rc-val" style="color:var(--green)">${fmtL(returns)}</div><div class="rc-sub">${((returns/invested)*100).toFixed(0)}% gain on investment</div></div>
+    <div class="result-card"><div class="rc-label">Inflation-adjusted value</div><div class="rc-val">${fmtL(realMaturity)}</div><div class="rc-sub">in today's purchasing power</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Amount invested</div><div class="legend-val">${fmtL(invested)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Returns generated</div><div class="legend-val">${fmtL(returns)}</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Invested','Returns'],datasets:[{data:[Math.round(invested),Math.round(returns)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmtL(c.raw)}}}}});
+  const labels=[],cd=[],invD=[];
+  let corpus=0;
+  tableData=[['Year','SIP invested (yr)','Total invested','Corpus value','Returns','CAGR']];
+  for(let y=1;y<=yrs;y++){
+    const sipInYr=sip*12,totInv=sip*12*y;
+    const mr2=cagr/12,m=y*12;
+    corpus=sip*(Math.pow(1+mr2,m)-1)/mr2*(1+mr2);
+    const ret=corpus-totInv;
+    labels.push('Yr '+y);cd.push(Math.round(corpus));invD.push(Math.round(totInv));
+    tableData.push([y,fmt(sipInYr),fmtL(totInv),fmtL(corpus),fmtL(ret),(((corpus/totInv)-1)*100/y).toFixed(1)+'%']);
+  }
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'bar',data:{labels,datasets:[{label:'Amount invested',data:invD,backgroundColor:'#1B6B45',stack:'s'},{label:'Returns',data:cd.map((v,i)=>v-invD[i]),backgroundColor:'#C8860A',stack:'s'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtL(c.raw)}}},scales:{x:{stacked:true},y:{stacked:true,ticks:{callback:v=>fmtL(v)},grid:{color:'rgba(0,0,0,.04)'}}}}});
+  renderTable(false);
+  document.getElementById('results').classList.add('visible');
+  setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+function doDownload(){generatePDF({title:'SIP Calculator',summary:[{label:'Monthly SIP',value:fmt(+document.getElementById('sipAmt').value)},{label:'Period',value:document.getElementById('sipYears').value+' years'},{label:'CAGR',value:document.getElementById('sipCAGR').value+'%'}],table:tableData,filename:'FirePlan-SIP.pdf'});}
+
+function renderTable(all){
+  document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');
+  const rows=all?tableData.slice(1):tableData.slice(1,11);
+  document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map((c,i)=>`<td ${i===r.length-1||i===3||i===4?'class="positive"':''}>${c}</td>`).join('')}</tr>`).join('');
+}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){
+  if(isLoggedIn()){doDownload();}
+  else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}
+}
+function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Calculator Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer>
+  <div class="affiliate-note">ⓘ Affiliate disclosure: Links may earn us commission. All calculators free. Not investment advice.</div>
+  <div class="footer-grid">
+    <div><div class="footer-logo">Fire<span>Plan</span>.in</div><p class="footer-brand-text">India's complete FIRE calculator suite.</p></div>
+    <div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div>
+    <div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a><a href="fd-laddering-calculator.html">FD ladder</a></div>
+    <div class="footer-col"><h4>Tax & loans</h4><a href="income-tax-calculator.html">Income tax</a><a href="home-loan-emi-calculator.html">Home loan EMI</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 FirePlan.in</span><span><a href="privacy.html">Privacy</a> · <a href="disclaimer.html">Disclaimer</a></span></div>
+</footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="toast" id="toast"></div>
+</body>
+</html>

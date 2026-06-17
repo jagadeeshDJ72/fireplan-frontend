@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Inflation Calculator India — Future Value of Money | FirePlan.in</title>
+<meta name="description" content="Calculate how much your monthly expenses will cost in future with Indian inflation. Essential for retirement and FIRE planning.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › Inflation Calculator India — Future Value of Money</div>
+<div class="calc-page">
+<div>
+<div class="calc-card-main">
+  <h1 class="calc-title">📅 Inflation Calculator India — Future Value of Money</h1>
+  <p class="calc-subtitle">How much will ₹50,000/month expenses cost in 20 years at 6% Indian inflation? Essential for any FIRE or retirement plan.</p>
+  
+  <div class="form-row">
+    <div class="form-group"><label>Current monthly expense (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="curExp" value="50000"></div></div>
+    <div class="form-group"><label>Number of years</label><div class="input-wrap has-suffix"><input type="number" id="infYrs" value="20" min="1"><span class="input-suffix">yrs</span></div></div>
+  </div>
+  <div class="form-group"><label>Inflation rate (%)</label><div class="input-wrap has-suffix"><input type="number" id="infRate" value="6" step="0.5"><span class="input-suffix">%</span></div></div>
+  <button class="btn-calc" onclick="calculate()">Calculate →</button>
+  <div class="results-section" id="results">
+    <hr class="calc-divider">
+    <div class="result-cards" id="resultCards"></div>
+    <div class="chart-row" style="margin:24px 0">
+      <div class="chart-container"><canvas id="pieChart" role="img" aria-label="Breakdown chart"></canvas></div>
+      <div class="chart-legend" id="pieLegend"></div>
+    </div>
+    <div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart" role="img" aria-label="Projection chart"></canvas></div>
+    
+    <div class="download-section">
+      <div class="download-title">📄 Download your report</div>
+      <div class="download-sub">Free with account signup — get a branded PDF with full projections and action checklist.</div>
+      <div class="download-btns">
+        <button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button>
+        <button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button>
+      </div>
+    </div>
+    <hr class="calc-divider">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div style="font-size:15px;font-weight:600">Projection table</div>
+      <button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button>
+    </div>
+    <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+  </div>
+</div>
+<div class="seo-section">
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What is the average inflation rate in India?</span><span class="faq-chevron">▾</span></div><div class="faq-a">India's average CPI inflation over the past decade has been 5.5–6.5%. The RBI targets 4% inflation (with a 2% band). For long-term planning, using 6% is a reasonable conservative assumption.</div></div><div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How does inflation affect FIRE planning?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Inflation is the single biggest risk to FIRE plans. At 6% inflation, your purchasing power halves every 12 years. A ₹50,000/month expense today costs ₹1.60 lakh/month in 20 years — so your post-retirement corpus must generate returns above inflation.</div></div>
+</div>
+</div>
+<div class="sidebar">
+  <div id="affSidebar"></div>
+  <div id="adBox1"></div>
+  <div class="sidebar-card">
+    <div class="sidebar-title">Related calculators</div>
+    <a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Inflation-adjusted FIRE number</div></div></a><a href="immortal-swp-calculator.html" class="related-calc"><div class="rc-icon">♾️</div><div><div class="rc-name">Immortal SWP</div><div class="rc-tag">Beat inflation with SWP</div></div></a><a href="sip-calculator.html" class="related-calc"><div class="rc-icon">📈</div><div><div class="rc-name">SIP Calculator</div><div class="rc-tag">Inflation-adjusted returns</div></div></a>
+  </div>
+  <div id="adBox2"></div>
+</div>
+</div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password (min 6)" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button><p class="modal-note">No spam. Free forever.</p></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+
+function calculate(){
+  const cur=+document.getElementById('curExp').value;
+  const yrs=+document.getElementById('infYrs').value;
+  const rate=+document.getElementById('infRate').value/100;
+  const future=cur*Math.pow(1+rate,yrs);
+  const futureAnnual=future*12;
+  const curAnnual=cur*12;
+  const diff=future-cur;
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">Future monthly expense</div><div class="rc-val">${fmt(future)}</div><div class="rc-sub">in ${yrs} years at ${document.getElementById('infRate').value}% inflation</div></div>
+    <div class="result-card"><div class="rc-label">Today's monthly expense</div><div class="rc-val">${fmt(cur)}</div><div class="rc-sub">current value</div></div>
+    <div class="result-card"><div class="rc-label">Monthly increase needed</div><div class="rc-val" style="color:var(--red)">${fmt(diff)}</div><div class="rc-sub">extra per month in ${yrs} yrs</div></div>
+    <div class="result-card"><div class="rc-label">Future annual expense</div><div class="rc-val">${fmtL(futureAnnual)}</div><div class="rc-sub">vs ${fmtL(curAnnual)} today</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Today's expense</div><div class="legend-val">${fmt(cur)}/mo</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Inflation erosion</div><div class="legend-val">${fmt(diff)}/mo more</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:["Today's value","Inflation impact"],datasets:[{data:[Math.round(cur),Math.round(diff)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmt(c.raw)}}}}});
+  const labels=[],fd=[],cd2=[];
+  tableData=[['Year','Monthly expense','Annual expense','Increase from today']];
+  for(let y=1;y<=yrs;y++){
+    const fv=cur*Math.pow(1+rate,y);
+    labels.push('Yr '+y);fd.push(Math.round(fv));cd2.push(Math.round(cur));
+    tableData.push([y,fmt(fv),fmtL(fv*12),fmt(fv-cur)]);
+  }
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'line',data:{labels,datasets:[{label:'Future expense',data:fd,borderColor:'#C8860A',backgroundColor:'rgba(200,134,10,.1)',fill:true,tension:.4,pointRadius:3},{label:"Today's expense",data:cd2,borderColor:'#1B6B45',borderDash:[6,4],fill:false,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},scales:{y:{ticks:{callback:v=>fmt(v)},grid:{color:'rgba(0,0,0,.04)'}},x:{title:{display:true,text:'Year'}}}}});
+  renderTable(false);
+  document.getElementById('results').classList.add('visible');
+  setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+function doDownload(){generatePDF({title:'Inflation Calculator',summary:[{label:'Current monthly expense',value:fmt(+document.getElementById('curExp').value)},{label:'Years',value:document.getElementById('infYrs').value},{label:'Inflation rate',value:document.getElementById('infRate').value+'%'}],table:tableData,filename:'FirePlan-Inflation.pdf'});}
+
+function renderTable(all){
+  document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');
+  const rows=all?tableData.slice(1):tableData.slice(1,11);
+  document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map((c,i)=>`<td ${i===r.length-1||i===3||i===4?'class="positive"':''}>${c}</td>`).join('')}</tr>`).join('');
+}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){
+  if(isLoggedIn()){doDownload();}
+  else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}
+}
+function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Calculator Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer>
+  <div class="affiliate-note">ⓘ Affiliate disclosure: Links may earn us commission. All calculators free. Not investment advice.</div>
+  <div class="footer-grid">
+    <div><div class="footer-logo">Fire<span>Plan</span>.in</div><p class="footer-brand-text">India's complete FIRE calculator suite.</p></div>
+    <div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div>
+    <div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a><a href="fd-laddering-calculator.html">FD ladder</a></div>
+    <div class="footer-col"><h4>Tax & loans</h4><a href="income-tax-calculator.html">Income tax</a><a href="home-loan-emi-calculator.html">Home loan EMI</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 FirePlan.in</span><span><a href="privacy.html">Privacy</a> · <a href="disclaimer.html">Disclaimer</a></span></div>
+</footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="toast" id="toast"></div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SWP Depletion Calculator | FirePlan.in</title><meta name="description" content="How many years will your corpus last given monthly withdrawal amount and returns? SWP depletion calculator India.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css"></head><body>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › SWP Depletion Calculator</div>
+<div class="calc-page"><div><div class="calc-card-main">
+<h1 class="calc-title">📉 SWP Depletion Calculator</h1>
+<p class="calc-subtitle">SWP Depletion Calculator India — How Long Corpus Lasts</p>
+<div class="form-row"><div class="form-group"><label>Starting corpus (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="dCorpus" value="10000000"></div></div><div class="form-group"><label>Monthly withdrawal (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="dWith" value="60000"></div></div></div>
+   <div class="form-row"><div class="form-group"><label>Expected return (%)</label><div class="input-wrap has-suffix"><input type="number" id="dRet" value="8" step="0.5"><span class="input-suffix">%</span></div></div><div class="form-group"><label>Inflation (%)</label><div class="input-wrap has-suffix"><input type="number" id="dInf" value="6" step="0.5"><span class="input-suffix">%</span></div></div></div>
+<button class="btn-calc" onclick="calculate()">Calculate →</button>
+<div class="results-section" id="results">
+<hr class="calc-divider">
+<div class="result-cards" id="resultCards"></div>
+<div class="chart-row" style="margin:24px 0"><div class="chart-container"><canvas id="pieChart" role="img" aria-label="Breakdown chart"></canvas></div><div class="chart-legend" id="pieLegend"></div></div>
+<div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart" role="img" aria-label="Projection chart"></canvas></div>
+<div class="download-section"><div class="download-title">📄 Download your report</div><div class="download-sub">Free with account signup — branded PDF with projections.</div><div class="download-btns"><button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button><button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button></div></div>
+<hr class="calc-divider">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
+<div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+</div></div></div>
+<div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
+<div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="immortal-swp-calculator.html" class="related-calc"><div class="rc-icon">♾️</div><div><div class="rc-name">Immortal SWP</div><div class="rc-tag">Never deplete corpus</div></div></a><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Build the corpus</div></div></a><a href="fd-laddering-calculator.html" class="related-calc"><div class="rc-icon">🏗️</div><div><div class="rc-name">FD Ladder</div><div class="rc-tag">Safe income ladder</div></div></a></div>
+<div id="adBox2"></div></div></div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+function calculate(){
+  const corpus=+document.getElementById('dCorpus').value;
+  const with0=+document.getElementById('dWith').value*12;
+  const ret=+document.getElementById('dRet').value/100;
+  const inf=+document.getElementById('dInf').value/100;
+  const realRet=ret-inf;
+  const immortalCorpus=realRet>0?with0/realRet:Infinity;
+  const isImmortal=corpus>=immortalCorpus;
+  let c=corpus,yr=0,depleted=false;
+  const labs=[],cd=[],wdData=[];
+  tableData=[['Year','Opening corpus','Annual return','Annual withdrawal','Closing corpus']];
+  while(c>0&&yr<100){
+    const annRet=c*ret,annWith=with0*Math.pow(1+inf,yr);
+    const closing=c+annRet-annWith;yr++;
+    labs.push('Yr '+yr);cd.push(Math.max(0,Math.round(closing)));wdData.push(Math.round(annWith));
+    tableData.push([yr,fmtL(c),fmtL(annRet),fmtL(annWith),closing>0?fmtL(closing):'₹0 (depleted)']);
+    if(closing<=0){depleted=true;break;}c=closing;
+  }
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">Corpus lasts</div><div class="rc-val">${isImmortal?'♾️ Forever':yr+' years'}</div><div class="rc-sub">${isImmortal?'Principal never depletes!':'depletes in year '+yr}</div></div>
+    <div class="result-card"><div class="rc-label">Withdrawal rate</div><div class="rc-val">${((with0/corpus)*100).toFixed(2)}%</div><div class="rc-sub">annual withdrawal % of corpus</div></div>
+    <div class="result-card" style="border-color:${isImmortal?'var(--green)':'var(--red)'}"><div class="rc-label">Immortal threshold</div><div class="rc-val">${fmtL(immortalCorpus)}</div><div class="rc-sub">${isImmortal?'Your corpus exceeds this ✅':'Need '+fmtL(immortalCorpus-corpus)+' more'}</div></div>
+    <div class="result-card"><div class="rc-label">Initial monthly withdrawal</div><div class="rc-val">${fmt(+document.getElementById('dWith').value)}</div><div class="rc-sub">rising ${document.getElementById('dInf').value}% yearly with inflation</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Starting corpus</div><div class="legend-val">${fmtL(corpus)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Immortal corpus needed</div><div class="legend-val">${fmtL(immortalCorpus)}</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Your corpus','Immortal threshold'],datasets:[{data:[Math.round(corpus),Math.round(immortalCorpus)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmtL(c.raw)}}}}});
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'line',data:{labels:labs,datasets:[{label:'Remaining corpus',data:cd,borderColor:'#1B6B45',backgroundColor:'rgba(27,107,69,.1)',fill:true,tension:.4,pointRadius:3},{label:'Annual withdrawal',data:wdData,borderColor:'#C8860A',borderDash:[6,4],fill:false,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtL(c.raw)}}},scales:{y:{ticks:{callback:v=>fmtL(v)},grid:{color:'rgba(0,0,0,.04)'}},x:{title:{display:true,text:'Year'}}}}});
+  renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
+function doDownload(){generatePDF({title:'SWP Depletion Calculator',summary:[{label:'Starting corpus',value:fmtL(+document.getElementById('dCorpus').value)},{label:'Monthly withdrawal',value:fmt(+document.getElementById('dWith').value)},{label:'Return rate',value:document.getElementById('dRet').value+'%'}],table:tableData,filename:'FirePlan-SWP-Depletion.pdf'});}
+function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
+function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div><div class="footer-grid"><div><div class="footer-logo">Fire<span>Plan</span>.in</div></div><div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div><div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a></div></div><div class="footer-bottom"><span>© 2026 FirePlan.in</span></div></footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button><div class="toast" id="toast"></div>
+</body></html>

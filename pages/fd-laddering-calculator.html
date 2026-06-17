@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FD Laddering Planner | FirePlan.in</title><meta name="description" content="Build a staggered FD strategy for post-retirement income. Auto-calculates FD maturity schedule and reinvestment plan.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css"></head><body>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › FD Laddering Planner</div>
+<div class="calc-page"><div><div class="calc-card-main">
+<h1 class="calc-title">🏗️ FD Laddering Planner</h1>
+<p class="calc-subtitle">FD Laddering Planner India — Post-Retirement Safety Income</p>
+<div class="form-row"><div class="form-group"><label>Total FD corpus (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="fdCorpus" value="5000000"></div></div><div class="form-group"><label>Number of FD rungs</label><div class="input-wrap has-suffix"><input type="number" id="fdRungs" value="5" min="2" max="10"><span class="input-suffix">FDs</span></div></div></div>
+   <div class="form-row"><div class="form-group"><label>FD interest rate (%)</label><div class="input-wrap has-suffix"><input type="number" id="fdRate" value="7.5" step="0.25"><span class="input-suffix">%</span></div></div><div class="form-group"><label>Rung interval</label><div class="input-wrap has-suffix"><input type="number" id="fdInterval" value="1" min="1"><span class="input-suffix">yr each</span></div></div></div>
+<button class="btn-calc" onclick="calculate()">Calculate →</button>
+<div class="results-section" id="results">
+<hr class="calc-divider">
+<div class="result-cards" id="resultCards"></div>
+<div class="chart-row" style="margin:24px 0"><div class="chart-container"><canvas id="pieChart" role="img" aria-label="Breakdown chart"></canvas></div><div class="chart-legend" id="pieLegend"></div></div>
+<div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart" role="img" aria-label="Projection chart"></canvas></div>
+<div class="download-section"><div class="download-title">📄 Download your report</div><div class="download-sub">Free with account signup — branded PDF with projections.</div><div class="download-btns"><button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button><button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button></div></div>
+<hr class="calc-divider">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
+<div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+</div></div></div>
+<div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
+<div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="swp-depletion-calculator.html" class="related-calc"><div class="rc-icon">📉</div><div><div class="rc-name">SWP Depletion</div><div class="rc-tag">How long corpus lasts</div></div></a><a href="retirement-corpus-calculator.html" class="related-calc"><div class="rc-icon">🏦</div><div><div class="rc-name">Retirement Corpus</div><div class="rc-tag">Build the corpus</div></div></a><a href="immortal-swp-calculator.html" class="related-calc"><div class="rc-icon">♾️</div><div><div class="rc-name">Immortal SWP</div><div class="rc-tag">Perpetual income</div></div></a></div>
+<div id="adBox2"></div></div></div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+function calculate(){
+  const corp=+document.getElementById('fdCorpus').value;
+  const rungs=+document.getElementById('fdRungs').value;
+  const rate=+document.getElementById('fdRate').value/100;
+  const interval=+document.getElementById('fdInterval').value;
+  const amtPerRung=corp/rungs;
+  const labs=[],maturityVals=[],amtVals=[];
+  tableData=[['FD rung','Amount invested','Tenure','Maturity value','Maturity date','Interest earned']];
+  const now=new Date();
+  for(let r=1;r<=rungs;r++){
+    const tenure=r*interval;
+    const maturity=amtPerRung*Math.pow(1+rate,tenure);
+    const interest=maturity-amtPerRung;
+    const matDate=new Date(now.getFullYear()+tenure,now.getMonth(),now.getDate());
+    labs.push('FD '+r);maturityVals.push(Math.round(maturity));amtVals.push(Math.round(amtPerRung));
+    tableData.push(['FD '+r,fmtL(amtPerRung),tenure+' yr(s)',fmtL(maturity),matDate.toLocaleDateString('en-IN',{month:'short',year:'numeric'}),fmtL(interest)]);
+  }
+  const totalMaturity=maturityVals.reduce((a,b)=>a+b,0);
+  const totalInterest=totalMaturity-corp;
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">Total maturity value</div><div class="rc-val">${fmtL(totalMaturity)}</div><div class="rc-sub">across ${rungs} FDs</div></div>
+    <div class="result-card"><div class="rc-label">Total invested</div><div class="rc-val">${fmtL(corp)}</div><div class="rc-sub">${fmt(Math.round(amtPerRung))} per FD</div></div>
+    <div class="result-card"><div class="rc-label">Total interest earned</div><div class="rc-val" style="color:var(--green)">${fmtL(totalInterest)}</div><div class="rc-sub">at ${document.getElementById('fdRate').value}% p.a.</div></div>
+    <div class="result-card"><div class="rc-label">Annual liquidity</div><div class="rc-val">${fmtL(maturityVals[0])}</div><div class="rc-sub">FD 1 matures in ${interval} year(s)</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Principal invested</div><div class="legend-val">${fmtL(corp)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Interest earned</div><div class="legend-val">${fmtL(totalInterest)}</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Principal','Interest'],datasets:[{data:[Math.round(corp),Math.round(totalInterest)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmtL(c.raw)}}}}});
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'bar',data:{labels:labs,datasets:[{label:'Principal',data:amtVals,backgroundColor:'#1B6B45',stack:'s',borderRadius:2},{label:'Interest earned',data:maturityVals.map((v,i)=>v-amtVals[i]),backgroundColor:'#C8860A',stack:'s',borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtL(c.raw)}}},scales:{x:{stacked:true},y:{stacked:true,ticks:{callback:v=>fmtL(v)},grid:{color:'rgba(0,0,0,.04)'}}}}});
+  renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
+function doDownload(){generatePDF({title:'FD Laddering Planner',summary:[{label:'Total corpus',value:fmtL(+document.getElementById('fdCorpus').value)},{label:'Number of FDs',value:document.getElementById('fdRungs').value},{label:'Interest rate',value:document.getElementById('fdRate').value+'%'}],table:tableData,filename:'FirePlan-FD-Ladder.pdf'});}
+function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
+function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div><div class="footer-grid"><div><div class="footer-logo">Fire<span>Plan</span>.in</div></div><div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div><div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a></div></div><div class="footer-bottom"><span>© 2026 FirePlan.in</span></div></footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button><div class="toast" id="toast"></div>
+</body></html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Lean / Fat FIRE Calculator | FirePlan.in</title><meta name="description" content="Compare Lean FIRE, Regular FIRE, Fat FIRE, and Barista FIRE corpus requirements side by side for your lifestyle India.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css"></head><body>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › Lean / Fat FIRE Calculator</div>
+<div class="calc-page"><div><div class="calc-card-main">
+<h1 class="calc-title">📊 Lean / Fat FIRE Calculator</h1>
+<p class="calc-subtitle">Lean Fat Barista FIRE Calculator India — Compare FIRE Styles</p>
+<div class="form-row"><div class="form-group"><label>Current monthly expenses (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="baseExp" value="50000"></div></div><div class="form-group"><label>Current age</label><div class="input-wrap has-suffix"><input type="number" id="lage" value="30"><span class="input-suffix">yrs</span></div></div></div>
+   <div class="form-row"><div class="form-group"><label>FIRE age target</label><div class="input-wrap has-suffix"><input type="number" id="lfireage" value="45"><span class="input-suffix">yrs</span></div></div><div class="form-group"><label>Inflation (%)</label><div class="input-wrap has-suffix"><input type="number" id="linf" value="6" step="0.5"><span class="input-suffix">%</span></div></div></div>
+   <div class="form-row"><div class="form-group"><label>Post-FIRE return (%)</label><div class="input-wrap has-suffix"><input type="number" id="lret" value="8" step="0.5"><span class="input-suffix">%</span></div></div><div class="form-group"><label>Life expectancy</label><div class="input-wrap has-suffix"><input type="number" id="lle" value="85"><span class="input-suffix">yrs</span></div></div></div>
+<button class="btn-calc" onclick="calculate()">Calculate →</button>
+<div class="results-section" id="results">
+<hr class="calc-divider">
+<div class="result-cards" id="resultCards"></div>
+<div class="chart-row" style="margin:24px 0"><div class="chart-container"><canvas id="pieChart" role="img" aria-label="Breakdown chart"></canvas></div><div class="chart-legend" id="pieLegend"></div></div>
+<div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart" role="img" aria-label="Projection chart"></canvas></div>
+<div class="download-section"><div class="download-title">📄 Download your report</div><div class="download-sub">Free with account signup — branded PDF with projections.</div><div class="download-btns"><button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button><button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button></div></div>
+<hr class="calc-divider">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
+<div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+</div></div></div>
+<div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
+<div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Detailed FIRE plan</div></div></a><a href="immortal-swp-calculator.html" class="related-calc"><div class="rc-icon">♾️</div><div><div class="rc-name">Immortal SWP</div><div class="rc-tag">Sustainable withdrawal</div></div></a><a href="coast-fire-calculator.html" class="related-calc"><div class="rc-icon">🏖️</div><div><div class="rc-name">Coast FIRE</div><div class="rc-tag">When to stop investing</div></div></a></div>
+<div id="adBox2"></div></div></div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+function corpusNeeded(annExp,ret,inf,years){const r=ret-inf;return r>0?annExp*(1-Math.pow(1+r,-years))/r:annExp*years;}
+function calculate(){
+  const base=+document.getElementById('baseExp').value,ca=+document.getElementById('lage').value;
+  const fa=+document.getElementById('lfireage').value,inf=+document.getElementById('linf').value/100;
+  const ret=+document.getElementById('lret').value/100,le=+document.getElementById('lle').value;
+  const yrs=fa-ca,yir=le-fa;
+  const lean=base*0.6,regular=base,fat=base*2,barista=base*0.7;
+  const calc=(exp)=>corpusNeeded(exp*12*Math.pow(1+inf,yrs),ret,inf,yir);
+  const lc=calc(lean),rc=calc(regular),fc=calc(fat),bc=calc(barista);
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card"><div class="rc-label">Lean FIRE corpus</div><div class="rc-val">${fmtL(lc)}</div><div class="rc-sub">${fmt(Math.round(lean))}/mo frugal lifestyle</div></div>
+    <div class="result-card highlight"><div class="rc-label">Regular FIRE corpus</div><div class="rc-val">${fmtL(rc)}</div><div class="rc-sub">${fmt(Math.round(regular))}/mo current lifestyle</div></div>
+    <div class="result-card"><div class="rc-label">Fat FIRE corpus</div><div class="rc-val">${fmtL(fc)}</div><div class="rc-sub">${fmt(Math.round(fat))}/mo luxury lifestyle</div></div>
+    <div class="result-card"><div class="rc-label">Barista FIRE corpus</div><div class="rc-val">${fmtL(bc)}</div><div class="rc-sub">${fmt(Math.round(barista))}/mo with part-time income</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#2A9460"></div><div><div class="legend-label">Lean FIRE</div><div class="legend-val">${fmtL(lc)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Regular FIRE</div><div class="legend-val">${fmtL(rc)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Fat FIRE</div><div class="legend-val">${fmtL(fc)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#888"></div><div><div class="legend-label">Barista FIRE</div><div class="legend-val">${fmtL(bc)}</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'bar',data:{labels:['Lean','Regular','Fat','Barista'],datasets:[{data:[Math.round(lc),Math.round(rc),Math.round(fc),Math.round(bc)],backgroundColor:['#2A9460','#1B6B45','#C8860A','#888'],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtL(c.raw)}}},scales:{x:{ticks:{callback:v=>fmtL(v)},grid:{color:'rgba(0,0,0,.04)'}}}}});
+  tableData=[['FIRE type','Monthly exp at FIRE','Annual exp at FIRE','Corpus needed','Withdrawal rate']];
+  [[lean,'Lean'],[regular,'Regular'],[fat,'Fat'],[barista,'Barista']].forEach(([exp,lbl])=>{const c2=calc(exp);const adjExp=exp*Math.pow(1+inf,yrs);tableData.push([lbl,fmt(Math.round(adjExp)),fmtL(adjExp*12),fmtL(c2),((adjExp*12/c2)*100).toFixed(1)+'%']);});
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'bar',data:{labels:['Lean FIRE','Regular FIRE','Fat FIRE','Barista FIRE'],datasets:[{label:'Corpus needed',data:[Math.round(lc),Math.round(rc),Math.round(fc),Math.round(bc)],backgroundColor:['#2A9460','#1B6B45','#C8860A','#888'],borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtL(c.raw)}}},scales:{y:{ticks:{callback:v=>fmtL(v)},grid:{color:'rgba(0,0,0,.04)'}}}}});
+  renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
+function doDownload(){generatePDF({title:'Lean/Fat FIRE Comparison',summary:[{label:'Monthly expenses',value:fmt(+document.getElementById('baseExp').value)},{label:'FIRE age',value:document.getElementById('lfireage').value+' years'}],table:tableData,filename:'FirePlan-LeanFatFIRE.pdf'});}
+function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
+function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div><div class="footer-grid"><div><div class="footer-logo">Fire<span>Plan</span>.in</div></div><div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div><div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a></div></div><div class="footer-bottom"><span>© 2026 FirePlan.in</span></div></footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button><div class="toast" id="toast"></div>
+</body></html>
