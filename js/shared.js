@@ -316,7 +316,7 @@ async function generatePDF(data){
 // Change this URL after deploying backend to Render
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:3001/api'
-  : 'https://fireplan-api.onrender.com/api';  // ← update with your Render URL
+  : 'https://fireplan-backend.onrender.com/api';  // ← update with your Render URL
 
 // Token helpers
 const getToken  = () => localStorage.getItem('fp_token');
