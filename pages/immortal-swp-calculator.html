@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Immortal SWP Calculator — Perpetual Corpus | MiddleClassMoney.in</title>
+<title>Immortal SWP Calculator — Perpetual Corpus | FirePlan.in</title>
 <meta name="description" content="Find what corpus means your SIP withdrawals never deplete the principal. The forever number for FIRE planning India.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-<nav><a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
 <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › Immortal SWP Calculator — Perpetual Corpus</div>
 <div class="calc-page">
 <div>
@@ -80,7 +80,7 @@ function calculate(){
   const ret=+document.getElementById('returnRate').value/100;
   const inf=+document.getElementById('inflation').value/100;
   const realReturn=ret-inf;
-  const immortalCorpus=realReturn>0?withdrawal/realReturn:Infinity;
+  const immortalCorpus=realReturn>0?withdrawal/realReturn:realReturn===0?9999999999:withdrawal/0.01;
   const annualWithdrawal=withdrawal;
   const swrPct=(annualWithdrawal/corpus*100).toFixed(2);
   const isImmortal=corpus>=immortalCorpus;
@@ -115,7 +115,7 @@ function calculate(){
   document.getElementById('results').classList.add('visible');
   setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
-function doDownload(){generatePDF({title:'Immortal SWP Calculator',summary:[{label:'Corpus',value:fmt(+document.getElementById('corpus').value)},{label:'Monthly withdrawal',value:fmt(+document.getElementById('withdrawal').value)},{label:'Return rate',value:document.getElementById('returnRate').value+'%'},{label:'Inflation',value:document.getElementById('inflation').value+'%'}],table:tableData,filename:'Middle Class Money-Immortal-SWP.pdf'});}
+function doDownload(){generatePDF({title:'Immortal SWP Calculator',summary:[{label:'Corpus',value:fmt(+document.getElementById('corpus').value)},{label:'Monthly withdrawal',value:fmt(+document.getElementById('withdrawal').value)},{label:'Return rate',value:document.getElementById('returnRate').value+'%'},{label:'Inflation',value:document.getElementById('inflation').value+'%'}],table:tableData,filename:'FirePlan-Immortal-SWP.pdf'});}
 
 function renderTable(all){
   document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');
@@ -127,17 +127,17 @@ function triggerDownload(){
   if(isLoggedIn()){doDownload();}
   else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}
 }
-function shareResult(){if(navigator.share)navigator.share({title:'MiddleClassMoney.in Calculator Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Calculator Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
 </script>
 <footer>
   <div class="affiliate-note">ⓘ Affiliate disclosure: Links may earn us commission. All calculators free. Not investment advice.</div>
   <div class="footer-grid">
-    <div><div class="footer-logo">MCM | <span>Middle Class Money</span></div><p class="footer-brand-text">India's complete FIRE calculator suite.</p></div>
+    <div><div class="footer-logo">Fire<span>Plan</span>.in</div><p class="footer-brand-text">India's complete FIRE calculator suite.</p></div>
     <div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div>
     <div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a><a href="fd-laddering-calculator.html">FD ladder</a></div>
     <div class="footer-col"><h4>Tax & loans</h4><a href="income-tax-calculator.html">Income tax</a><a href="home-loan-emi-calculator.html">Home loan EMI</a></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 MiddleClassMoney.in</span><span><a href="privacy.html">Privacy</a> · <a href="disclaimer.html">Disclaimer</a></span></div>
+  <div class="footer-bottom"><span>© 2026 FirePlan.in</span><span><a href="privacy.html">Privacy</a> · <a href="disclaimer.html">Disclaimer</a></span></div>
 </footer>
 <button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <div class="toast" id="toast"></div>

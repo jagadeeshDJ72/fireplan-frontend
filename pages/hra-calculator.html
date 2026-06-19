@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HRA Exemption Calculator India — House Rent Allowance Tax | MiddleClassMoney.in</title><meta name="description" content="Calculate HRA exemption under Income Tax for salaried employees in India. Free HRA calculator for metro and non-metro cities.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css"></head><body>
+<nav><a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › HRA Exemption Calculator</div>
+<div class="calc-page"><div><div class="calc-card-main">
+<h1 class="calc-title">🏠 HRA Exemption Calculator</h1>
+<p class="calc-subtitle">Calculate HRA exemption under Income Tax for salaried employees in India. Free HRA calculator for metro and non-metro cities.</p>
+<div class="form-row">
+    <div class="form-group"><label>Basic salary (₹/month)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="hraBasic" value="40000"></div></div>
+    <div class="form-group"><label>HRA received (₹/month)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="hraReceived" value="20000"></div></div>
+ </div>
+ <div class="form-row">
+    <div class="form-group"><label>Actual rent paid (₹/month)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="hraRent" value="15000"></div></div>
+    <div class="form-group"><label>City type</label>
+       <select id="hraCity"><option value="metro">Metro city (Delhi/Mumbai/Chennai/Kolkata)</option><option value="nonmetro">Non-metro city</option></select>
+    </div>
+ </div>
+<button class="btn-calc" onclick="calculate()">Calculate →</button>
+<div class="results-section" id="results">
+<hr class="calc-divider">
+<div class="result-cards" id="resultCards"></div>
+<div class="chart-row" style="margin:24px 0"><div class="chart-container"><canvas id="pieChart"></canvas></div><div class="chart-legend" id="pieLegend"></div></div>
+<div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart"></canvas></div>
+<div class="download-section"><div class="download-title">📄 Download your report</div><div class="download-sub">Free with account signup.</div><div class="download-btns"><button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button><button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button></div></div>
+<hr class="calc-divider">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
+<div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+</div></div></div>
+<div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
+<div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="income-tax-calculator.html" class="related-calc"><div class="rc-icon">🧾</div><div><div class="rc-name">Income Tax</div><div class="rc-tag">Full tax calculation</div></div></a><a href="home-loan-emi-calculator.html" class="related-calc"><div class="rc-icon">🏠</div><div><div class="rc-name">Home Loan EMI</div><div class="rc-tag">If buying instead of renting</div></div></a><a href="inflation-calculator.html" class="related-calc"><div class="rc-icon">📅</div><div><div class="rc-name">Inflation</div><div class="rc-tag">Future rent planning</div></div></a></div>
+<div id="adBox2"></div></div></div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+function calculate(){
+  const basic=+document.getElementById('hraBasic').value;
+  const hra=+document.getElementById('hraReceived').value;
+  const rent=+document.getElementById('hraRent').value;
+  const city=document.getElementById('hraCity').value;
+  const pct=city==='metro'?0.50:0.40;
+  const c1=hra;// actual HRA received
+  const c2=basic*pct;// 50% or 40% of basic
+  const c3=Math.max(0,rent-basic*0.10);// rent - 10% of basic
+  const exemption=Math.min(c1,c2,c3);
+  const taxable=hra-exemption;
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">HRA exemption</div><div class="rc-val">${fmt(exemption)}/mo</div><div class="rc-sub">${fmt(exemption*12)}/year tax-free</div></div>
+    <div class="result-card"><div class="rc-label">Taxable HRA</div><div class="rc-val" style="color:${taxable>0?'var(--red)':'var(--green)'}">${fmt(taxable)}/mo</div><div class="rc-sub">added to taxable income</div></div>
+    <div class="result-card"><div class="rc-label">Condition 1 (HRA received)</div><div class="rc-val">${fmt(c1)}</div><div class="rc-sub">actual HRA from employer</div></div>
+    <div class="result-card"><div class="rc-label">Condition 2 (${city==='metro'?'50':'40'}% of basic)</div><div class="rc-val">${fmt(c2)}</div><div class="rc-sub">city-based limit</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Tax-free HRA</div><div class="legend-val">${fmt(exemption)}/month</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Taxable HRA</div><div class="legend-val">${fmt(taxable)}/month</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Tax-free','Taxable'],datasets:[{data:[Math.round(exemption),Math.max(1,Math.round(taxable))],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmt(c.raw)}}}}});
+  tableData=[['Condition','Amount','Description'],['HRA received',fmt(c1),'Actual HRA from employer'],[`${city==='metro'?'50':'40'}% of basic salary`,fmt(c2),'City-based limit'],['Rent - 10% of basic',fmt(c3),'Rent paid minus 10% of basic'],['Minimum (exemption)',fmt(exemption),'Lowest of above 3 = HRA exempt'],['Taxable HRA',fmt(taxable),'HRA received minus exemption'],['Annual exemption',fmt(exemption*12),'Tax-free per year']];
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'bar',data:{labels:['HRA received','50/40% of basic','Rent - 10% basic','Exemption (min)'],datasets:[{data:[Math.round(c1),Math.round(c2),Math.round(c3),Math.round(exemption)],backgroundColor:['#888','#2A9460','#C8860A','#1B6B45'],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.raw)}}},scales:{y:{ticks:{callback:v=>fmt(v)},grid:{color:'rgba(0,0,0,.04)'}}}}});
+  renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
+function doDownload(){generatePDF({title:'HRA Exemption Calculator',summary:[{label:'Basic salary',value:fmt(+document.getElementById('hraBasic').value)+'/month'},{label:'HRA received',value:fmt(+document.getElementById('hraReceived').value)+'/month'},{label:'Rent paid',value:fmt(+document.getElementById('hraRent').value)+'/month'},{label:'City',value:document.getElementById('hraCity').value}],table:tableData,filename:'MCM-HRA.pdf'});}
+function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
+function shareResult(){if(navigator.share)navigator.share({title:'MiddleClassMoney.in Calculator',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div>
+<div class="footer-grid"><div><div class="footer-logo">MCM | <span>Middle Class Money</span></div></div>
+<div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="retirement-corpus-calculator.html">Retirement</a></div>
+<div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="ppf-calculator.html">PPF</a><a href="epf-calculator.html">EPF</a><a href="nps-calculator.html">NPS</a></div>
+<div class="footer-col"><h4>Tax & others</h4><a href="income-tax-calculator.html">Income tax</a><a href="gst-calculator.html">GST</a><a href="hra-calculator.html">HRA</a><a href="gratuity-calculator.html">Gratuity</a></div>
+</div><div class="footer-bottom"><span>© 2026 MiddleClassMoney.in</span></div></footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="toast" id="toast"></div>
+</body></html>

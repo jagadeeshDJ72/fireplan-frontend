@@ -11,7 +11,7 @@ const fmtYr  = n => n+' yr'+(n===1?'':'s');
 // ── NAV HTML ──
 function renderNav(){
   return `<nav>
-    <a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a>
+    <a href="../index.html" class="logo">Fire<span>Plan</span>.in</a>
     <div class="nav-links">
       <a href="../index.html">Home</a>
       <a href="../index.html#calculators">Calculators</a>
@@ -26,11 +26,11 @@ function renderNav(){
 function renderFooter(){
   return `<footer>
     <div class="affiliate-note">
-      ⓘ Disclosure: Some links on this site are affiliate links. If you open an account through our links, we may earn a small commission at no extra cost to you. This keeps all calculators free. MiddleClassMoney.in does not provide personalised investment advice — all tools are for planning and informational purposes only.
+      ⓘ Disclosure: Some links on this site are affiliate links. If you open an account through our links, we may earn a small commission at no extra cost to you. This keeps all calculators free. FirePlan.in does not provide personalised investment advice — all tools are for planning and informational purposes only.
     </div>
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="footer-logo">MCM | <span>Middle Class Money</span></div>
+        <div class="footer-logo">Fire<span>Plan</span>.in</div>
         <p class="footer-brand-text">India's most complete FIRE &amp; financial calculator suite. Free, no signup required.</p>
       </div>
       <div class="footer-col">
@@ -59,7 +59,7 @@ function renderFooter(){
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 MiddleClassMoney.in — All calculators free to use</span>
+      <span>© 2026 FirePlan.in — All calculators free to use</span>
       <span>
         <a href="privacy.html">Privacy</a> &nbsp;·&nbsp;
         <a href="disclaimer.html">Disclaimer</a> &nbsp;·&nbsp;
@@ -81,7 +81,7 @@ function renderAffiliateSidebar(){
         <div class="aff-name">Zerodha</div>
         <div class="aff-desc">India's #1 broker · Free equity investing</div>
       </div>
-      <a href="https://zerodha.com/?c=Middle Class Money" target="_blank" rel="nofollow sponsored" class="aff-btn">Open free →</a>
+      <a href="https://zerodha.com/?c=FIREPLAN" target="_blank" rel="nofollow sponsored" class="aff-btn">Open free →</a>
     </div>
     <div class="affiliate-item">
       <div class="aff-logo">G</div>
@@ -89,7 +89,7 @@ function renderAffiliateSidebar(){
         <div class="aff-name">Groww</div>
         <div class="aff-desc">Direct mutual funds · Zero commission SIP</div>
       </div>
-      <a href="https://groww.in/?ref=Middle Class Money" target="_blank" rel="nofollow sponsored" class="aff-btn">Start SIP →</a>
+      <a href="https://groww.in/?ref=FIREPLAN" target="_blank" rel="nofollow sponsored" class="aff-btn">Start SIP →</a>
     </div>
     <div class="affiliate-item">
       <div class="aff-logo">K</div>
@@ -97,7 +97,7 @@ function renderAffiliateSidebar(){
         <div class="aff-name">Kuvera</div>
         <div class="aff-desc">Goal-based investing · FIRE planning tools</div>
       </div>
-      <a href="https://kuvera.in/?ref=Middle Class Money" target="_blank" rel="nofollow sponsored" class="aff-btn">Try free →</a>
+      <a href="https://kuvera.in/?ref=FIREPLAN" target="_blank" rel="nofollow sponsored" class="aff-btn">Try free →</a>
     </div>
     <div class="affiliate-item">
       <div class="aff-logo">U</div>
@@ -105,7 +105,7 @@ function renderAffiliateSidebar(){
         <div class="aff-name">Upstox</div>
         <div class="aff-desc">Free demat account · ₹20/trade flat</div>
       </div>
-      <a href="https://upstox.com/?ref=Middle Class Money" target="_blank" rel="nofollow sponsored" class="aff-btn">Open now →</a>
+      <a href="https://upstox.com/?ref=FIREPLAN" target="_blank" rel="nofollow sponsored" class="aff-btn">Open now →</a>
     </div>
     <p style="font-size:10px;color:var(--ink-3);margin-top:10px;line-height:1.5">*Affiliate links. We may earn a commission if you open an account.</p>
   </div>`;
@@ -238,7 +238,7 @@ async function generatePDF(data){
   doc.rect(0,0,W,36,F='F');
   doc.setTextColor(...white);
   doc.setFontSize(20); doc.setFont('helvetica','bold');
-  doc.text('MiddleClassMoney.in', M, 16);
+  doc.text('FirePlan.in', M, 16);
   doc.setFontSize(11); doc.setFont('helvetica','normal');
   doc.text(data.title+' Report', M, 26);
   doc.setFontSize(9);
@@ -294,7 +294,7 @@ async function generatePDF(data){
   y+=10;
   // Disclaimer
   doc.setFontSize(7.5); doc.setTextColor(130,140,135);
-  doc.text('Disclaimer: This report is for informational and planning purposes only. MiddleClassMoney.in does not provide regulated investment advice.', M, y, {maxWidth:W-2*M});
+  doc.text('Disclaimer: This report is for informational and planning purposes only. FirePlan.in does not provide regulated investment advice.', M, y, {maxWidth:W-2*M});
   doc.text('Investments are subject to market risks. Please consult a SEBI-registered advisor before making investment decisions.', M, y+5, {maxWidth:W-2*M});
 
   // Footer on all pages
@@ -304,11 +304,11 @@ async function generatePDF(data){
     doc.setFillColor(...green);
     doc.rect(0,285,W,12,'F');
     doc.setTextColor(...white); doc.setFontSize(8);
-    doc.text('MiddleClassMoney.in — Free FIRE & Financial Calculators for India', M, 292);
+    doc.text('FirePlan.in — Free FIRE & Financial Calculators for India', M, 292);
     doc.text('Page '+p+' of '+pages, W-M, 292, {align:'right'});
   }
 
-  doc.save(data.filename||'Middle Class Money-Report.pdf');
+  doc.save(data.filename||'FirePlan-Report.pdf');
   showToast('PDF downloaded successfully!');
 }
 
@@ -316,7 +316,7 @@ async function generatePDF(data){
 // Change this URL after deploying backend to Render
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:3001/api'
-  : 'https://Middle Class Money-backend.onrender.com/api';  // ← update with your Render URL
+  : 'https://fireplan-api.onrender.com/api';  // ← update with your Render URL
 
 // Token helpers
 const getToken  = () => localStorage.getItem('fp_token');
@@ -413,4 +413,3 @@ async function recordDownload(calculator) {
     body: JSON.stringify({ calculator })
   }).catch(() => {}); // ignore errors
 }
-

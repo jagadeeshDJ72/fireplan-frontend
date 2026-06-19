@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sukanya Samriddhi Yojana Calculator India — SSY Returns | MiddleClassMoney.in</title><meta name="description" content="Calculate Sukanya Samriddhi Yojana maturity amount for your daughter. Free SSY calculator with 8.2% interest rate.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css"></head><body>
+<nav><a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › Sukanya Samriddhi Yojana Calculator</div>
+<div class="calc-page"><div><div class="calc-card-main">
+<h1 class="calc-title">👧 Sukanya Samriddhi Yojana Calculator</h1>
+<p class="calc-subtitle">Calculate Sukanya Samriddhi Yojana maturity amount for your daughter. Free SSY calculator with 8.2% interest rate.</p>
+<div class="form-row">
+    <div class="form-group"><label>Daughter's current age</label><div class="input-wrap has-suffix"><input type="number" id="ssyAge" value="5" min="0" max="10"><span class="input-suffix">yrs</span></div></div>
+    <div class="form-group"><label>Yearly deposit (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="ssyDeposit" value="50000"></div><div class="hint">Min ₹250, Max ₹1.5 lakh/year</div></div>
+ </div>
+ <div class="form-group"><label>SSY interest rate (%)</label><div class="input-wrap has-suffix"><input type="number" id="ssyRate" value="8.2" step="0.1"><span class="input-suffix">%</span></div><div class="hint">Current rate: 8.2% p.a. (Q1 2025-26)</div></div>
+<button class="btn-calc" onclick="calculate()">Calculate →</button>
+<div class="results-section" id="results">
+<hr class="calc-divider">
+<div class="result-cards" id="resultCards"></div>
+<div class="chart-row" style="margin:24px 0"><div class="chart-container"><canvas id="pieChart"></canvas></div><div class="chart-legend" id="pieLegend"></div></div>
+<div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart"></canvas></div>
+<div class="download-section"><div class="download-title">📄 Download your report</div><div class="download-sub">Free with account signup.</div><div class="download-btns"><button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button><button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button></div></div>
+<hr class="calc-divider">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
+<div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+</div></div></div>
+<div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
+<div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="ppf-calculator.html" class="related-calc"><div class="rc-icon">📊</div><div><div class="rc-name">PPF Calculator</div><div class="rc-tag">Another tax-free option</div></div></a><a href="epf-calculator.html" class="related-calc"><div class="rc-icon">🏢</div><div><div class="rc-name">EPF Calculator</div><div class="rc-tag">Retirement savings</div></div></a><a href="income-tax-calculator.html" class="related-calc"><div class="rc-icon">🧾</div><div><div class="rc-name">Income Tax</div><div class="rc-tag">80C deduction</div></div></a></div>
+<div id="adBox2"></div></div></div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+function calculate(){
+  const age=+document.getElementById('ssyAge').value;
+  const dep=+document.getElementById('ssyDeposit').value;
+  const rate=+document.getElementById('ssyRate').value/100;
+  if(age>10){alert('SSY account can only be opened for girls aged 10 or below');return;}
+  if(dep<250){alert('Minimum deposit is ₹250 per year');return;}
+  if(dep>150000){alert('Maximum deposit is ₹1,50,000 per year');return;}
+  const depositYears=15;// deposit for 15 years
+  const maturityAge=21;
+  const totalYears=maturityAge-age;
+  let corpus=0,totalInv=0;
+  const labels=[],cd=[],invD=[];
+  tableData=[['Year','Age','Deposit','Interest','Balance','Status']];
+  for(let y=1;y<=totalYears;y++){
+    const curAge=age+y;
+    const isDepositYear=y<=depositYears;
+    if(isDepositYear){corpus+=dep;totalInv+=dep;}
+    const interest=corpus*rate;corpus+=interest;
+    labels.push('Yr '+y);cd.push(Math.round(corpus));invD.push(Math.round(totalInv));
+    tableData.push([y,curAge,isDepositYear?fmt(dep):'—',fmtL(interest),fmtL(corpus),isDepositYear?'Depositing':'Growing']);
+  }
+  const totalInt=corpus-totalInv;
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">Maturity amount</div><div class="rc-val">${fmtL(corpus)}</div><div class="rc-sub">when daughter turns 21</div></div>
+    <div class="result-card"><div class="rc-label">Total deposited</div><div class="rc-val">${fmtL(totalInv)}</div><div class="rc-sub">over ${depositYears} years</div></div>
+    <div class="result-card"><div class="rc-label">Interest earned</div><div class="rc-val" style="color:var(--green)">${fmtL(totalInt)}</div><div class="rc-sub">100% tax-free maturity</div></div>
+    <div class="result-card"><div class="rc-label">Years to maturity</div><div class="rc-val">${totalYears} yrs</div><div class="rc-sub">daughter eligible at age 21</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Amount deposited</div><div class="legend-val">${fmtL(totalInv)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Interest earned</div><div class="legend-val">${fmtL(totalInt)}</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Deposited','Interest'],datasets:[{data:[Math.round(totalInv),Math.round(totalInt)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmtL(c.raw)}}}}});
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'line',data:{labels,datasets:[{label:'SSY balance',data:cd,borderColor:'#1B6B45',backgroundColor:'rgba(27,107,69,.1)',fill:true,tension:.4,pointRadius:3},{label:'Amount deposited',data:invD,borderColor:'#C8860A',borderDash:[6,4],fill:false,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtL(c.raw)}}},scales:{y:{ticks:{callback:v=>fmtL(v)},grid:{color:'rgba(0,0,0,.04)'}},x:{title:{display:true,text:'Year'}}}}});
+  renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
+function doDownload(){generatePDF({title:'Sukanya Samriddhi Yojana Calculator',summary:[{label:"Daughter's age",value:document.getElementById('ssyAge').value+' years'},{label:'Yearly deposit',value:fmt(+document.getElementById('ssyDeposit').value)},{label:'Rate',value:document.getElementById('ssyRate').value+'%'}],table:tableData,filename:'MCM-SSY.pdf'});}
+function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
+function shareResult(){if(navigator.share)navigator.share({title:'MiddleClassMoney.in Calculator',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div>
+<div class="footer-grid"><div><div class="footer-logo">MCM | <span>Middle Class Money</span></div></div>
+<div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="retirement-corpus-calculator.html">Retirement</a></div>
+<div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="ppf-calculator.html">PPF</a><a href="epf-calculator.html">EPF</a><a href="nps-calculator.html">NPS</a></div>
+<div class="footer-col"><h4>Tax & others</h4><a href="income-tax-calculator.html">Income tax</a><a href="gst-calculator.html">GST</a><a href="hra-calculator.html">HRA</a><a href="gratuity-calculator.html">Gratuity</a></div>
+</div><div class="footer-bottom"><span>© 2026 MiddleClassMoney.in</span></div></footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="toast" id="toast"></div>
+</body></html>

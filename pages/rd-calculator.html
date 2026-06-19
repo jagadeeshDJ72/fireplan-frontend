@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RD Calculator India — Recurring Deposit Returns | MiddleClassMoney.in</title><meta name="description" content="Calculate recurring deposit maturity amount and interest earned. Free India RD calculator for all banks and post office.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css"></head><body>
+<nav><a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › RD Calculator</div>
+<div class="calc-page"><div><div class="calc-card-main">
+<h1 class="calc-title">🏦 RD Calculator</h1>
+<p class="calc-subtitle">Calculate recurring deposit maturity amount and interest earned. Free India RD calculator for all banks and post office.</p>
+<div class="form-row">
+    <div class="form-group"><label>Monthly deposit (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="rdAmt" value="5000"></div></div>
+    <div class="form-group"><label>Interest rate (%)</label><div class="input-wrap has-suffix"><input type="number" id="rdRate" value="7.0" step="0.1"><span class="input-suffix">%</span></div></div>
+ </div>
+ <div class="form-group"><label>Tenure</label><div class="input-wrap has-suffix"><input type="number" id="rdMonths" value="24" min="6"><span class="input-suffix">months</span></div></div>
+<button class="btn-calc" onclick="calculate()">Calculate →</button>
+<div class="results-section" id="results">
+<hr class="calc-divider">
+<div class="result-cards" id="resultCards"></div>
+<div class="chart-row" style="margin:24px 0"><div class="chart-container"><canvas id="pieChart"></canvas></div><div class="chart-legend" id="pieLegend"></div></div>
+<div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart"></canvas></div>
+<div class="download-section"><div class="download-title">📄 Download your report</div><div class="download-sub">Free with account signup.</div><div class="download-btns"><button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button><button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button></div></div>
+<hr class="calc-divider">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
+<div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+</div></div></div>
+<div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
+<div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="fd-laddering-calculator.html" class="related-calc"><div class="rc-icon">🏗️</div><div><div class="rc-name">FD Ladder</div><div class="rc-tag">Staggered FD strategy</div></div></a><a href="ppf-calculator.html" class="related-calc"><div class="rc-icon">📊</div><div><div class="rc-name">PPF Calculator</div><div class="rc-tag">Tax-free alternative</div></div></a><a href="sip-calculator.html" class="related-calc"><div class="rc-icon">📈</div><div><div class="rc-name">SIP Calculator</div><div class="rc-tag">Higher returns comparison</div></div></a></div>
+<div id="adBox2"></div></div></div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+function calculate(){
+  const amt=+document.getElementById('rdAmt').value;
+  const annRate=+document.getElementById('rdRate').value/100;
+  const months=+document.getElementById('rdMonths').value;
+  if(months<1){alert('Please enter valid tenure');return;}
+  // RD formula: M = R * [(1+i)^n - 1] / (1-(1+i)^(-1/3))
+  // Simpler: compound each monthly deposit
+  const mr=annRate/12;
+  let maturity=0;
+  for(let m=1;m<=months;m++){
+    maturity+=amt*Math.pow(1+mr,months-m+1);
+  }
+  const invested=amt*months;
+  const interest=maturity-invested;
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">Maturity amount</div><div class="rc-val">${fmtL(maturity)}</div><div class="rc-sub">after ${months} months</div></div>
+    <div class="result-card"><div class="rc-label">Total invested</div><div class="rc-val">${fmtL(invested)}</div><div class="rc-sub">${fmt(amt)}/month × ${months} months</div></div>
+    <div class="result-card"><div class="rc-label">Interest earned</div><div class="rc-val" style="color:var(--green)">${fmtL(interest)}</div><div class="rc-sub">at ${document.getElementById('rdRate').value}% quarterly compounding</div></div>
+    <div class="result-card"><div class="rc-label">Effective annual yield</div><div class="rc-val">${((Math.pow(1+annRate/12,12)-1)*100).toFixed(2)}%</div><div class="rc-sub">post quarterly compounding</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Amount invested</div><div class="legend-val">${fmtL(invested)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Interest earned</div><div class="legend-val">${fmtL(interest)}</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Invested','Interest'],datasets:[{data:[Math.round(invested),Math.round(interest)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmtL(c.raw)}}}}});
+  tableData=[['Month','Deposit','Total invested','Maturity value']];
+  let tinv=0,mat2=0;
+  for(let m=1;m<=months;m++){
+    tinv+=amt;
+    mat2=0;for(let i=0;i<m;i++){const ql=Math.floor((m-i)/3);mat2+=amt*Math.pow(1+rate,ql);}
+    if(m%3===0||m===months)tableData.push([m,fmt(amt),fmtL(tinv),fmtL(mat2)]);
+  }
+  const labs=[],cd2=[],inv2=[];
+  for(let m=3;m<=months;m+=3){let t2=0,m2=0;for(let i=0;i<m;i++){const ql=Math.floor((m-i)/3);m2+=amt*Math.pow(1+rate,ql);}t2=amt*m;labs.push('Mo '+m);cd2.push(Math.round(m2));inv2.push(Math.round(t2));}
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'bar',data:{labels:labs,datasets:[{label:'Invested',data:inv2,backgroundColor:'#1B6B45',stack:'s',borderRadius:2},{label:'Interest',data:cd2.map((v,i)=>v-inv2[i]),backgroundColor:'#C8860A',stack:'s',borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtL(c.raw)}}},scales:{x:{stacked:true},y:{stacked:true,ticks:{callback:v=>fmtL(v)},grid:{color:'rgba(0,0,0,.04)'}}}}});
+  renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
+function doDownload(){generatePDF({title:'RD Calculator',summary:[{label:'Monthly deposit',value:fmt(+document.getElementById('rdAmt').value)},{label:'Rate',value:document.getElementById('rdRate').value+'%'},{label:'Tenure',value:document.getElementById('rdMonths').value+' months'}],table:tableData,filename:'MCM-RD.pdf'});}
+function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
+function shareResult(){if(navigator.share)navigator.share({title:'MiddleClassMoney.in Calculator',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div>
+<div class="footer-grid"><div><div class="footer-logo">MCM | <span>Middle Class Money</span></div></div>
+<div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="retirement-corpus-calculator.html">Retirement</a></div>
+<div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="ppf-calculator.html">PPF</a><a href="epf-calculator.html">EPF</a><a href="nps-calculator.html">NPS</a></div>
+<div class="footer-col"><h4>Tax & others</h4><a href="income-tax-calculator.html">Income tax</a><a href="gst-calculator.html">GST</a><a href="hra-calculator.html">HRA</a><a href="gratuity-calculator.html">Gratuity</a></div>
+</div><div class="footer-bottom"><span>© 2026 MiddleClassMoney.in</span></div></footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="toast" id="toast"></div>
+</body></html>

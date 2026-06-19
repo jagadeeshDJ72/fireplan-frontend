@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GST Calculator India — Goods and Services Tax | MiddleClassMoney.in</title><meta name="description" content="Calculate GST amount, pre-GST and post-GST prices for all GST slabs. Free India GST inclusive and exclusive calculator.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css"></head><body>
+<nav><a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › GST Calculator</div>
+<div class="calc-page"><div><div class="calc-card-main">
+<h1 class="calc-title">🧾 GST Calculator</h1>
+<p class="calc-subtitle">Calculate GST amount, pre-GST and post-GST prices for all GST slabs. Free India GST inclusive and exclusive calculator.</p>
+<div class="form-row">
+    <div class="form-group"><label>Amount (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="gstAmount" value="10000"></div></div>
+    <div class="form-group"><label>GST rate</label>
+       <select id="gstRate"><option value="5">5% GST</option><option value="12">12% GST</option><option value="18" selected>18% GST</option><option value="28">28% GST</option><option value="3">3% GST (gold/jewellery)</option><option value="0.25">0.25% GST (rough diamonds)</option></select>
+    </div>
+ </div>
+ <div class="form-group"><label>Calculation type</label>
+    <select id="gstType"><option value="exclusive">Add GST to amount (exclusive)</option><option value="inclusive">Extract GST from amount (inclusive)</option></select>
+ </div>
+<button class="btn-calc" onclick="calculate()">Calculate →</button>
+<div class="results-section" id="results">
+<hr class="calc-divider">
+<div class="result-cards" id="resultCards"></div>
+<div class="chart-row" style="margin:24px 0"><div class="chart-container"><canvas id="pieChart"></canvas></div><div class="chart-legend" id="pieLegend"></div></div>
+<div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart"></canvas></div>
+<div class="download-section"><div class="download-title">📄 Download your report</div><div class="download-sub">Free with account signup.</div><div class="download-btns"><button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button><button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button></div></div>
+<hr class="calc-divider">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
+<div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+</div></div></div>
+<div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
+<div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="income-tax-calculator.html" class="related-calc"><div class="rc-icon">🧾</div><div><div class="rc-name">Income Tax</div><div class="rc-tag">Full tax planning</div></div></a><a href="home-loan-emi-calculator.html" class="related-calc"><div class="rc-icon">🏠</div><div><div class="rc-name">Home Loan EMI</div><div class="rc-tag">EMI planning</div></div></a><a href="inflation-calculator.html" class="related-calc"><div class="rc-icon">📅</div><div><div class="rc-name">Inflation</div><div class="rc-tag">Price impact planning</div></div></a></div>
+<div id="adBox2"></div></div></div>
+<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
+let tableData=[],showAll=false,pieInst=null,mainInst=null;
+function calculate(){
+  const amount=+document.getElementById('gstAmount').value;
+  const rate=+document.getElementById('gstRate').value/100;
+  const type=document.getElementById('gstType').value;
+  let preGST,gstAmt,postGST,cgst,sgst,igst;
+  if(type==='exclusive'){preGST=amount;gstAmt=amount*rate;postGST=amount+gstAmt;}
+  else{postGST=amount;preGST=amount/(1+rate);gstAmt=postGST-preGST;}
+  cgst=gstAmt/2;sgst=gstAmt/2;igst=gstAmt;
+  document.getElementById('resultCards').innerHTML=`
+    <div class="result-card highlight"><div class="rc-label">GST amount</div><div class="rc-val">${fmt(gstAmt)}</div><div class="rc-sub">at ${document.getElementById('gstRate').value}% GST rate</div></div>
+    <div class="result-card"><div class="rc-label">Pre-GST amount</div><div class="rc-val">${fmt(preGST)}</div><div class="rc-sub">base price</div></div>
+    <div class="result-card"><div class="rc-label">Post-GST amount</div><div class="rc-val">${fmt(postGST)}</div><div class="rc-sub">final price with GST</div></div>
+    <div class="result-card"><div class="rc-label">CGST + SGST</div><div class="rc-val">${fmt(cgst)} + ${fmt(sgst)}</div><div class="rc-sub">intra-state split</div></div>`;
+  document.getElementById('pieLegend').innerHTML=`
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Base amount (pre-GST)</div><div class="legend-val">${fmt(preGST)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">GST amount</div><div class="legend-val">${fmt(gstAmt)}</div></div></div>`;
+  if(pieInst)pieInst.destroy();
+  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Base amount','GST'],datasets:[{data:[Math.round(preGST),Math.round(gstAmt)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmt(c.raw)}}}}});
+  tableData=[['Component','Intra-state','Inter-state'],['Base amount (pre-GST)',fmt(preGST),fmt(preGST)],['CGST',fmt(cgst),'—'],['SGST',fmt(sgst),'—'],['IGST','—',fmt(igst)],['Total GST',fmt(gstAmt),fmt(gstAmt)],['Final amount (post-GST)',fmt(postGST),fmt(postGST)]];
+  const rates=[0,5,12,18,28];const gstData=rates.map(r=>Math.round(amount*r/100));
+  if(mainInst)mainInst.destroy();
+  mainInst=new Chart(document.getElementById('mainChart'),{type:'bar',data:{labels:rates.map(r=>r+'% GST'),datasets:[{label:'GST amount',data:gstData,backgroundColor:['#E8F5EE','#2A9460','#1B6B45','#C8860A','#8B4513'],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'GST: '+fmt(c.raw)}}},scales:{y:{ticks:{callback:v=>fmt(v)},grid:{color:'rgba(0,0,0,.04)'}}}}});
+  renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
+function doDownload(){generatePDF({title:'GST Calculator',summary:[{label:'Amount',value:fmt(+document.getElementById('gstAmount').value)},{label:'GST rate',value:document.getElementById('gstRate').value+'%'},{label:'Type',value:document.getElementById('gstType').value}],table:tableData,filename:'MCM-GST.pdf'});}
+function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
+function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
+function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
+function shareResult(){if(navigator.share)navigator.share({title:'MiddleClassMoney.in Calculator',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+</script>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div>
+<div class="footer-grid"><div><div class="footer-logo">MCM | <span>Middle Class Money</span></div></div>
+<div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="retirement-corpus-calculator.html">Retirement</a></div>
+<div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="ppf-calculator.html">PPF</a><a href="epf-calculator.html">EPF</a><a href="nps-calculator.html">NPS</a></div>
+<div class="footer-col"><h4>Tax & others</h4><a href="income-tax-calculator.html">Income tax</a><a href="gst-calculator.html">GST</a><a href="hra-calculator.html">HRA</a><a href="gratuity-calculator.html">Gratuity</a></div>
+</div><div class="footer-bottom"><span>© 2026 MiddleClassMoney.in</span></div></footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="toast" id="toast"></div>
+</body></html>

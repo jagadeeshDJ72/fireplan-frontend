@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Step-up SIP Calculator India — Annual SIP Increase Calculator | MiddleClassMoney.in</title>
+<title>Step-up SIP Calculator India — Annual SIP Increase Calculator | FirePlan.in</title>
 <meta name="description" content="See how increasing your SIP by 10-15% every year creates dramatically more wealth. Step-up vs flat SIP comparison with charts.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-<nav><a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
 <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › Step-up SIP Calculator India — Annual SIP Increase Calculator</div>
 <div class="calc-page">
 <div>
@@ -91,9 +91,10 @@ function calculate(){
   for(let y=1;y<=yrs;y++){
     if(y>1)stepSIP*=(1+stepUp);
     const m=12;
-    stepCorpus=stepCorpus*(Math.pow(1+mr,m))+(stepSIP*(Math.pow(1+mr,m)-1)/mr*(1+mr));
+    const sipGrowth=mr>0?(stepSIP*(Math.pow(1+mr,m)-1)/mr*(1+mr)):stepSIP*m;
+    stepCorpus=stepCorpus*(mr>0?Math.pow(1+mr,m):1)+sipGrowth;
     stepInvested+=stepSIP*12;
-    const flatC=startSIP*(Math.pow(1+mr,y*12)-1)/mr*(1+mr);
+    const flatC=mr>0?startSIP*(Math.pow(1+mr,y*12)-1)/mr*(1+mr):startSIP*y*12;
     const flatInv=startSIP*12*y;
     labels.push('Yr '+y);stepD.push(Math.round(stepCorpus));flatD.push(Math.round(flatC));invD.push(Math.round(stepInvested));
     tableData.push([y,fmt(Math.round(stepSIP)),fmtL(stepInvested),fmtL(stepCorpus),fmtL(flatC),fmtL(stepCorpus-flatC)]);
@@ -116,7 +117,7 @@ function calculate(){
   document.getElementById('results').classList.add('visible');
   setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
-function doDownload(){generatePDF({title:'Step-up SIP Calculator',summary:[{label:'Starting SIP',value:fmt(+document.getElementById('startSIP').value)},{label:'Annual step-up',value:document.getElementById('stepUp').value+'%'},{label:'Period',value:document.getElementById('stepYrs').value+' years'},{label:'CAGR',value:document.getElementById('stepCAGR').value+'%'}],table:tableData,filename:'Middle Class Money-StepUpSIP.pdf'});}
+function doDownload(){generatePDF({title:'Step-up SIP Calculator',summary:[{label:'Starting SIP',value:fmt(+document.getElementById('startSIP').value)},{label:'Annual step-up',value:document.getElementById('stepUp').value+'%'},{label:'Period',value:document.getElementById('stepYrs').value+' years'},{label:'CAGR',value:document.getElementById('stepCAGR').value+'%'}],table:tableData,filename:'FirePlan-StepUpSIP.pdf'});}
 
 function renderTable(all){
   document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');
@@ -128,17 +129,17 @@ function triggerDownload(){
   if(isLoggedIn()){doDownload();}
   else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}
 }
-function shareResult(){if(navigator.share)navigator.share({title:'MiddleClassMoney.in Calculator Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Calculator Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
 </script>
 <footer>
   <div class="affiliate-note">ⓘ Affiliate disclosure: Links may earn us commission. All calculators free. Not investment advice.</div>
   <div class="footer-grid">
-    <div><div class="footer-logo">MCM | <span>Middle Class Money</span></div><p class="footer-brand-text">India's complete FIRE calculator suite.</p></div>
+    <div><div class="footer-logo">Fire<span>Plan</span>.in</div><p class="footer-brand-text">India's complete FIRE calculator suite.</p></div>
     <div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div>
     <div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a><a href="fd-laddering-calculator.html">FD ladder</a></div>
     <div class="footer-col"><h4>Tax & loans</h4><a href="income-tax-calculator.html">Income tax</a><a href="home-loan-emi-calculator.html">Home loan EMI</a></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 MiddleClassMoney.in</span><span><a href="privacy.html">Privacy</a> · <a href="disclaimer.html">Disclaimer</a></span></div>
+  <div class="footer-bottom"><span>© 2026 FirePlan.in</span><span><a href="privacy.html">Privacy</a> · <a href="disclaimer.html">Disclaimer</a></span></div>
 </footer>
 <button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <div class="toast" id="toast"></div>

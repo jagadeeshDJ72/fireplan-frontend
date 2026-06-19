@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>FIRE Corpus Calculator India — Financial Independence Number | MiddleClassMoney.in</title>
+<title>FIRE Corpus Calculator India — Financial Independence Number | FirePlan.in</title>
 <meta name="description" content="Calculate exactly how much corpus you need to retire early in India. FIRE number with 6% Indian inflation, year-by-year projections, PDF download free.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-<nav><a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
 <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › FIRE Corpus Calculator</div>
 <div class="calc-page">
 <div>
@@ -95,12 +95,16 @@ function calculate(){
   const pr=+document.getElementById('postReturn').value/100,inf=+document.getElementById('inflation').value/100;
   const le=+document.getElementById('lifeExp').value;
   if(fa<=ca){alert('FIRE age must be greater than current age');return;}
+  if(ca<18||ca>70){alert('Current age must be between 18 and 70');return;}
+  if(fa>80){alert('FIRE age must be 80 or below');return;}
+  if(me<=0){alert('Monthly expenses must be greater than 0');return;}
   const ytf=fa-ca,yir=le-fa;
   const aeAtFire=me*12*Math.pow(1+inf,ytf);
   const r=pr-inf;
   const reqCorpus=r>0?aeAtFire*(1-Math.pow(1+r,-yir))/r:aeAtFire*yir;
   const mr=pc/12,months=ytf*12;
-  const projCorpus=cc*Math.pow(1+pc,ytf)+ms*(Math.pow(1+mr,months)-1)/mr*(1+mr);
+  const sipFV=mr>0?ms*(Math.pow(1+mr,months)-1)/mr*(1+mr):ms*months;
+  const projCorpus=cc*Math.pow(1+pc,ytf)+sipFV;
   const gap=reqCorpus-projCorpus,onTrack=gap<=0;
   document.getElementById('resultCards').innerHTML=`
     <div class="result-card highlight"><div class="rc-label">FIRE corpus needed</div><div class="rc-val">${fmtL(reqCorpus)}</div><div class="rc-sub">at age ${fa}</div></div>
@@ -147,22 +151,21 @@ function doDownload(){
     {label:'Monthly SIP',value:fmt(+document.getElementById('monthlySIP').value)},
     {label:'Pre-FIRE CAGR',value:document.getElementById('preCAGR').value+'%'},
     {label:'Inflation',value:document.getElementById('inflation').value+'%'}
-  ],table:tableData,filename:'Middle Class Money-FIRE-Corpus.pdf'});
+  ],table:tableData,filename:'FirePlan-FIRE-Corpus.pdf'});
 }
-function shareResult(){if(navigator.share)navigator.share({title:'My FIRE Number — MiddleClassMoney.in',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+function shareResult(){if(navigator.share)navigator.share({title:'My FIRE Number — FirePlan.in',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
 </script>
 <footer>
   <div class="affiliate-note">ⓘ Affiliate disclosure: Links may earn us a commission. All calculators are free. Not investment advice.</div>
   <div class="footer-grid">
-    <div><div class="footer-logo">MCM | <span>Middle Class Money</span></div><p class="footer-brand-text">India's most complete FIRE calculator suite.</p></div>
+    <div><div class="footer-logo">Fire<span>Plan</span>.in</div><p class="footer-brand-text">India's most complete FIRE calculator suite.</p></div>
     <div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a><a href="lean-fat-fire-calculator.html">Lean/Fat FIRE</a></div>
     <div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP calculator</a><a href="step-up-sip-calculator.html">Step-up SIP</a><a href="fd-laddering-calculator.html">FD ladder</a><a href="lumpsum-calculator.html">Lumpsum</a></div>
     <div class="footer-col"><h4>Tax & loans</h4><a href="income-tax-calculator.html">Income tax</a><a href="home-loan-emi-calculator.html">Home loan EMI</a><a href="inflation-calculator.html">Inflation</a></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 MiddleClassMoney.in</span><span><a href="privacy.html">Privacy</a> · <a href="disclaimer.html">Disclaimer</a></span></div>
+  <div class="footer-bottom"><span>© 2026 FirePlan.in</span><span><a href="privacy.html">Privacy</a> · <a href="disclaimer.html">Disclaimer</a></span></div>
 </footer>
 <button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <div class="toast" id="toast"></div>
 </body>
 </html>
-

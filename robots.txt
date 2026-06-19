@@ -2,5 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://MiddleClassMoney.in/sitemap.xml
-
+Sitemap: https://fireplan.in/sitemap.xml
