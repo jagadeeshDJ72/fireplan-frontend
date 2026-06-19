@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Capital Gains Tax Calculator | FirePlan.in</title><meta name="description" content="Calculate LTCG and STCG tax on equity, mutual funds and property India. Updated for Budget 2024 rate changes.">
+<title>Capital Gains Tax Calculator | MiddleClassMoney.in</title><meta name="description" content="Calculate LTCG and STCG tax on equity, mutual funds and property India. Updated for Budget 2024 rate changes.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css"></head><body>
-<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<nav><a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
 <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › Capital Gains Tax Calculator</div>
 <div class="calc-page"><div><div class="calc-card-main">
 <h1 class="calc-title">📋 Capital Gains Tax Calculator</h1>
@@ -68,12 +68,12 @@ function calculate(){
   if(mainInst)mainInst.destroy();
   mainInst=new Chart(document.getElementById('mainChart'),{type:'bar',data:{labels:['Purchase','Gain','Taxable gain','Tax','Net gain'],datasets:[{data:[Math.round(buy),Math.round(gain),Math.round(taxableGain),Math.round(totalTax),Math.round(netGain)],backgroundColor:['#888','#1B6B45','#2A9460','#C8860A','#1B6B45'],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.raw)}}},scales:{y:{ticks:{callback:v=>fmt(v)},grid:{color:'rgba(0,0,0,.04)'}}}}});
   renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
-function doDownload(){generatePDF({title:'Capital Gains Tax Calculator',summary:[{label:'Asset',value:document.getElementById('assetType').value},{label:'Purchase',value:fmtL(+document.getElementById('buyVal').value)},{label:'Sale',value:fmtL(+document.getElementById('sellVal').value)},{label:'Holding period',value:document.getElementById('holdPeriod').value+' years'}],table:tableData,filename:'FirePlan-CapitalGains.pdf'});}
+function doDownload(){generatePDF({title:'Capital Gains Tax Calculator',summary:[{label:'Asset',value:document.getElementById('assetType').value},{label:'Purchase',value:fmtL(+document.getElementById('buyVal').value)},{label:'Sale',value:fmtL(+document.getElementById('sellVal').value)},{label:'Holding period',value:document.getElementById('holdPeriod').value+' years'}],table:tableData,filename:'Middle Class Money-CapitalGains.pdf'});}
 function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
 function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
 function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
-function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+function shareResult(){if(navigator.share)navigator.share({title:'MiddleClassMoney.in Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
 </script>
-<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div><div class="footer-grid"><div><div class="footer-logo">Fire<span>Plan</span>.in</div></div><div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div><div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a></div></div><div class="footer-bottom"><span>© 2026 FirePlan.in</span></div></footer>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div><div class="footer-grid"><div><div class="footer-logo">MCM | <span>Middle Class Money</span></div></div><div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div><div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a></div></div><div class="footer-bottom"><span>© 2026 MiddleClassMoney.in</span></div></footer>
 <button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button><div class="toast" id="toast"></div>
 </body></html>

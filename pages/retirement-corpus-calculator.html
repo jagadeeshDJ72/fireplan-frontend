@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Retirement Corpus Calculator | FirePlan.in</title><meta name="description" content="Plan traditional retirement at 60 with Indian inflation, post-retirement returns and life expectancy. Free India retirement calculator.">
+<title>Retirement Corpus Calculator | MiddleClassMoney.in</title><meta name="description" content="Plan traditional retirement at 60 with Indian inflation, post-retirement returns and life expectancy. Free India retirement calculator.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css"></head><body>
-<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<nav><a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
 <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › Retirement Corpus Calculator</div>
 <div class="calc-page"><div><div class="calc-card-main">
 <h1 class="calc-title">🏦 Retirement Corpus Calculator</h1>
@@ -70,12 +70,12 @@ function calculate(){
   if(mainInst)mainInst.destroy();
   mainInst=new Chart(document.getElementById('mainChart'),{type:'line',data:{labels:labs,datasets:[{label:'Projected corpus',data:cd,borderColor:'#1B6B45',backgroundColor:'rgba(27,107,69,.1)',fill:true,tension:.4,pointRadius:3},{label:'Required corpus',data:rl,borderColor:'#C8860A',borderDash:[6,4],fill:false,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtL(c.raw)}}},scales:{y:{ticks:{callback:v=>fmtL(v)},grid:{color:'rgba(0,0,0,.04)'}},x:{title:{display:true,text:'Age'}}}}});
   renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
-function doDownload(){generatePDF({title:'Retirement Corpus Calculator',summary:[{label:'Retirement age',value:document.getElementById('rRetAge').value+' years'},{label:'Monthly expenses',value:fmt(+document.getElementById('rExp').value)},{label:'Pension income',value:fmt(+document.getElementById('rPension').value)+'/mo'}],table:tableData,filename:'FirePlan-Retirement.pdf'});}
+function doDownload(){generatePDF({title:'Retirement Corpus Calculator',summary:[{label:'Retirement age',value:document.getElementById('rRetAge').value+' years'},{label:'Monthly expenses',value:fmt(+document.getElementById('rExp').value)},{label:'Pension income',value:fmt(+document.getElementById('rPension').value)+'/mo'}],table:tableData,filename:'Middle Class Money-Retirement.pdf'});}
 function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
 function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
 function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
-function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+function shareResult(){if(navigator.share)navigator.share({title:'MiddleClassMoney.in Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
 </script>
-<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div><div class="footer-grid"><div><div class="footer-logo">Fire<span>Plan</span>.in</div></div><div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div><div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a></div></div><div class="footer-bottom"><span>© 2026 FirePlan.in</span></div></footer>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div><div class="footer-grid"><div><div class="footer-logo">MCM | <span>Middle Class Money</span></div></div><div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div><div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a></div></div><div class="footer-bottom"><span>© 2026 MiddleClassMoney.in</span></div></footer>
 <button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button><div class="toast" id="toast"></div>
 </body></html>
