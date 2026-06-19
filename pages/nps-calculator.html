@@ -27,7 +27,37 @@
 <hr class="calc-divider">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
 <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div></div>
+</div></div>
+<div class="seo-section">
+  <h2>What is a NPS Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">National Pension System (NPS) is India's government-backed retirement savings scheme open to all Indian citizens aged 18-70. NPS invests your contributions in a mix of equity, corporate bonds, and government securities managed by professional pension fund managers.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">NPS offers an additional tax deduction of ₹50,000 under Section 80CCD(1B) over and above the ₹1.5 lakh 80C limit — making it one of the most tax-efficient retirement instruments. At retirement (age 60), you can withdraw 60% as a tax-free lump sum and must use at least 40% to buy an annuity for monthly pension.</p>
+
+  <h2 style="margin-top:28px">How is it calculated?</h2>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px">NPS corpus at retirement uses SIP compounding formula:<br><br><strong>Corpus = Monthly contribution × [(1+r)^n - 1] / r × (1+r)</strong><br><br>Where r = monthly return rate, n = total months to age 60<br><br>At retirement:<br>• <strong>60% of corpus</strong> → Tax-free lump sum withdrawal<br>• <strong>40% of corpus</strong> → Mandatory annuity purchase → Monthly pension<br><br><strong>Monthly pension = Annuity corpus × Annuity rate ÷ 12</strong><br><br>Current annuity rates range from 5.5% to 7% depending on the annuity provider and option chosen.</p>
+  </div>
+
+  <h2 style="margin-top:28px">How to use this calculator</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Enter your <strong>current age</strong> — NPS matures at 60 so younger you are, the more compounding works<br>2. Enter <strong>monthly contribution</strong> — minimum ₹500/month for Tier-1 account<br>3. Set <strong>expected return</strong> — NPS equity (E) fund has historically delivered 10-12% CAGR<br>4. Set <strong>annuity rate</strong> — use 6% as a realistic estimate for current market<br>5. Calculator shows total corpus, tax-free lump sum, and estimated monthly pension</p>
+
+  <h2 style="margin-top:28px">Benefits</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Extra ₹50,000 tax deduction:</strong> Under 80CCD(1B) — unique to NPS, not available for any other instrument<br>• <strong>Market-linked returns:</strong> Unlike EPF/PPF, NPS equity fund can deliver 10-12%+ CAGR over long term<br>• <strong>Flexibility:</strong> Choose your own asset allocation — up to 75% in equity till age 50<br>• <strong>Low cost:</strong> NPS has the lowest fund management charges in India (0.01%)<br>• <strong>Partial withdrawal:</strong> Up to 25% for emergencies after 3 years for specific purposes</p>
+
+  <h2 style="margin-top:28px">Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>NPS vs EPF vs PPF — which is better?</span><span class="faq-chevron">▾</span></div><div class="faq-a">All three serve different purposes. EPF is mandatory and has highest guaranteed return (8.25%). PPF is best for safe EEE investment up to ₹1.5L. NPS is best for extra ₹50,000 tax deduction and higher long-term returns via equity allocation. Use all three together for maximum retirement wealth.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What is the NPS annuity rate?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Annuity rates currently range from 5.5% to 7% depending on which Life Insurance Company you choose and which annuity option. Life annuity with return of purchase price is the most popular option giving your nominees the principal back.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I withdraw from NPS before 60?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes but with conditions. Before 60, you can withdraw only 20% as lump sum and must use 80% for annuity. After 3 years, you can withdraw 25% for education, marriage, house, or critical illness. Premature exit at 60+ allows 60% lump sum and 40% annuity.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is NPS good for government employees?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes. Government employees get an employer contribution of 14% of basic + DA from the government which significantly boosts the NPS corpus. Many states now offer NPS in addition to or in lieu of OPS (Old Pension Scheme).</div></div>
+
+
+  <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
+    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+  </div>
+</div>
+
+</div>
 <div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
 <div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="epf-calculator.html" class="related-calc"><div class="rc-icon">🏢</div><div><div class="rc-name">EPF Calculator</div><div class="rc-tag">Compare EPF vs NPS</div></div></a><a href="retirement-corpus-calculator.html" class="related-calc"><div class="rc-icon">🏦</div><div><div class="rc-name">Retirement Corpus</div><div class="rc-tag">Full retirement planning</div></div></a><a href="income-tax-calculator.html" class="related-calc"><div class="rc-icon">🧾</div><div><div class="rc-name">Income Tax</div><div class="rc-tag">80CCD NPS deduction</div></div></a></div>
 <div id="adBox2"></div></div></div>

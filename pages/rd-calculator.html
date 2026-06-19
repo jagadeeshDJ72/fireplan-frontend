@@ -24,7 +24,36 @@
 <hr class="calc-divider">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
 <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div></div>
+</div></div>
+<div class="seo-section">
+  <h2>What is a RD Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">A Recurring Deposit (RD) is a fixed deposit where you invest a fixed amount every month for a chosen tenure and earn guaranteed interest. RDs are the simplest, safest way for middle class Indians to build savings with monthly contributions — like a forced savings plan with guaranteed returns.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">RDs are available at all banks, post offices, and NBFCs. Post Office RD currently offers 6.7% per annum, while bank RDs offer 5.5-7.5% depending on the bank and tenure. Senior citizens typically get 0.25-0.5% extra.</p>
+
+  <h2 style="margin-top:28px">How is it calculated?</h2>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px">RD interest is calculated using quarterly compounding in most banks:<br><br><strong>Maturity = Σ [Monthly deposit × (1 + r/12)^(remaining months)]</strong><br><br>Where r = annual interest rate<br><br>Post Office RD uses a simpler formula:<br><strong>A = P × (1+r/4)^(4n)</strong> applied to each monthly deposit<br><br>Example: ₹5,000/month RD for 24 months at 7% = Maturity ≈ ₹1,28,500<br>Total invested = ₹1,20,000 | Interest = ₹8,500</p>
+  </div>
+
+  <h2 style="margin-top:28px">How to use this calculator</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Enter <strong>monthly deposit amount</strong> — the fixed amount you will invest each month<br>2. Enter <strong>interest rate</strong> — check your bank's current RD rate (typically 6-7.5%)<br>3. Enter <strong>tenure in months</strong> — minimum 6 months, typically 12-60 months<br>4. Calculate to see maturity amount, total invested, and interest earned</p>
+
+  <h2 style="margin-top:28px">Benefits</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Guaranteed returns:</strong> No market risk — fixed interest locked at time of opening<br>• <strong>Flexible tenure:</strong> From 6 months to 10 years to match your goal timeline<br>• <strong>DICGC insured:</strong> Up to ₹5 lakh per bank is insured under DICGC<br>• <strong>Small amounts:</strong> Start with ₹100/month — perfect for building emergency fund<br>• <strong>Loan against RD:</strong> Most banks offer loans against RD at slightly above RD rate</p>
+
+  <h2 style="margin-top:28px">Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>RD vs SIP — which is better?</span><span class="faq-chevron">▾</span></div><div class="faq-a">RD gives guaranteed but lower returns (6-7.5%). SIP in equity mutual funds gives higher returns (10-14%) but with market risk. For goals under 3 years or for risk-averse investors, RD is better. For goals above 5 years, SIP in equity beats RD significantly.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is RD interest taxable?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes. RD interest is fully taxable as per your income tax slab. If total interest across all RDs in a bank exceeds ₹40,000 (₹50,000 for seniors) in a year, TDS at 10% is deducted. You must declare all RD interest in your ITR.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I withdraw RD before maturity?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes, premature withdrawal is allowed but with penalty (typically 1% lower interest). Post Office RD cannot be withdrawn before 3 months. Some banks charge ₹200-500 as penalty for premature closure.</div></div>
+
+
+  <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
+    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+  </div>
+</div>
+
+</div>
 <div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
 <div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="fd-laddering-calculator.html" class="related-calc"><div class="rc-icon">🏗️</div><div><div class="rc-name">FD Ladder</div><div class="rc-tag">Staggered FD strategy</div></div></a><a href="ppf-calculator.html" class="related-calc"><div class="rc-icon">📊</div><div><div class="rc-name">PPF Calculator</div><div class="rc-tag">Tax-free alternative</div></div></a><a href="sip-calculator.html" class="related-calc"><div class="rc-icon">📈</div><div><div class="rc-name">SIP Calculator</div><div class="rc-tag">Higher returns comparison</div></div></a></div>
 <div id="adBox2"></div></div></div>

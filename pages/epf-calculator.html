@@ -31,7 +31,37 @@
 <hr class="calc-divider">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
 <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div></div>
+</div></div>
+<div class="seo-section">
+  <h2>What is a EPF Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">Employee Provident Fund (EPF) is the retirement savings scheme mandatory for all salaried employees in India earning up to ₹15,000/month (basic + DA). Even for employees earning more, EPF continues to apply for the first ₹15,000 of basic salary.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">EPF provides one of the highest guaranteed risk-free returns in India at 8.25% per annum, far better than FDs or PPF. The combined employee and employer contribution makes it a powerful forced savings mechanism that builds significant retirement wealth over a career.</p>
+
+  <h2 style="margin-top:28px">How is it calculated?</h2>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px"><strong>Employee contribution:</strong> 12% of basic salary + DA per month<br><strong>Employer contribution:</strong> 12% of basic salary + DA per month (3.67% to EPF, 8.33% to EPS)<br><br>For salary above ₹15,000/month, employer contribution is typically capped at ₹1,800/month to EPF unless company offers higher voluntary contribution.<br><br><strong>EPF balance = (Employee + Employer contributions) compounded at 8.25% per annum</strong><br><br>The interest is calculated monthly but credited annually at end of financial year.</p>
+  </div>
+
+  <h2 style="margin-top:28px">How to use this calculator</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Enter your <strong>basic salary + DA</strong> (not CTC — only basic salary and dearness allowance)<br>2. Enter <strong>annual salary increment</strong> — typically 5-10% for private sector employees<br>3. Enter <strong>current EPF balance</strong> from your UAN passbook (check epfindia.gov.in)<br>4. Enter <strong>years to retirement</strong> — usually 60 minus your current age<br>5. The calculator shows EPF maturity including both your contribution and employer's contribution</p>
+
+  <h2 style="margin-top:28px">Benefits</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Highest guaranteed return:</strong> 8.25% is better than PPF (7.1%) and most FDs<br>• <strong>Employer match:</strong> 12% employer contribution is essentially free money added to your retirement corpus<br>• <strong>Tax efficient:</strong> Employee contribution gets 80C deduction, interest is tax-free if employed for 5+ years, maturity is tax-free after 5 years of service<br>• <strong>Loan facility:</strong> Can withdraw for house purchase, medical emergency, marriage, education<br>• <strong>Pension benefit:</strong> Employer's 8.33% goes to EPS (Employee Pension Scheme) providing monthly pension after 58</p>
+
+  <h2 style="margin-top:28px">Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How do I check my EPF balance?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Visit epfindia.gov.in or the UMANG app. Log in with your UAN (Universal Account Number) and Aadhaar-linked mobile number. Your passbook shows monthly contributions and current balance.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What happens to EPF when I change jobs?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Keep the same UAN number across all jobs. Transfer your old EPF to new employer's account using the online transfer facility on the EPFO portal. Do not withdraw EPF on job change — it breaks compounding and attracts 10% TDS if service is less than 5 years.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is EPF withdrawal taxable?</span><span class="faq-chevron">▾</span></div><div class="faq-a">EPF withdrawal is tax-free after 5 years of continuous service. If withdrawn before 5 years, the full amount (both employee and employer contribution + interest) is taxable. TDS at 10% applies for withdrawals above ₹50,000 before 5 years.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Should I opt for VPF (Voluntary Provident Fund)?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes, if you are in the 30% tax bracket and want safe, high returns. VPF gives the same 8.25% interest as EPF with the same tax benefits and is deducted from salary like EPF. You can contribute up to 100% of basic salary to VPF.</div></div>
+
+
+  <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
+    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+  </div>
+</div>
+
+</div>
 <div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
 <div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="ppf-calculator.html" class="related-calc"><div class="rc-icon">📊</div><div><div class="rc-name">PPF Calculator</div><div class="rc-tag">Tax-free savings</div></div></a><a href="retirement-corpus-calculator.html" class="related-calc"><div class="rc-icon">🏦</div><div><div class="rc-name">Retirement Corpus</div><div class="rc-tag">Full retirement plan</div></div></a><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Early retirement</div></div></a></div>
 <div id="adBox2"></div></div></div>

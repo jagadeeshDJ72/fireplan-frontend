@@ -26,7 +26,37 @@
 <hr class="calc-divider">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
 <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div></div>
+</div></div>
+<div class="seo-section">
+  <h2>What is a Gratuity Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">Gratuity is a lump sum payment made by an employer to an employee as a token of appreciation for services rendered. In India, gratuity is governed by the Payment of Gratuity Act, 1972 and is mandatory for organisations with 10 or more employees.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">Gratuity is payable to employees who have completed a minimum of 5 continuous years of service. It is calculated based on your last drawn basic salary and dearness allowance and total years of service. Understanding your gratuity entitlement helps you plan your finances when changing jobs or retiring.</p>
+
+  <h2 style="margin-top:28px">How is it calculated?</h2>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px">For organisations covered under the Gratuity Act (10+ employees):<br><br><strong>Gratuity = (Basic Salary + DA) × 15 × Years of Service ÷ 26</strong><br><br>The divisor 26 represents working days in a month (26 working days out of ~30 days).<br><br>For organisations not covered under the Act:<br><br><strong>Gratuity = (Basic Salary + DA) × 15 × Years of Service ÷ 30</strong><br><br><strong>Maximum tax-free gratuity:</strong> ₹20 lakh (raised from ₹10L in 2019). Any gratuity above ₹20 lakh is taxable as income.</p>
+  </div>
+
+  <h2 style="margin-top:28px">How to use this calculator</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Enter your <strong>last drawn basic salary + DA</strong> per month<br>2. Enter your <strong>total years of service</strong> — must be minimum 5 years<br>3. Select <strong>organisation type</strong> — covered or not covered under Gratuity Act<br>4. Calculate to see your gratuity amount, tax-free portion, and taxable portion (if any)</p>
+
+  <h2 style="margin-top:28px">Benefits</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Know your entitlement:</strong> Calculate exactly what you are owed before resigning<br>• <strong>Tax planning:</strong> Understand how much is tax-free (₹20 lakh) and plan accordingly<br>• <strong>Negotiation:</strong> If employer pays less than calculated, you can challenge it legally<br>• <strong>Timeline:</strong> Gratuity must be paid within 30 days of the date it becomes due</p>
+
+  <h2 style="margin-top:28px">Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is 5 years service condition strict?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Service of 4 years and 240 days (4 years 8 months) is treated as 5 years by many courts. If you are leaving just before 5 years, check this carefully. The Supreme Court has in some cases allowed gratuity even before 5 years.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Does years of service include any type of leave?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes — authorised leave, maternity leave, lay-off periods, and other sanctioned absence counts towards continuous service. Only unauthorised absence is excluded.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What if employer refuses to pay gratuity?</span><span class="faq-chevron">▾</span></div><div class="faq-a">File a complaint with the Controlling Authority (Labour Commissioner) under the Gratuity Act. Employer must pay within 30 days. Delayed payment attracts simple interest at 10% per annum. Willful non-payment is a criminal offence.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is gratuity included in CTC?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes, most employers include gratuity in CTC calculation (4.81% of basic salary per year, which equals 15/26 × 1/12). However, you only receive it after 5 years of service, regardless of whether it appeared in your CTC.</div></div>
+
+
+  <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
+    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+  </div>
+</div>
+
+</div>
 <div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
 <div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="income-tax-calculator.html" class="related-calc"><div class="rc-icon">🧾</div><div><div class="rc-name">Income Tax</div><div class="rc-tag">Tax on gratuity</div></div></a><a href="epf-calculator.html" class="related-calc"><div class="rc-icon">🏢</div><div><div class="rc-name">EPF Calculator</div><div class="rc-tag">Retirement corpus</div></div></a><a href="retirement-corpus-calculator.html" class="related-calc"><div class="rc-icon">🏦</div><div><div class="rc-name">Retirement Corpus</div><div class="rc-tag">Full retirement plan</div></div></a></div>
 <div id="adBox2"></div></div></div>

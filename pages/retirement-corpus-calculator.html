@@ -24,7 +24,36 @@
 <hr class="calc-divider">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
 <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div></div>
+</div></div>
+<div class="seo-section">
+  <h2>What is a Retirement Corpus Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">Retirement corpus planning is the process of calculating how much money you need to accumulate before retirement to sustain your lifestyle for the rest of your life, without needing to work. In India, traditional retirement is at 60, giving you typically 25-30 years of post-retirement life to fund.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">Unlike FIRE (which targets early retirement), this calculator is designed for the majority of Indians planning to retire at 55-60 after a full career. It accounts for pension income, EPF/PPF maturity, and spouse's income to give you a net corpus requirement.</p>
+
+  <h2 style="margin-top:28px">How is it calculated?</h2>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px"><strong>Corpus needed = PV of all future retirement expenses minus pension/other income</strong><br><br>Step 1: Project monthly expenses at retirement age using inflation<br><strong>Retirement expense = Current expense × (1 + inflation)^years to retirement</strong><br><br>Step 2: Subtract any pension income (EPF pension, NPS annuity)<br><strong>Net expense = Retirement expense − Pension income at retirement age</strong><br><br>Step 3: Calculate corpus needed to fund net expenses for remaining life<br><strong>Corpus = Net annual expense × [(1 − (1+r)^−n) ÷ r]</strong><br><br>Where r = real return, n = retirement years (life expectancy − retirement age)</p>
+  </div>
+
+  <h2 style="margin-top:28px">How to use this calculator</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Enter <strong>current age</strong> and <strong>retirement age</strong><br>2. Enter <strong>current monthly expenses</strong> — the calculator adjusts for inflation<br>3. Enter <strong>monthly pension income</strong> at retirement — EPF pension, NPS annuity, rental income<br>4. Enter <strong>current corpus</strong> — existing savings that are growing<br>5. Enter <strong>monthly SIP</strong> — ongoing investments<br>6. Set return rates and inflation — calculator shows required corpus and whether you are on track</p>
+
+  <h2 style="margin-top:28px">Benefits</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Pension-aware:</strong> Accounts for your existing income sources at retirement<br>• <strong>Realistic projection:</strong> Uses India-specific inflation and returns<br>• <strong>Gap analysis:</strong> Shows exact shortfall and additional SIP needed to close it<br>• <strong>Life expectancy:</strong> Adjust to plan for longer life (use 85-90 for conservative planning)</p>
+
+  <h2 style="margin-top:28px">Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How much corpus do I need to retire in India at 60?</span><span class="faq-chevron">▾</span></div><div class="faq-a">A rough estimate: 25x your expected annual expenses at retirement age (adjusted for inflation). If you expect ₹60,000/month (₹7.2L/year) at retirement, you need approximately ₹1.8 crore at 60. With inflation adjustment and realistic returns, our calculator gives the precise number.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Should I include my house value in retirement corpus?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Only if you plan to sell it. If you live in your house, exclude it. If you plan to downsize and rent, include the net proceeds. Rental income from a second property should be included as regular income in the retirement planning.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How do I ensure my corpus lasts 30 years?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Keep 50-60% in equity even during retirement. This inflation-beating allocation is crucial for a 30-year retirement horizon. Withdraw systematically (SWP) from debt/FD and replenish from equity during market highs. Our SWP Depletion calculator shows year-by-year corpus health.</div></div>
+
+
+  <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
+    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+  </div>
+</div>
+
+</div>
 <div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
 <div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Early retirement</div></div></a><a href="immortal-swp-calculator.html" class="related-calc"><div class="rc-icon">♾️</div><div><div class="rc-name">Immortal SWP</div><div class="rc-tag">Post-retirement withdrawal</div></div></a><a href="sip-calculator.html" class="related-calc"><div class="rc-icon">📈</div><div><div class="rc-name">SIP</div><div class="rc-tag">Build corpus</div></div></a><a href="fd-laddering-calculator.html" class="related-calc"><div class="rc-icon">🏗️</div><div><div class="rc-name">FD Ladder</div><div class="rc-tag">Safe post-retirement income</div></div></a></div>
 <div id="adBox2"></div></div></div>

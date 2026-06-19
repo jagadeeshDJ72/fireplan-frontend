@@ -27,7 +27,37 @@
 <hr class="calc-divider">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
 <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div></div>
+</div></div>
+<div class="seo-section">
+  <h2>What is a PPF Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">Public Provident Fund (PPF) is India's most trusted long-term savings instrument, backed by the Government of India. It offers guaranteed, tax-free returns with complete safety of capital — making it the ideal savings vehicle for the risk-averse Indian middle class.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">PPF is a triple tax-exempt (EEE) investment: the amount invested is tax-deductible under Section 80C, the interest earned is tax-free, and the maturity amount is completely tax-free. No other investment in India offers this combination of safety + tax efficiency.</p>
+
+  <h2 style="margin-top:28px">How is it calculated?</h2>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px">PPF interest is calculated on the minimum balance between the 5th and last day of each month:<br><br><strong>Interest = (Balance on 5th + monthly deposits) × (Annual rate ÷ 12)</strong><br><br>The current PPF interest rate is 7.1% per annum, announced quarterly by the government.<br><br>Key PPF rules:<br>• Minimum deposit: ₹500/year<br>• Maximum deposit: ₹1,50,000/year (also the 80C limit)<br>• Lock-in period: 15 years (extendable in blocks of 5 years)<br>• Partial withdrawal allowed from 7th year<br>• Loan facility available from 3rd to 6th year</p>
+  </div>
+
+  <h2 style="margin-top:28px">How to use this calculator</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Enter your <strong>yearly deposit amount</strong> — max ₹1.5 lakh for full 80C benefit<br>2. Enter <strong>current PPF balance</strong> if you already have an existing PPF account<br>3. Set <strong>PPF interest rate</strong> — currently 7.1% (our calculator uses this by default)<br>4. Enter <strong>investment period</strong> — minimum 15 years, you can extend in 5-year blocks<br>5. Calculate to see maturity amount, total invested, and total tax-free interest earned</p>
+
+  <h2 style="margin-top:28px">Benefits</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Triple tax exemption (EEE):</strong> 80C deduction + tax-free interest + tax-free maturity<br>• <strong>Government-backed:</strong> Zero credit risk — backed by the sovereign guarantee of India<br>• <strong>Forced saving:</strong> 15-year lock-in builds long-term discipline — you cannot impulsively withdraw<br>• <strong>Loan facility:</strong> Emergency loans available from 3rd year at low interest<br>• <strong>Partial withdrawal:</strong> 50% of balance can be withdrawn from 7th year for goals like education</p>
+
+  <h2 style="margin-top:28px">Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is PPF better than FD for tax saving?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes for most people. PPF interest is tax-free while FD interest is taxed as per your income slab. At 30% tax slab, a 7.1% PPF gives effective post-tax return of 7.1% while a 7.5% FD gives only 5.25% post-tax. PPF wins for long-term.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I have more than one PPF account?</span><span class="faq-chevron">▾</span></div><div class="faq-a">No. Only one PPF account per individual is allowed. You can open a separate account for your minor child but the combined deposits across both accounts cannot exceed ₹1.5 lakh per year.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What happens to PPF after 15 years?</span><span class="faq-chevron">▾</span></div><div class="faq-a">After 15 years, you can withdraw the full amount, extend for 5 more years without deposits (the balance continues earning interest), or extend for 5 more years with deposits. Each extension gives another 5 years of compounding at current rates.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Should I deposit PPF before 5th of the month?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes. PPF interest is calculated on the minimum balance between the 5th and last day of each month. Depositing before 5th of every month earns you interest for that entire month. Depositing after 5th means you lose one month's interest.</div></div>
+
+
+  <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
+    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+  </div>
+</div>
+
+</div>
 <div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
 <div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="sip-calculator.html" class="related-calc"><div class="rc-icon">📈</div><div><div class="rc-name">SIP Calculator</div><div class="rc-tag">Compare with market returns</div></div></a><a href="fd-laddering-calculator.html" class="related-calc"><div class="rc-icon">🏗️</div><div><div class="rc-name">FD Ladder</div><div class="rc-tag">Safe fixed income</div></div></a><a href="income-tax-calculator.html" class="related-calc"><div class="rc-icon">🧾</div><div><div class="rc-name">Income Tax</div><div class="rc-tag">80C deduction benefit</div></div></a></div>
 <div id="adBox2"></div></div></div>

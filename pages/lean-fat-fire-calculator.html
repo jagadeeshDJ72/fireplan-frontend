@@ -22,7 +22,35 @@
 <hr class="calc-divider">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
 <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div></div>
+</div></div>
+<div class="seo-section">
+  <h2>What is a Lean Fat FIRE Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">Not all FIRE is the same. Depending on the lifestyle you want in retirement, your required corpus varies dramatically. This calculator compares four popular FIRE variants — Lean, Regular, Fat, and Barista — so you can choose the right target for your retirement vision.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"><strong>Lean FIRE:</strong> Retire on minimal expenses (₹30,000-50,000/month). Frugal lifestyle, small town, minimal luxury. Corpus needed: ₹1-2 crore.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"><strong>Regular FIRE:</strong> Maintain current lifestyle. Most popular choice. Corpus: ₹2-4 crore for most Indian families.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"><strong>Fat FIRE:</strong> Retire with luxury — business class travel, premium healthcare, city living. ₹1-2 lakh/month. Corpus: ₹4-8 crore.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"><strong>Barista FIRE:</strong> Semi-retire. Earn some income through part-time work or freelancing, covering 30-50% of expenses. Significantly reduces corpus needed.</p>
+
+  <h2 style="margin-top:28px">How is it calculated?</h2>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px">For each FIRE type, corpus is calculated using PV of inflation-adjusted expenses:<br><br><strong>Corpus = Inflation-adjusted annual expense × (1 − (1+r)^−n) ÷ r</strong><br><br>Where r = real return (post-retirement return − inflation), n = years in retirement<br><br>• Lean FIRE: Base expenses × 60%<br>• Regular FIRE: Base expenses × 100%<br>• Fat FIRE: Base expenses × 200%<br>• Barista FIRE: Base expenses × 70% (assumes 30% income from part-time work)</p>
+  </div>
+
+  <h2 style="margin-top:28px">How to use this calculator</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Enter your <strong>current monthly expenses</strong> — the calculator scales this for each FIRE type<br>2. Enter <strong>current age</strong> and <strong>FIRE age target</strong><br>3. Set <strong>inflation</strong> and <strong>post-retirement return</strong><br>4. Calculate to see all four corpus requirements side by side<br>5. Choose the FIRE type that matches your retirement vision and use the FIRE Corpus Calculator for detailed planning</p>
+
+  <h2 style="margin-top:28px">Benefits</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Visual comparison:</strong> See all four options in one chart — pick what fits your vision<br>• <strong>Realistic planning:</strong> Many people over-plan (Fat FIRE) or under-plan (Lean FIRE) by mistake<br>• <strong>Barista FIRE insight:</strong> See how much part-time income reduces your corpus requirement<br>• <strong>Starting point:</strong> Use this to pick your FIRE type, then use the main FIRE calculator for details</p>
+
+  <h2 style="margin-top:28px">Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Which FIRE type is most popular in India?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Regular FIRE is the most common goal — maintaining current lifestyle without working. Barista FIRE is growing in popularity among those who enjoy meaningful work and want financial security without full retirement.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I upgrade from Lean to Fat FIRE later?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes — start with Lean FIRE, enjoy semi-retirement, and continue some income. As your investments grow, you can upgrade to Regular or Fat FIRE. Many FIRE seekers find they spend less than expected in retirement, making Lean FIRE more comfortable than anticipated.</div></div>
+
+
+  <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
+    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+  </div>
+</div>
+
+</div>
 <div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
 <div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Detailed FIRE plan</div></div></a><a href="immortal-swp-calculator.html" class="related-calc"><div class="rc-icon">♾️</div><div><div class="rc-name">Immortal SWP</div><div class="rc-tag">Sustainable withdrawal</div></div></a><a href="coast-fire-calculator.html" class="related-calc"><div class="rc-icon">🏖️</div><div><div class="rc-name">Coast FIRE</div><div class="rc-tag">When to stop investing</div></div></a></div>
 <div id="adBox2"></div></div></div>

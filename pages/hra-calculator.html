@@ -29,7 +29,37 @@
 <hr class="calc-divider">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
 <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div></div>
+</div></div>
+<div class="seo-section">
+  <h2>What is a HRA Exemption Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">House Rent Allowance (HRA) is a component of salary that salaried employees receive to cover their rent expenses. The good news: a portion of HRA is exempt from income tax, reducing your taxable income significantly if you live in a rented house.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">HRA exemption is one of the most commonly miscalculated tax benefits in India. Many salaried people either claim too little (missing out on savings) or claim incorrectly (risking notices). Our calculator tells you the exact exempt amount based on three conditions under Section 10(13A).</p>
+
+  <h2 style="margin-top:28px">How is it calculated?</h2>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px">HRA exemption is the <strong>minimum</strong> of these three amounts:<br><br>1. <strong>Actual HRA received</strong> from employer<br>2. <strong>50% of basic salary</strong> (metro cities) or <strong>40%</strong> (non-metro cities)<br>3. <strong>Rent paid minus 10% of basic salary</strong><br><br>Metro cities: Delhi, Mumbai, Chennai, Kolkata<br>Non-metro: All other cities<br><br>Example: Basic = ₹40,000 | HRA received = ₹20,000 | Rent paid = ₹18,000 | City: Hyderabad<br>• Condition 1: ₹20,000<br>• Condition 2: 40% × ₹40,000 = ₹16,000<br>• Condition 3: ₹18,000 − 10% × ₹40,000 = ₹14,000<br>• Exemption = Minimum = ₹14,000</p>
+  </div>
+
+  <h2 style="margin-top:28px">How to use this calculator</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Enter your <strong>monthly basic salary</strong> (not CTC — only basic salary component)<br>2. Enter <strong>HRA received per month</strong> from your salary slip<br>3. Enter <strong>actual rent paid per month</strong><br>4. Select <strong>city type</strong> — metro or non-metro<br>5. Calculate to see your exact monthly and annual HRA exemption<br>6. The remaining HRA (above exemption) is added to your taxable income</p>
+
+  <h2 style="margin-top:28px">Benefits</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Know your exact exemption:</strong> Stop guessing — get the precise amount<br>• <strong>Reduce taxable income:</strong> HRA exemption directly reduces your income tax liability<br>• <strong>Both regimes compared:</strong> Note that HRA exemption is only available under the old tax regime<br>• <strong>Rent receipts:</strong> For rent above ₹1 lakh/year, landlord's PAN must be provided to employer</p>
+
+  <h2 style="margin-top:28px">Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I claim HRA if I live with parents?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes — you can pay rent to your parents and claim HRA exemption. Your parents must show this rental income in their ITR. Make sure to have a proper rent agreement and bank transfer records. This is legal and commonly used.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I claim both HRA and home loan interest?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Yes, if you own a house in a different city and live on rent in your work city. You can claim HRA for rent paid and Section 24 deduction for home loan interest on your own house. Both benefits together are fully legal.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What documents do I need for HRA claim?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Rent receipts (monthly), rent agreement, landlord's name and address, landlord's PAN (if rent exceeds ₹1 lakh/year). Submit these to your employer before the year-end TDS declaration deadline.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is HRA available in the new tax regime?</span><span class="faq-chevron">▾</span></div><div class="faq-a">No. HRA exemption is only available under the old tax regime. Under the new regime, the full HRA received is taxable. This is a key reason why high-rent employees often benefit from the old regime.</div></div>
+
+
+  <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
+    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+  </div>
+</div>
+
+</div>
 <div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
 <div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="income-tax-calculator.html" class="related-calc"><div class="rc-icon">🧾</div><div><div class="rc-name">Income Tax</div><div class="rc-tag">Full tax calculation</div></div></a><a href="home-loan-emi-calculator.html" class="related-calc"><div class="rc-icon">🏠</div><div><div class="rc-name">Home Loan EMI</div><div class="rc-tag">If buying instead of renting</div></div></a><a href="inflation-calculator.html" class="related-calc"><div class="rc-icon">📅</div><div><div class="rc-name">Inflation</div><div class="rc-tag">Future rent planning</div></div></a></div>
 <div id="adBox2"></div></div></div>

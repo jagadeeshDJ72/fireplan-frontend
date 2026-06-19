@@ -21,7 +21,36 @@
 <hr class="calc-divider">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
 <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div></div>
+</div></div>
+<div class="seo-section">
+  <h2>What is a SWP Depletion Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">A Systematic Withdrawal Plan (SWP) allows you to withdraw a fixed amount regularly from your mutual fund corpus. The SWP depletion calculator answers the critical retirement question: given my corpus and monthly withdrawal, for how many years will my money last before running out?</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">This calculator also shows you the concept of the Immortal Corpus — the corpus size where your returns permanently exceed your withdrawals, meaning your principal never depletes. This is the ultimate FIRE goal.</p>
+
+  <h2 style="margin-top:28px">How is it calculated?</h2>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px">The corpus depletes when withdrawals exceed returns:<br><br><strong>Year-end balance = Opening balance × (1 + return) − Annual withdrawal × (1 + inflation)^year</strong><br><br>The corpus depletes when this balance hits zero.<br><br>The Immortal Corpus threshold:<br><strong>Immortal Corpus = Annual withdrawal ÷ (Return rate − Inflation rate)</strong><br><br>If your corpus exceeds this threshold, the principal never depletes — you withdraw returns only.</p>
+  </div>
+
+  <h2 style="margin-top:28px">How to use this calculator</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Enter your <strong>starting corpus</strong> — your total retirement savings<br>2. Enter <strong>monthly withdrawal</strong> — your expected monthly expenses in retirement<br>3. Set <strong>expected return</strong> — post-retirement portfolio return (7-9% for balanced allocation)<br>4. Set <strong>inflation</strong> — your withdrawals increase with inflation each year<br>5. Calculator shows years until depletion and the Immortal Corpus threshold for your withdrawals</p>
+
+  <h2 style="margin-top:28px">Benefits</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Reality check:</strong> Know if your corpus will outlast you or run out too soon<br>• <strong>Find the right corpus:</strong> Adjust inputs to find the corpus that lasts your desired retirement period<br>• <strong>Immortal threshold:</strong> Know exactly how much more corpus you need to never run out<br>• <strong>Year-by-year table:</strong> See your exact balance every year in retirement</p>
+
+  <h2 style="margin-top:28px">Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What is a safe withdrawal rate for India?</span><span class="faq-chevron">▾</span></div><div class="faq-a">India's safe withdrawal rate is 3-3.5% annually (vs 4% in US) due to higher inflation. For a ₹2 crore corpus, this means ₹50,000-58,000/month is sustainable indefinitely. Above this, corpus depletes over time.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How does inflation affect SWP?</span><span class="faq-chevron">▾</span></div><div class="faq-a">If you start withdrawing ₹50,000/month and inflation is 6%, you need ₹89,000/month after 10 years to maintain the same lifestyle. Your portfolio must earn above inflation to sustain increasing withdrawals.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What asset allocation is best for post-retirement SWP?</span><span class="faq-chevron">▾</span></div><div class="faq-a">50% equity (Nifty 50 index funds) + 30% FD/bonds + 20% gold/REITs is a common post-retirement allocation. This balances inflation-beating equity returns with stability. SWP from debt/FD first, replenish from equity when markets are up.</div></div>
+
+
+  <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
+    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+  </div>
+</div>
+
+</div>
 <div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
 <div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="immortal-swp-calculator.html" class="related-calc"><div class="rc-icon">♾️</div><div><div class="rc-name">Immortal SWP</div><div class="rc-tag">Never deplete corpus</div></div></a><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Build the corpus</div></div></a><a href="fd-laddering-calculator.html" class="related-calc"><div class="rc-icon">🏗️</div><div><div class="rc-name">FD Ladder</div><div class="rc-tag">Safe income ladder</div></div></a></div>
 <div id="adBox2"></div></div></div>

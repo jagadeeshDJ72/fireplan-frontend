@@ -28,7 +28,36 @@
 <hr class="calc-divider">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
 <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div></div>
+</div></div>
+<div class="seo-section">
+  <h2>What is a GST Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">Goods and Services Tax (GST) is India's unified indirect tax system implemented in July 2017, replacing dozens of state and central taxes. GST applies to almost all goods and services in India at rates of 0%, 5%, 12%, 18%, or 28%.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">Whether you are a business owner calculating GST to charge customers, a freelancer adding GST to invoices, or a consumer checking if GST is included in a quoted price — our calculator handles both types: adding GST to a base price (exclusive) and extracting GST from an all-inclusive price (inclusive).</p>
+
+  <h2 style="margin-top:28px">How is it calculated?</h2>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px"><strong>GST exclusive (adding GST to base price):</strong><br>• GST amount = Base price × GST rate<br>• Final price = Base price + GST amount<br>• CGST = GST amount ÷ 2 (intra-state)<br>• SGST = GST amount ÷ 2 (intra-state)<br>• IGST = GST amount (inter-state)<br><br><strong>GST inclusive (extracting GST from all-inclusive price):</strong><br>• Base price = All-inclusive price ÷ (1 + GST rate)<br>• GST amount = All-inclusive price − Base price<br><br>Common GST rates: 5% (essential items, economy hotels), 12% (processed food, phones), 18% (most services, electronics), 28% (luxury goods, cars, cigarettes)</p>
+  </div>
+
+  <h2 style="margin-top:28px">How to use this calculator</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Enter the <strong>amount</strong> — either the base price or the all-inclusive price<br>2. Select <strong>GST rate</strong> — 5%, 12%, 18%, or 28%<br>3. Select <strong>calculation type</strong>:<br>   • "Add GST" if you have the base price and want the final price<br>   • "Extract GST" if you have the all-inclusive price and want the base price<br>4. See GST amount, CGST, SGST/IGST split, and final amounts instantly</p>
+
+  <h2 style="margin-top:28px">Benefits</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Both modes:</strong> Calculate GST-exclusive and GST-inclusive in one tool<br>• <strong>CGST/SGST split:</strong> Shows intra-state and inter-state breakdown<br>• <strong>All GST slabs:</strong> 3%, 5%, 12%, 18%, 28% all supported<br>• <strong>For businesses:</strong> Calculate the exact GST to charge on your invoice<br>• <strong>For consumers:</strong> Verify whether the quoted price includes or excludes GST</p>
+
+  <h2 style="margin-top:28px">Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What is the GST rate on services?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Most services (consulting, IT, financial, legal, marketing) attract 18% GST. Essential services like healthcare, education, and public transport are exempt or at 5%. Restaurants charge 5% GST (without ITC) for non-AC and 5% for AC restaurants.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What is the difference between CGST, SGST, and IGST?</span><span class="faq-chevron">▾</span></div><div class="faq-a">For intra-state transactions (buyer and seller in same state), GST is split equally between CGST (Central) and SGST (State). For inter-state transactions, only IGST (Integrated) applies, which is the full GST amount collected by the Centre and then distributed to states.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Do I need GST registration?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Mandatory if annual turnover exceeds ₹20 lakh (₹10 lakh for special category states) for services, or ₹40 lakh for goods. Also mandatory for e-commerce sellers regardless of turnover. Voluntary registration is beneficial to claim input tax credit.</div></div>
+
+
+  <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
+    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+  </div>
+</div>
+
+</div>
 <div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
 <div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="income-tax-calculator.html" class="related-calc"><div class="rc-icon">🧾</div><div><div class="rc-name">Income Tax</div><div class="rc-tag">Full tax planning</div></div></a><a href="home-loan-emi-calculator.html" class="related-calc"><div class="rc-icon">🏠</div><div><div class="rc-name">Home Loan EMI</div><div class="rc-tag">EMI planning</div></div></a><a href="inflation-calculator.html" class="related-calc"><div class="rc-icon">📅</div><div><div class="rc-name">Inflation</div><div class="rc-tag">Price impact planning</div></div></a></div>
 <div id="adBox2"></div></div></div>

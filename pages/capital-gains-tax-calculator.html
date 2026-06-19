@@ -22,7 +22,36 @@
 <hr class="calc-divider">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
 <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div></div>
+</div></div>
+<div class="seo-section">
+  <h2>What is a Capital Gains Tax Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">Capital gains tax applies when you sell an investment at a profit. In India, the tax rate depends on the type of asset (equity, debt, property) and the holding period (how long you held it). Understanding capital gains tax helps you make smarter exit decisions and maximise post-tax returns.</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">Budget 2024 changed LTCG and STCG rates significantly — equity LTCG increased from 10% to 12.5% and STCG from 15% to 20%. Our calculator is updated for all post-Budget 2024 rates.</p>
+
+  <h2 style="margin-top:28px">How is it calculated?</h2>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px"><strong>Equity & Equity Mutual Funds:</strong><br>• Held > 1 year = LTCG at 12.5% (₹1 lakh exemption per year)<br>• Held ≤ 1 year = STCG at 20%<br><br><strong>Debt Mutual Funds (bought after April 1, 2023):</strong><br>• Taxed as per income slab regardless of holding period<br><br><strong>Property (Land & Buildings):</strong><br>• Held > 2 years = LTCG at 20% with indexation<br>• Held ≤ 2 years = STCG as per income slab<br><br>All capital gains: Add 4% cess to the tax amount.</p>
+  </div>
+
+  <h2 style="margin-top:28px">How to use this calculator</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Select <strong>asset type</strong> — equity/mutual funds, debt, or property<br>2. Enter <strong>purchase price</strong> and <strong>sale price</strong><br>3. Enter <strong>holding period</strong> in years<br>4. Enter your <strong>annual income</strong> for slab rate determination (relevant for STCG/debt)<br>5. Calculate to see your exact capital gains tax, net gain after tax, and effective tax rate</p>
+
+  <h2 style="margin-top:28px">Benefits</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Tax-loss harvesting:</strong> Know if selling now triggers tax — time your exits to minimise tax<br>• <strong>₹1 lakh LTCG exemption:</strong> Calculator reminds you to use this annual equity exemption<br>• <strong>Post-tax returns:</strong> Compare different assets on post-tax basis, not just pre-tax<br>• <strong>Budget 2024 updated:</strong> All new rates (12.5% LTCG, 20% STCG) already incorporated</p>
+
+  <h2 style="margin-top:28px">Frequently asked questions</h2>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How do I save LTCG tax on equity?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Up to ₹1 lakh LTCG per year is exempt. Use this by booking profits and re-entering — called tax-loss harvesting. Also, invest through ELSS funds for 80C deduction. LTCG on equity held in ULIP is fully exempt.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What is indexation benefit for property?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Indexation adjusts your purchase price for inflation using the Cost Inflation Index (CII). This reduces your taxable capital gain significantly. Example: Property bought for ₹30L in 2010 with CII of 167, now CII is 363 → Indexed cost = ₹30L × 363/167 = ₹65L. LTCG = Sale price − ₹65L.</div></div>
+<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is LTCG on mutual funds calculated per transaction or per year?</span><span class="faq-chevron">▾</span></div><div class="faq-a">LTCG of ₹1 lakh is the total annual exemption across all equity transactions in a financial year. Each unit sold separately calculates its own gain, but the total exemption applies to the net LTCG for the full year.</div></div>
+
+
+  <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
+    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+  </div>
+</div>
+
+</div>
 <div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
 <div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="income-tax-calculator.html" class="related-calc"><div class="rc-icon">🧾</div><div><div class="rc-name">Income Tax</div><div class="rc-tag">Overall tax planning</div></div></a><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Invest gains for FIRE</div></div></a><a href="sip-calculator.html" class="related-calc"><div class="rc-icon">📈</div><div><div class="rc-name">SIP</div><div class="rc-tag">Tax-efficient investing</div></div></a></div>
 <div id="adBox2"></div></div></div>
