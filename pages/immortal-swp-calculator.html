@@ -7,6 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 <style>
+.slider-group{margin-bottom:20px}
+.slider-group label{display:block;font-size:13px;font-weight:500;color:var(--ink-2);margin-bottom:8px}
+.slider-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.slider-number{width:110px;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;color:var(--ink);background:var(--bg);outline:none;-moz-appearance:textfield}
+.slider-number::-webkit-inner-spin-button{-webkit-appearance:none}
+.slider-number:focus{border-color:var(--green);background:white}
+.slider-unit{font-size:13px;font-weight:500;color:var(--ink-3)}
+.slider-bar{width:100%;accent-color:var(--green);cursor:pointer;height:6px;margin:0}
+.slider-minmax{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-3);margin-top:3px}
+.slider-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:640px){.slider-grid{grid-template-columns:1fr}}
 .mode-toggle{display:flex;gap:0;margin-bottom:20px;border:1.5px solid var(--green);border-radius:var(--radius-sm);overflow:hidden}
 .mode-btn{flex:1;padding:10px;text-align:center;font-size:14px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--ink-2);border:none;font-family:inherit;transition:all .15s}
 .mode-btn.active{background:var(--green);color:white}
@@ -51,13 +62,34 @@
 
   <!-- SIP INPUTS -->
   <div class="input-section active" id="sipSection">
-    <div class="form-row">
-      <div class="form-group"><label>Monthly SIP amount (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="sipAmt" value="20000" oninput="autoCalculate()"></div></div>
-      <div class="form-group"><label>Annual step-up (%)</label><div class="input-wrap has-suffix"><input type="number" id="sipStepup" value="0" min="0" max="30" step="1" oninput="autoCalculate()"><span class="input-suffix">%</span></div><div class="hint">0% = flat SIP, 10% = increase 10% every year</div></div>
+    <div class="slider-grid">
+      <div class="slider-group">
+        <label>Monthly SIP amount (₹)</label>
+        <div class="slider-top"><input class="slider-number" type="number" id="sipAmt" value="20000" oninput="syncSlider('sipAmt','sipAmtR');autoCalculate()"><span class="slider-unit">₹</span></div>
+        <input class="slider-bar" type="range" id="sipAmtR" min="1000" max="200000" step="1000" value="20000" oninput="syncNum('sipAmtR','sipAmt');autoCalculate()">
+        <div class="slider-minmax"><span>₹1,000</span><span>₹2,00,000</span></div>
+      </div>
+      <div class="slider-group">
+        <label>Annual step-up (%)</label>
+        <div class="slider-top"><input class="slider-number" type="number" id="sipStepup" value="0" min="0" max="25" oninput="syncSlider('sipStepup','sipStepupR');autoCalculate()"><span class="slider-unit">%</span></div>
+        <input class="slider-bar" type="range" id="sipStepupR" min="0" max="25" step="1" value="0" oninput="syncNum('sipStepupR','sipStepup');autoCalculate()">
+        <div class="hint">0% = flat SIP • 10% = increase 10% every year</div>
+      </div>
     </div>
-    <div class="form-row">
-      <div class="form-group"><label>SIP growth period</label><div class="input-wrap has-suffix"><input type="number" id="sipYears" value="20" min="1" max="45" oninput="autoCalculate()"><span class="input-suffix">yrs</span></div><div class="hint">How long you invest before withdrawals start</div></div>
-      <div class="form-group"><label>Expected CAGR during growth (%)</label><div class="input-wrap has-suffix"><input type="number" id="sipCAGR" value="12" step="0.5" oninput="autoCalculate()"><span class="input-suffix">%</span></div></div>
+    <div class="slider-grid">
+      <div class="slider-group">
+        <label>SIP growth period</label>
+        <div class="slider-top"><input class="slider-number" type="number" id="sipYears" value="20" min="1" max="45" oninput="syncSlider('sipYears','sipYearsR');autoCalculate()"><span class="slider-unit">yrs</span></div>
+        <input class="slider-bar" type="range" id="sipYearsR" min="1" max="45" step="1" value="20" oninput="syncNum('sipYearsR','sipYears');autoCalculate()">
+        <div class="slider-minmax"><span>1 yr</span><span>45 yrs</span></div>
+        <div class="hint">How long you invest before withdrawals start</div>
+      </div>
+      <div class="slider-group">
+        <label>Expected CAGR during growth (%)</label>
+        <div class="slider-top"><input class="slider-number" type="number" id="sipCAGR" value="12" min="4" max="20" step="0.5" oninput="syncSlider('sipCAGR','sipCAGRR');autoCalculate()"><span class="slider-unit">%</span></div>
+        <input class="slider-bar" type="range" id="sipCAGRR" min="4" max="20" step="0.5" value="12" oninput="syncNum('sipCAGRR','sipCAGR');autoCalculate()">
+        <div class="slider-minmax"><span>4%</span><span>20%</span></div>
+      </div>
     </div>
   </div>
 
@@ -256,6 +288,15 @@ document.getElementById('adBox2').innerHTML = renderAdBox('300x250');
 let tableData = [], showAll = false, pieInst = null, mainInst = null;
 let currentMode = 'sip';
 let lastResult = null;
+
+// ── SLIDER SYNC ──
+function syncSlider(numId, rangeId) {
+  const r = document.getElementById(rangeId);
+  if (r) r.value = document.getElementById(numId).value;
+}
+function syncNum(rangeId, numId) {
+  document.getElementById(numId).value = document.getElementById(rangeId).value;
+}
 
 // ── MODE SWITCH ──
 function switchMode(mode, el) {

@@ -15,17 +15,19 @@
 .phase-divider span{font-size:12px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
 .phase-divider::before,.phase-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 /* Slider input group */
-.slider-group{margin-bottom:18px}
-.slider-group label{display:block;font-size:13px;font-weight:500;color:var(--ink-2);margin-bottom:6px}
-.slider-row{display:flex;align-items:center;gap:10px}
-.slider-number{width:120px;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;color:var(--ink);background:var(--bg);outline:none;flex-shrink:0}
+.slider-group{margin-bottom:20px}
+.slider-group label{display:block;font-size:13px;font-weight:500;color:var(--ink-2);margin-bottom:8px}
+.slider-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.slider-number{width:110px;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;color:var(--ink);background:var(--bg);outline:none;-moz-appearance:textfield}
+.slider-number::-webkit-inner-spin-button{-webkit-appearance:none}
 .slider-number:focus{border-color:var(--green);background:white}
-.slider-unit{font-size:13px;color:var(--ink-3);flex-shrink:0;min-width:30px}
-.slider-bar{flex:1;accent-color:var(--green);cursor:pointer}
-.slider-minmax{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-3);margin-top:2px}
-.hint{font-size:11px;color:var(--ink-3);margin-top:3px}
-.slider-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:600px){.slider-grid{grid-template-columns:1fr}}
+.slider-unit{font-size:13px;font-weight:500;color:var(--ink-3)}
+.slider-val-display{font-size:14px;font-weight:600;color:var(--green);margin-left:auto}
+.slider-bar{width:100%;accent-color:var(--green);cursor:pointer;height:6px;margin:0}
+.slider-minmax{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-3);margin-top:3px}
+.hint{font-size:11px;color:var(--ink-3);margin-top:4px}
+.slider-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:640px){.slider-grid{grid-template-columns:1fr}}
 /* Result styles */
 .timeline-bar{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--radius-sm);overflow:hidden;margin-bottom:20px;font-size:12px}
 .timeline-phase{padding:10px 14px;text-align:center}
@@ -70,40 +72,40 @@
     <div class="slider-grid">
       <div class="slider-group">
         <label>Monthly SIP amount (₹)</label>
-        <div class="slider-row">
-          <input class="slider-number" type="number" id="sipAmt" value="20000" oninput="syncSlider('sipAmt','sipAmtR');autoCalc()">
+        <div class="slider-top">
+          <input class="slider-number"  type="number" id="sipAmt" value="20000" oninput="syncSlider('sipAmt','sipAmtR');autoCalc()">
           <span class="slider-unit">₹</span>
-          <input class="slider-bar" type="range" id="sipAmtR" min="1000" max="200000" step="1000" value="20000" oninput="syncNum('sipAmtR','sipAmt');autoCalc()">
         </div>
+        <input class="slider-bar"  type="range" id="sipAmtR" min="1000" max="200000" step="1000" value="20000" oninput="syncNum('sipAmtR','sipAmt');autoCalc()">
         <div class="slider-minmax"><span>₹1,000</span><span>₹2,00,000</span></div>
       </div>
       <div class="slider-group">
         <label>Annual step-up (%)</label>
-        <div class="slider-row">
-          <input class="slider-number" type="number" id="sipStepup" value="0" min="0" max="25" oninput="syncSlider('sipStepup','sipStepupR');autoCalc()">
+        <div class="slider-top">
+          <input class="slider-number"  type="number" id="sipStepup" value="0" min="0" max="25" oninput="syncSlider('sipStepup','sipStepupR');autoCalc()">
           <span class="slider-unit">%</span>
-          <input class="slider-bar" type="range" id="sipStepupR" min="0" max="25" step="1" value="0" oninput="syncNum('sipStepupR','sipStepup');autoCalc()">
         </div>
+        <input class="slider-bar"  type="range" id="sipStepupR" min="0" max="25" step="1" value="0" oninput="syncNum('sipStepupR','sipStepup');autoCalc()">
         <div class="hint">0% = flat SIP • 10% = increase 10% every year with salary</div>
       </div>
     </div>
     <div class="slider-grid">
       <div class="slider-group">
         <label>SIP growth period (years)</label>
-        <div class="slider-row">
-          <input class="slider-number" type="number" id="sipYears" value="20" min="1" max="45" oninput="syncSlider('sipYears','sipYearsR');autoCalc()">
+        <div class="slider-top">
+          <input class="slider-number"  type="number" id="sipYears" value="20" min="1" max="45" oninput="syncSlider('sipYears','sipYearsR');autoCalc()">
           <span class="slider-unit">yrs</span>
-          <input class="slider-bar" type="range" id="sipYearsR" min="1" max="45" step="1" value="20" oninput="syncNum('sipYearsR','sipYears');autoCalc()">
         </div>
+        <input class="slider-bar"  type="range" id="sipYearsR" min="1" max="45" step="1" value="20" oninput="syncNum('sipYearsR','sipYears');autoCalc()">
         <div class="slider-minmax"><span>1 yr</span><span>45 yrs</span></div>
       </div>
       <div class="slider-group">
         <label>Expected CAGR during growth (%)</label>
-        <div class="slider-row">
-          <input class="slider-number" type="number" id="sipCAGR" value="12" min="4" max="20" step="0.5" oninput="syncSlider('sipCAGR','sipCAGRR');autoCalc()">
+        <div class="slider-top">
+          <input class="slider-number"  type="number" id="sipCAGR" value="12" min="4" max="20" step="0.5" oninput="syncSlider('sipCAGR','sipCAGRR');autoCalc()">
           <span class="slider-unit">%</span>
-          <input class="slider-bar" type="range" id="sipCAGRR" min="4" max="20" step="0.5" value="12" oninput="syncNum('sipCAGRR','sipCAGR');autoCalc()">
         </div>
+        <input class="slider-bar"  type="range" id="sipCAGRR" min="4" max="20" step="0.5" value="12" oninput="syncNum('sipCAGRR','sipCAGR');autoCalc()">
         <div class="slider-minmax"><span>4%</span><span>20%</span></div>
       </div>
     </div>
@@ -114,30 +116,30 @@
     <div class="slider-grid">
       <div class="slider-group">
         <label>Lumpsum investment (₹)</label>
-        <div class="slider-row">
-          <input class="slider-number" type="number" id="lumpAmt" value="1000000" oninput="syncSlider('lumpAmt','lumpAmtR');autoCalc()">
+        <div class="slider-top">
+          <input class="slider-number"  type="number" id="lumpAmt" value="1000000" oninput="syncSlider('lumpAmt','lumpAmtR');autoCalc()">
           <span class="slider-unit">₹</span>
-          <input class="slider-bar" type="range" id="lumpAmtR" min="100000" max="10000000" step="100000" value="1000000" oninput="syncNum('lumpAmtR','lumpAmt');autoCalc()">
         </div>
+        <input class="slider-bar"  type="range" id="lumpAmtR" min="100000" max="10000000" step="100000" value="1000000" oninput="syncNum('lumpAmtR','lumpAmt');autoCalc()">
         <div class="slider-minmax"><span>₹1L</span><span>₹1 Cr</span></div>
       </div>
       <div class="slider-group">
         <label>Growth period (leave untouched)</label>
-        <div class="slider-row">
-          <input class="slider-number" type="number" id="lumpYears" value="15" min="1" max="40" oninput="syncSlider('lumpYears','lumpYearsR');autoCalc()">
+        <div class="slider-top">
+          <input class="slider-number"  type="number" id="lumpYears" value="15" min="1" max="40" oninput="syncSlider('lumpYears','lumpYearsR');autoCalc()">
           <span class="slider-unit">yrs</span>
-          <input class="slider-bar" type="range" id="lumpYearsR" min="1" max="40" step="1" value="15" oninput="syncNum('lumpYearsR','lumpYears');autoCalc()">
         </div>
+        <input class="slider-bar"  type="range" id="lumpYearsR" min="1" max="40" step="1" value="15" oninput="syncNum('lumpYearsR','lumpYears');autoCalc()">
         <div class="slider-minmax"><span>1 yr</span><span>40 yrs</span></div>
       </div>
     </div>
     <div class="slider-group">
       <label>Expected CAGR during growth (%)</label>
-      <div class="slider-row">
-        <input class="slider-number" type="number" id="lumpCAGR" value="12" min="4" max="20" step="0.5" oninput="syncSlider('lumpCAGR','lumpCAGRR');autoCalc()">
-        <span class="slider-unit">%</span>
-        <input class="slider-bar" type="range" id="lumpCAGRR" min="4" max="20" step="0.5" value="12" oninput="syncNum('lumpCAGRR','lumpCAGR');autoCalc()">
-      </div>
+      <div class="slider-top">
+          <input class="slider-number"  type="number" id="lumpCAGR" value="12" min="4" max="20" step="0.5" oninput="syncSlider('lumpCAGR','lumpCAGRR');autoCalc()">
+          <span class="slider-unit">%</span>
+        </div>
+        <input class="slider-bar"  type="range" id="lumpCAGRR" min="4" max="20" step="0.5" value="12" oninput="syncNum('lumpCAGRR','lumpCAGR');autoCalc()">
       <div class="slider-minmax"><span>4%</span><span>20%</span></div>
     </div>
   </div>
@@ -147,20 +149,20 @@
   <div class="slider-grid">
     <div class="slider-group">
       <label>Your current age</label>
-      <div class="slider-row">
-        <input class="slider-number" type="number" id="curAge" value="30" min="18" max="70" oninput="syncSlider('curAge','curAgeR');autoCalc()">
-        <span class="slider-unit">yrs</span>
-        <input class="slider-bar" type="range" id="curAgeR" min="18" max="70" step="1" value="30" oninput="syncNum('curAgeR','curAge');autoCalc()">
-      </div>
+      <div class="slider-top">
+          <input class="slider-number"  type="number" id="curAge" value="30" min="18" max="70" oninput="syncSlider('curAge','curAgeR');autoCalc()">
+          <span class="slider-unit">yrs</span>
+        </div>
+        <input class="slider-bar"  type="range" id="curAgeR" min="18" max="70" step="1" value="30" oninput="syncNum('curAgeR','curAge');autoCalc()">
       <div class="slider-minmax"><span>18</span><span>70</span></div>
     </div>
     <div class="slider-group">
       <label>Age to start withdrawals</label>
-      <div class="slider-row">
-        <input class="slider-number" type="number" id="withdrawAge" value="50" min="25" max="80" oninput="syncSlider('withdrawAge','withdrawAgeR');autoCalc()">
-        <span class="slider-unit">yrs</span>
-        <input class="slider-bar" type="range" id="withdrawAgeR" min="25" max="80" step="1" value="50" oninput="syncNum('withdrawAgeR','withdrawAge');autoCalc()">
-      </div>
+      <div class="slider-top">
+          <input class="slider-number"  type="number" id="withdrawAge" value="50" min="25" max="80" oninput="syncSlider('withdrawAge','withdrawAgeR');autoCalc()">
+          <span class="slider-unit">yrs</span>
+        </div>
+        <input class="slider-bar"  type="range" id="withdrawAgeR" min="25" max="80" step="1" value="50" oninput="syncNum('withdrawAgeR','withdrawAge');autoCalc()">
       <div class="hint">When your SWP begins — your retirement age</div>
     </div>
   </div>
@@ -169,11 +171,11 @@
   <div class="phase-divider"><span>Step 3 — How much do you want to withdraw?</span></div>
   <div class="slider-group">
     <label>Monthly withdrawal amount (₹)</label>
-    <div class="slider-row">
-      <input class="slider-number" type="number" id="monthlyWD" value="50000" min="1000" oninput="syncSlider('monthlyWD','monthlyWDR');autoCalc()">
-      <span class="slider-unit">₹</span>
-      <input class="slider-bar" type="range" id="monthlyWDR" min="5000" max="500000" step="5000" value="50000" oninput="syncNum('monthlyWDR','monthlyWD');autoCalc()">
-    </div>
+    <div class="slider-top">
+          <input class="slider-number"  type="number" id="monthlyWD" value="50000" min="1000" oninput="syncSlider('monthlyWD','monthlyWDR');autoCalc()">
+          <span class="slider-unit">₹</span>
+        </div>
+        <input class="slider-bar"  type="range" id="monthlyWDR" min="5000" max="500000" step="5000" value="50000" oninput="syncNum('monthlyWDR','monthlyWD');autoCalc()">
     <div class="hint">The amount you want to withdraw every month starting at your withdrawal age</div>
     <div class="slider-minmax"><span>₹5,000</span><span>₹5,00,000</span></div>
   </div>
@@ -183,20 +185,20 @@
   <div class="slider-grid">
     <div class="slider-group">
       <label>Post-withdrawal return (%)</label>
-      <div class="slider-row">
-        <input class="slider-number" type="number" id="postReturn" value="8" min="3" max="15" step="0.5" oninput="syncSlider('postReturn','postReturnR');autoCalc()">
-        <span class="slider-unit">%</span>
-        <input class="slider-bar" type="range" id="postReturnR" min="3" max="15" step="0.5" value="8" oninput="syncNum('postReturnR','postReturn');autoCalc()">
-      </div>
+      <div class="slider-top">
+          <input class="slider-number"  type="number" id="postReturn" value="8" min="3" max="15" step="0.5" oninput="syncSlider('postReturn','postReturnR');autoCalc()">
+          <span class="slider-unit">%</span>
+        </div>
+        <input class="slider-bar"  type="range" id="postReturnR" min="3" max="15" step="0.5" value="8" oninput="syncNum('postReturnR','postReturn');autoCalc()">
       <div class="hint">Conservative post-retirement return (7–9% recommended)</div>
     </div>
     <div class="slider-group">
       <label>Inflation rate (%)</label>
-      <div class="slider-row">
-        <input class="slider-number" type="number" id="inflationRate" value="6" min="2" max="12" step="0.5" oninput="syncSlider('inflationRate','inflationRateR');autoCalc()">
-        <span class="slider-unit">%</span>
-        <input class="slider-bar" type="range" id="inflationRateR" min="2" max="12" step="0.5" value="6" oninput="syncNum('inflationRateR','inflationRate');autoCalc()">
-      </div>
+      <div class="slider-top">
+          <input class="slider-number"  type="number" id="inflationRate" value="6" min="2" max="12" step="0.5" oninput="syncSlider('inflationRate','inflationRateR');autoCalc()">
+          <span class="slider-unit">%</span>
+        </div>
+        <input class="slider-bar"  type="range" id="inflationRateR" min="2" max="12" step="0.5" value="6" oninput="syncNum('inflationRateR','inflationRate');autoCalc()">
       <div class="slider-minmax"><span>2%</span><span>12%</span></div>
     </div>
   </div>
