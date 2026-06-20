@@ -1,107 +1,700 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>SWP Depletion Calculator | FirePlan.in</title><meta name="description" content="How many years will your corpus last given monthly withdrawal amount and returns? SWP depletion calculator India.">
+<title>SWP Depletion Calculator India — When Will Your Corpus Run Out? | MiddleClassMoney.in</title>
+<meta name="description" content="Find out exactly when your corpus will deplete given your monthly withdrawal. Enter SIP or lumpsum, growth period, withdrawal age and amount — get depletion age with suggestions to extend corpus life.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css"></head><body>
-<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+.mode-toggle{display:flex;gap:0;margin-bottom:20px;border:1.5px solid var(--green);border-radius:var(--radius-sm);overflow:hidden}
+.mode-btn{flex:1;padding:10px;text-align:center;font-size:14px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--ink-2);border:none;font-family:inherit;transition:all .15s}
+.mode-btn.active{background:var(--green);color:white}
+.input-section{display:none}.input-section.active{display:block}
+.phase-divider{display:flex;align-items:center;gap:12px;margin:20px 0}
+.phase-divider span{font-size:12px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.phase-divider::before,.phase-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+/* Slider input group */
+.slider-group{margin-bottom:18px}
+.slider-group label{display:block;font-size:13px;font-weight:500;color:var(--ink-2);margin-bottom:6px}
+.slider-row{display:flex;align-items:center;gap:10px}
+.slider-number{width:120px;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;color:var(--ink);background:var(--bg);outline:none;flex-shrink:0}
+.slider-number:focus{border-color:var(--green);background:white}
+.slider-unit{font-size:13px;color:var(--ink-3);flex-shrink:0;min-width:30px}
+.slider-bar{flex:1;accent-color:var(--green);cursor:pointer}
+.slider-minmax{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-3);margin-top:2px}
+.hint{font-size:11px;color:var(--ink-3);margin-top:3px}
+.slider-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.slider-grid{grid-template-columns:1fr}}
+/* Result styles */
+.timeline-bar{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--radius-sm);overflow:hidden;margin-bottom:20px;font-size:12px}
+.timeline-phase{padding:10px 14px;text-align:center}
+.timeline-phase.growth{background:var(--green-lt);color:var(--green)}
+.timeline-phase.withdraw{background:#FEE2E2;color:#B91C1C}
+.timeline-phase strong{display:block;font-size:14px;font-weight:600;margin-bottom:2px}
+.depletion-banner{border-radius:var(--radius);padding:24px;text-align:center;margin-bottom:20px}
+.depletion-banner.depletes{background:linear-gradient(135deg,#DC2626,#B91C1C);color:white}
+.depletion-banner.survives{background:linear-gradient(135deg,#1B6B45,#2A9460);color:white}
+.depletion-banner.warning{background:linear-gradient(135deg,#C8860A,#A86E08);color:white}
+.depletion-banner .big-age{font-family:'Sora',sans-serif;font-size:56px;font-weight:700;line-height:1}
+.depletion-banner .label{font-size:13px;opacity:.85;margin-top:4px}
+.depletion-banner .sub{font-size:12px;opacity:.7;margin-top:8px}
+.suggestion-box{background:#FEF3DC;border:1px solid #F0C060;border-radius:var(--radius);padding:18px;margin-top:16px}
+.suggestion-box h4{font-size:14px;font-weight:600;color:#8B5E0A;margin-bottom:10px}
+.suggestion-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;font-size:13px;color:#6B4A08}
+.suggestion-item:last-child{margin-bottom:0}
+.sug-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.progress-bar{height:12px;background:var(--border);border-radius:6px;overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;border-radius:6px;transition:width .5s}
+</style>
+</head>
+<body>
+<nav><a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
 <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="../index.html#calculators">Calculators</a> › SWP Depletion Calculator</div>
-<div class="calc-page"><div><div class="calc-card-main">
-<h1 class="calc-title">📉 SWP Depletion Calculator</h1>
-<p class="calc-subtitle">SWP Depletion Calculator India — How Long Corpus Lasts</p>
-<div class="form-row"><div class="form-group"><label>Starting corpus (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="dCorpus" value="10000000"></div></div><div class="form-group"><label>Monthly withdrawal (₹)</label><div class="input-wrap has-prefix"><span class="input-prefix">₹</span><input type="number" id="dWith" value="60000"></div></div></div>
-   <div class="form-row"><div class="form-group"><label>Expected return (%)</label><div class="input-wrap has-suffix"><input type="number" id="dRet" value="8" step="0.5"><span class="input-suffix">%</span></div></div><div class="form-group"><label>Inflation (%)</label><div class="input-wrap has-suffix"><input type="number" id="dInf" value="6" step="0.5"><span class="input-suffix">%</span></div></div></div>
-<button class="btn-calc" onclick="calculate()">Calculate →</button>
-<div class="results-section" id="results">
-<hr class="calc-divider">
-<div class="result-cards" id="resultCards"></div>
-<div class="chart-row" style="margin:24px 0"><div class="chart-container"><canvas id="pieChart" role="img" aria-label="Breakdown chart"></canvas></div><div class="chart-legend" id="pieLegend"></div></div>
-<div style="position:relative;height:260px;margin-bottom:24px"><canvas id="mainChart" role="img" aria-label="Projection chart"></canvas></div>
-<div class="download-section"><div class="download-title">📄 Download your report</div><div class="download-sub">Free with account signup — branded PDF with projections.</div><div class="download-btns"><button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button><button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button></div></div>
-<hr class="calc-divider">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:15px;font-weight:600">Projection table</div><button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button></div>
-<div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
-</div></div>
-<div class="seo-section">
-  <h2>What is a SWP Depletion Calculator?</h2>
-  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">A Systematic Withdrawal Plan (SWP) allows you to withdraw a fixed amount regularly from your mutual fund corpus. The SWP depletion calculator answers the critical retirement question: given my corpus and monthly withdrawal, for how many years will my money last before running out?</p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px"></p><p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">This calculator also shows you the concept of the Immortal Corpus — the corpus size where your returns permanently exceed your withdrawals, meaning your principal never depletes. This is the ultimate FIRE goal.</p>
 
-  <h2 style="margin-top:28px">How is it calculated?</h2>
+<div class="calc-page">
+<div>
+<div class="calc-card-main">
+  <h1 class="calc-title">📉 SWP Depletion Calculator</h1>
+  <p class="calc-subtitle">Enter how much you want to withdraw every month — find out exactly at what age your corpus runs out, and what to change to make it last longer.</p>
+
+  <!-- STEP 1: INVESTMENT TYPE -->
+  <div class="phase-divider"><span>Step 1 — Choose investment type</span></div>
+  <div class="mode-toggle">
+    <button class="mode-btn active" onclick="switchMode('sip',this)">📈 Monthly SIP</button>
+    <button class="mode-btn" onclick="switchMode('lumpsum',this)">💰 Lumpsum investment</button>
+  </div>
+
+  <!-- SIP INPUTS -->
+  <div class="input-section active" id="sipSection">
+    <div class="slider-grid">
+      <div class="slider-group">
+        <label>Monthly SIP amount (₹)</label>
+        <div class="slider-row">
+          <input class="slider-number" type="number" id="sipAmt" value="20000" oninput="syncSlider('sipAmt','sipAmtR');autoCalc()">
+          <span class="slider-unit">₹</span>
+          <input class="slider-bar" type="range" id="sipAmtR" min="1000" max="200000" step="1000" value="20000" oninput="syncNum('sipAmtR','sipAmt');autoCalc()">
+        </div>
+        <div class="slider-minmax"><span>₹1,000</span><span>₹2,00,000</span></div>
+      </div>
+      <div class="slider-group">
+        <label>Annual step-up (%)</label>
+        <div class="slider-row">
+          <input class="slider-number" type="number" id="sipStepup" value="0" min="0" max="25" oninput="syncSlider('sipStepup','sipStepupR');autoCalc()">
+          <span class="slider-unit">%</span>
+          <input class="slider-bar" type="range" id="sipStepupR" min="0" max="25" step="1" value="0" oninput="syncNum('sipStepupR','sipStepup');autoCalc()">
+        </div>
+        <div class="hint">0% = flat SIP • 10% = increase 10% every year with salary</div>
+      </div>
+    </div>
+    <div class="slider-grid">
+      <div class="slider-group">
+        <label>SIP growth period (years)</label>
+        <div class="slider-row">
+          <input class="slider-number" type="number" id="sipYears" value="20" min="1" max="45" oninput="syncSlider('sipYears','sipYearsR');autoCalc()">
+          <span class="slider-unit">yrs</span>
+          <input class="slider-bar" type="range" id="sipYearsR" min="1" max="45" step="1" value="20" oninput="syncNum('sipYearsR','sipYears');autoCalc()">
+        </div>
+        <div class="slider-minmax"><span>1 yr</span><span>45 yrs</span></div>
+      </div>
+      <div class="slider-group">
+        <label>Expected CAGR during growth (%)</label>
+        <div class="slider-row">
+          <input class="slider-number" type="number" id="sipCAGR" value="12" min="4" max="20" step="0.5" oninput="syncSlider('sipCAGR','sipCAGRR');autoCalc()">
+          <span class="slider-unit">%</span>
+          <input class="slider-bar" type="range" id="sipCAGRR" min="4" max="20" step="0.5" value="12" oninput="syncNum('sipCAGRR','sipCAGR');autoCalc()">
+        </div>
+        <div class="slider-minmax"><span>4%</span><span>20%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LUMPSUM INPUTS -->
+  <div class="input-section" id="lumpsumSection">
+    <div class="slider-grid">
+      <div class="slider-group">
+        <label>Lumpsum investment (₹)</label>
+        <div class="slider-row">
+          <input class="slider-number" type="number" id="lumpAmt" value="1000000" oninput="syncSlider('lumpAmt','lumpAmtR');autoCalc()">
+          <span class="slider-unit">₹</span>
+          <input class="slider-bar" type="range" id="lumpAmtR" min="100000" max="10000000" step="100000" value="1000000" oninput="syncNum('lumpAmtR','lumpAmt');autoCalc()">
+        </div>
+        <div class="slider-minmax"><span>₹1L</span><span>₹1 Cr</span></div>
+      </div>
+      <div class="slider-group">
+        <label>Growth period (leave untouched)</label>
+        <div class="slider-row">
+          <input class="slider-number" type="number" id="lumpYears" value="15" min="1" max="40" oninput="syncSlider('lumpYears','lumpYearsR');autoCalc()">
+          <span class="slider-unit">yrs</span>
+          <input class="slider-bar" type="range" id="lumpYearsR" min="1" max="40" step="1" value="15" oninput="syncNum('lumpYearsR','lumpYears');autoCalc()">
+        </div>
+        <div class="slider-minmax"><span>1 yr</span><span>40 yrs</span></div>
+      </div>
+    </div>
+    <div class="slider-group">
+      <label>Expected CAGR during growth (%)</label>
+      <div class="slider-row">
+        <input class="slider-number" type="number" id="lumpCAGR" value="12" min="4" max="20" step="0.5" oninput="syncSlider('lumpCAGR','lumpCAGRR');autoCalc()">
+        <span class="slider-unit">%</span>
+        <input class="slider-bar" type="range" id="lumpCAGRR" min="4" max="20" step="0.5" value="12" oninput="syncNum('lumpCAGRR','lumpCAGR');autoCalc()">
+      </div>
+      <div class="slider-minmax"><span>4%</span><span>20%</span></div>
+    </div>
+  </div>
+
+  <!-- STEP 2: AGE DETAILS -->
+  <div class="phase-divider"><span>Step 2 — Your age details</span></div>
+  <div class="slider-grid">
+    <div class="slider-group">
+      <label>Your current age</label>
+      <div class="slider-row">
+        <input class="slider-number" type="number" id="curAge" value="30" min="18" max="70" oninput="syncSlider('curAge','curAgeR');autoCalc()">
+        <span class="slider-unit">yrs</span>
+        <input class="slider-bar" type="range" id="curAgeR" min="18" max="70" step="1" value="30" oninput="syncNum('curAgeR','curAge');autoCalc()">
+      </div>
+      <div class="slider-minmax"><span>18</span><span>70</span></div>
+    </div>
+    <div class="slider-group">
+      <label>Age to start withdrawals</label>
+      <div class="slider-row">
+        <input class="slider-number" type="number" id="withdrawAge" value="50" min="25" max="80" oninput="syncSlider('withdrawAge','withdrawAgeR');autoCalc()">
+        <span class="slider-unit">yrs</span>
+        <input class="slider-bar" type="range" id="withdrawAgeR" min="25" max="80" step="1" value="50" oninput="syncNum('withdrawAgeR','withdrawAge');autoCalc()">
+      </div>
+      <div class="hint">When your SWP begins — your retirement age</div>
+    </div>
+  </div>
+
+  <!-- STEP 3: WITHDRAWAL DETAILS -->
+  <div class="phase-divider"><span>Step 3 — How much do you want to withdraw?</span></div>
+  <div class="slider-group">
+    <label>Monthly withdrawal amount (₹)</label>
+    <div class="slider-row">
+      <input class="slider-number" type="number" id="monthlyWD" value="50000" min="1000" oninput="syncSlider('monthlyWD','monthlyWDR');autoCalc()">
+      <span class="slider-unit">₹</span>
+      <input class="slider-bar" type="range" id="monthlyWDR" min="5000" max="500000" step="5000" value="50000" oninput="syncNum('monthlyWDR','monthlyWD');autoCalc()">
+    </div>
+    <div class="hint">The amount you want to withdraw every month starting at your withdrawal age</div>
+    <div class="slider-minmax"><span>₹5,000</span><span>₹5,00,000</span></div>
+  </div>
+
+  <!-- STEP 4: RETURN & INFLATION -->
+  <div class="phase-divider"><span>Step 4 — Return & inflation assumptions</span></div>
+  <div class="slider-grid">
+    <div class="slider-group">
+      <label>Post-withdrawal return (%)</label>
+      <div class="slider-row">
+        <input class="slider-number" type="number" id="postReturn" value="8" min="3" max="15" step="0.5" oninput="syncSlider('postReturn','postReturnR');autoCalc()">
+        <span class="slider-unit">%</span>
+        <input class="slider-bar" type="range" id="postReturnR" min="3" max="15" step="0.5" value="8" oninput="syncNum('postReturnR','postReturn');autoCalc()">
+      </div>
+      <div class="hint">Conservative post-retirement return (7–9% recommended)</div>
+    </div>
+    <div class="slider-group">
+      <label>Inflation rate (%)</label>
+      <div class="slider-row">
+        <input class="slider-number" type="number" id="inflationRate" value="6" min="2" max="12" step="0.5" oninput="syncSlider('inflationRate','inflationRateR');autoCalc()">
+        <span class="slider-unit">%</span>
+        <input class="slider-bar" type="range" id="inflationRateR" min="2" max="12" step="0.5" value="6" oninput="syncNum('inflationRateR','inflationRate');autoCalc()">
+      </div>
+      <div class="slider-minmax"><span>2%</span><span>12%</span></div>
+    </div>
+  </div>
+  <div class="slider-group">
+    <label>Withdrawal adjustment</label>
+    <select id="withdrawAdj" onchange="autoCalc()" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;outline:none;background:var(--bg)">
+      <option value="inflation">Increase with inflation every year (recommended — maintains purchasing power)</option>
+      <option value="fixed">Fixed amount — same every month (does not adjust for inflation)</option>
+    </select>
+  </div>
+
+  <button class="btn-calc" onclick="calculate()">Calculate corpus depletion →</button>
+
+  <!-- RESULTS -->
+  <div class="results-section" id="results">
+    <hr class="calc-divider">
+    <div id="timelineBar"></div>
+    <div id="depletionBanner"></div>
+    <div id="progressSection"></div>
+    <div class="result-cards" id="resultCards"></div>
+    <div class="chart-row" style="margin:24px 0">
+      <div class="chart-container"><canvas id="pieChart"></canvas></div>
+      <div class="chart-legend" id="pieLegend"></div>
+    </div>
+    <div style="position:relative;height:280px;margin-bottom:24px">
+      <canvas id="mainChart"></canvas>
+    </div>
+    <div id="suggestionBox"></div>
+    <div class="download-section">
+      <div class="download-title">📄 Download your depletion analysis</div>
+      <div class="download-sub">Get a branded PDF with full year-by-year projections and personalised action plan.</div>
+      <div class="download-btns">
+        <button class="btn-download btn-dl-free" onclick="triggerDownload()">⬇ Download PDF (free)</button>
+        <button class="btn-download btn-dl-share" onclick="shareResult()">📤 Share</button>
+      </div>
+    </div>
+    <hr class="calc-divider">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div style="font-size:15px;font-weight:600">Year-by-year projection</div>
+      <button onclick="toggleTable()" id="showMoreBtn" style="padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px">Show all</button>
+    </div>
+    <div class="table-wrap"><table><thead><tr id="tableHead"></tr></thead><tbody id="tableBody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- SEO CONTENT -->
+<div class="seo-section">
+  <h2>What is the SWP Depletion Calculator?</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">The SWP Depletion Calculator answers the most important question in retirement planning: <strong>if I withdraw ₹X every month, at what age will my money run out?</strong> This calculator models your complete financial journey — from building your corpus through SIP or lumpsum investment, through your retirement withdrawal phase — to give you a precise depletion age.</p>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px;margin-top:10px">Unlike simple corpus calculators, this tool accounts for <strong>inflation-adjusted withdrawals</strong> — because ₹50,000/month today will need to be ₹89,000/month in 10 years to buy the same things. Your withdrawals automatically increase every year to maintain purchasing power.</p>
+
+  <h2 style="margin-top:28px">How is depletion age calculated?</h2>
   <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 0">
-    <p style="color:var(--ink-2);line-height:1.8;font-size:14px">The corpus depletes when withdrawals exceed returns:<br><br><strong>Year-end balance = Opening balance × (1 + return) − Annual withdrawal × (1 + inflation)^year</strong><br><br>The corpus depletes when this balance hits zero.<br><br>The Immortal Corpus threshold:<br><strong>Immortal Corpus = Annual withdrawal ÷ (Return rate − Inflation rate)</strong><br><br>If your corpus exceeds this threshold, the principal never depletes — you withdraw returns only.</p>
+    <p style="color:var(--ink-2);line-height:1.8;font-size:14px">
+    <strong>Phase 1 — Growth:</strong> Your corpus grows through SIP or lumpsum compounding.<br>
+    For SIP: Corpus = SIP × [(1+r)^n − 1]/r × (1+r) with optional annual step-up<br>
+    For Lumpsum: Corpus = Investment × (1 + CAGR)^years<br><br>
+    <strong>Phase 2 — Withdrawal simulation (year by year):</strong><br>
+    Year-end corpus = (Opening corpus × (1 + return)) − Annual withdrawal<br>
+    Annual withdrawal = Monthly WD × 12 × (1 + inflation)^year (if inflation-adjusted)<br><br>
+    <strong>Depletion age</strong> = The age at which corpus first hits zero<br>
+    <strong>Immortal threshold</strong> = Annual withdrawal ÷ (Return rate − Inflation rate)<br>
+    If your corpus exceeds the immortal threshold, it never depletes.
+    </p>
   </div>
 
   <h2 style="margin-top:28px">How to use this calculator</h2>
-  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">1. Enter your <strong>starting corpus</strong> — your total retirement savings<br>2. Enter <strong>monthly withdrawal</strong> — your expected monthly expenses in retirement<br>3. Set <strong>expected return</strong> — post-retirement portfolio return (7-9% for balanced allocation)<br>4. Set <strong>inflation</strong> — your withdrawals increase with inflation each year<br>5. Calculator shows years until depletion and the Immortal Corpus threshold for your withdrawals</p>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">
+  1. Choose <strong>SIP or Lumpsum</strong> and enter your investment details<br>
+  2. Enter your <strong>current age</strong> and <strong>age to start withdrawals</strong><br>
+  3. Enter the <strong>monthly withdrawal amount</strong> you want in retirement<br>
+  4. Set <strong>post-retirement return</strong> (7–9% for balanced portfolio) and <strong>inflation rate</strong><br>
+  5. The calculator shows your depletion age, corpus trajectory, and suggestions to extend corpus life<br>
+  6. Use the sliders to instantly see how changes affect your depletion age
+  </p>
 
-  <h2 style="margin-top:28px">Benefits</h2>
-  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">• <strong>Reality check:</strong> Know if your corpus will outlast you or run out too soon<br>• <strong>Find the right corpus:</strong> Adjust inputs to find the corpus that lasts your desired retirement period<br>• <strong>Immortal threshold:</strong> Know exactly how much more corpus you need to never run out<br>• <strong>Year-by-year table:</strong> See your exact balance every year in retirement</p>
+  <h2 style="margin-top:28px">Tips to extend your corpus life</h2>
+  <p style="color:var(--ink-2);line-height:1.8;font-size:14px">
+  • <strong>Invest longer before withdrawing:</strong> Every extra year of compounding dramatically extends corpus life<br>
+  • <strong>Start with lower withdrawal:</strong> Use 3–3.5% of corpus per year as a safe starting withdrawal rate<br>
+  • <strong>Keep equity in retirement:</strong> A 50% equity allocation beats inflation and extends corpus significantly<br>
+  • <strong>Use step-up SIP:</strong> Even a 10% annual step-up doubles your final corpus vs flat SIP<br>
+  • <strong>Delay withdrawal start:</strong> Every year of delay adds 2–3 years to corpus life in retirement
+  </p>
 
   <h2 style="margin-top:28px">Frequently asked questions</h2>
-  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What is a safe withdrawal rate for India?</span><span class="faq-chevron">▾</span></div><div class="faq-a">India's safe withdrawal rate is 3-3.5% annually (vs 4% in US) due to higher inflation. For a ₹2 crore corpus, this means ₹50,000-58,000/month is sustainable indefinitely. Above this, corpus depletes over time.</div></div>
-<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How does inflation affect SWP?</span><span class="faq-chevron">▾</span></div><div class="faq-a">If you start withdrawing ₹50,000/month and inflation is 6%, you need ₹89,000/month after 10 years to maintain the same lifestyle. Your portfolio must earn above inflation to sustain increasing withdrawals.</div></div>
-<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What asset allocation is best for post-retirement SWP?</span><span class="faq-chevron">▾</span></div><div class="faq-a">50% equity (Nifty 50 index funds) + 30% FD/bonds + 20% gold/REITs is a common post-retirement allocation. This balances inflation-beating equity returns with stability. SWP from debt/FD first, replenish from equity when markets are up.</div></div>
-
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What is a safe monthly withdrawal rate from corpus?</span><span class="faq-chevron">▾</span></div><div class="faq-a">For India, 3–3.5% of corpus per year is considered safe (vs 4% in US due to higher inflation). On a ₹2 crore corpus, this means ₹50,000–58,000/month. Starting lower and increasing with inflation is smarter than starting high and cutting back later.</div></div>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How does inflation affect my withdrawal plan?</span><span class="faq-chevron">▾</span></div><div class="faq-a">At 6% inflation, ₹50,000/month today will need to become ₹1,34,000/month in 20 years to maintain the same lifestyle. This is why inflation-adjusted withdrawal is critical — if you withdraw a fixed ₹50,000 forever, your real purchasing power halves every 12 years.</div></div>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What asset allocation is best during the withdrawal phase?</span><span class="faq-chevron">▾</span></div><div class="faq-a">A common Indian retirement allocation: 50% equity index funds (for inflation beating), 30% FDs/debt funds (for stability), 20% gold/REITs (for diversification). This blended portfolio typically returns 7–9% — enough to sustain inflation-adjusted withdrawals for 25–35 years.</div></div>
+  <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How is this different from the Immortal SWP calculator?</span><span class="faq-chevron">▾</span></div><div class="faq-a">Immortal SWP answers: "How much can I withdraw so money never runs out?" This calculator answers: "If I withdraw ₹X/month, when does money run out?" Use Immortal SWP for planning the ideal withdrawal. Use this calculator to stress-test a specific withdrawal amount you have in mind.</div></div>
 
   <div style="background:var(--green);color:white;border-radius:var(--radius);padding:24px;margin-top:28px;text-align:center">
-    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Start planning your finances today</h3>
-    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our free calculators — no signup needed to calculate. Download your personalised PDF report free with account signup.</p>
-    <a href="../index.html#calculators" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">View all 23 calculators →</a>
+    <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:8px">Want to find the maximum safe withdrawal?</h3>
+    <p style="font-size:13px;opacity:.85;margin-bottom:16px">Use our Immortal SWP Calculator to find the exact monthly amount you can withdraw forever without depleting the corpus.</p>
+    <a href="immortal-swp-calculator.html" target="_blank" style="background:white;color:var(--green);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;margin-right:10px">Immortal SWP Calculator →</a>
+    <a href="../index.html#calculators" style="background:transparent;color:white;padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;border:1px solid rgba(255,255,255,.4)">All 23 calculators →</a>
+  </div>
+</div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div id="affSidebar"></div>
+  <div id="adBox1"></div>
+  <div class="sidebar-card">
+    <div class="sidebar-title">Related calculators</div>
+    <a href="immortal-swp-calculator.html" class="related-calc"><div class="rc-icon">♾️</div><div><div class="rc-name">Immortal SWP</div><div class="rc-tag">Max safe withdrawal</div></div></a>
+    <a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">How much to retire</div></div></a>
+    <a href="coast-fire-calculator.html" class="related-calc"><div class="rc-icon">🏖️</div><div><div class="rc-name">Coast FIRE</div><div class="rc-tag">When to stop investing</div></div></a>
+    <a href="retirement-corpus-calculator.html" class="related-calc"><div class="rc-icon">🏦</div><div><div class="rc-name">Retirement Corpus</div><div class="rc-tag">Plan age 60 retirement</div></div></a>
+    <a href="sip-calculator.html" class="related-calc"><div class="rc-icon">📈</div><div><div class="rc-name">SIP Calculator</div><div class="rc-tag">Build the corpus</div></div></a>
+    <a href="step-up-sip-calculator.html" class="related-calc"><div class="rc-icon">🪜</div><div><div class="rc-name">Step-up SIP</div><div class="rc-tag">Reach FIRE faster</div></div></a>
+    <a href="fd-laddering-calculator.html" class="related-calc"><div class="rc-icon">🏗️</div><div><div class="rc-name">FD Ladder</div><div class="rc-tag">Safe income ladder</div></div></a>
+    <a href="inflation-calculator.html" class="related-calc"><div class="rc-icon">📅</div><div><div class="rc-name">Inflation Calculator</div><div class="rc-tag">Future expenses</div></div></a>
+  </div>
+  <div id="adBox2"></div>
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h3>Download your depletion report</h3>
+    <p>Free with account signup.</p>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchTab('signup',this)">Sign up free</button>
+      <button class="modal-tab" onclick="switchTab('login',this)">Log in</button>
+    </div>
+    <div id="signupForm" class="modal-form">
+      <input type="text" placeholder="Name" id="regName">
+      <input type="email" placeholder="Email" id="regEmail">
+      <input type="password" placeholder="Password (min 6)" id="regPwd">
+      <button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button>
+      <p class="modal-note">No spam. Free forever.</p>
+    </div>
+    <div id="loginForm" class="modal-form" style="display:none">
+      <input type="email" placeholder="Email" id="loginEmail">
+      <input type="password" placeholder="Password" id="loginPwd">
+      <button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button>
+    </div>
   </div>
 </div>
 
-</div>
-<div class="sidebar"><div id="affSidebar"></div><div id="adBox1"></div>
-<div class="sidebar-card"><div class="sidebar-title">Related calculators</div><a href="immortal-swp-calculator.html" class="related-calc"><div class="rc-icon">♾️</div><div><div class="rc-name">Immortal SWP</div><div class="rc-tag">Never deplete corpus</div></div></a><a href="fire-corpus-calculator.html" class="related-calc"><div class="rc-icon">🔥</div><div><div class="rc-name">FIRE Corpus</div><div class="rc-tag">Build the corpus</div></div></a><a href="fd-laddering-calculator.html" class="related-calc"><div class="rc-icon">🏗️</div><div><div class="rc-name">FD Ladder</div><div class="rc-tag">Safe income ladder</div></div></a></div>
-<div id="adBox2"></div></div></div>
-<div class="modal-overlay" id="modalOverlay"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><h3>Download your report</h3><p>Free with account signup.</p><div class="modal-tabs"><button class="modal-tab active" onclick="switchTab('signup',this)">Sign up</button><button class="modal-tab" onclick="switchTab('login',this)">Log in</button></div><div id="signupForm" class="modal-form"><input type="text" placeholder="Name" id="regName"><input type="email" placeholder="Email" id="regEmail"><input type="password" placeholder="Password" id="regPwd"><button class="btn-modal-submit" onclick="handleSignup()">Create account & download</button></div><div id="loginForm" class="modal-form" style="display:none"><input type="email" placeholder="Email" id="loginEmail"><input type="password" placeholder="Password" id="loginPwd"><button class="btn-modal-submit" onclick="handleLogin()">Log in & download</button></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="../js/shared.js"></script>
 <script>
-document.getElementById('affSidebar').innerHTML=renderAffiliateSidebar();
-document.getElementById('adBox1').innerHTML=renderAdBox('300x250');
-document.getElementById('adBox2').innerHTML=renderAdBox('300x250');
-let tableData=[],showAll=false,pieInst=null,mainInst=null;
-function calculate(){
-  const corpus=+document.getElementById('dCorpus').value;
-  const with0=+document.getElementById('dWith').value*12;
-  if(corpus<=0){alert('Corpus must be greater than 0');return;}
-  if(with0<=0){alert('Monthly withdrawal must be greater than 0');return;}
-  const ret=+document.getElementById('dRet').value/100;
-  const inf=+document.getElementById('dInf').value/100;
-  const realRet=ret-inf;
-  const immortalCorpus=realRet>0?with0/realRet:Infinity;
-  const isImmortal=corpus>=immortalCorpus;
-  let c=corpus,yr=0,depleted=false;
-  const labs=[],cd=[],wdData=[];
-  tableData=[['Year','Opening corpus','Annual return','Annual withdrawal','Closing corpus']];
-  while(c>0&&yr<100){
-    const annRet=c*ret,annWith=with0*Math.pow(1+inf,yr);
-    const closing=c+annRet-annWith;yr++;
-    labs.push('Yr '+yr);cd.push(Math.max(0,Math.round(closing)));wdData.push(Math.round(annWith));
-    tableData.push([yr,fmtL(c),fmtL(annRet),fmtL(annWith),closing>0?fmtL(closing):'₹0 (depleted)']);
-    if(closing<=0){depleted=true;break;}c=closing;
+document.getElementById('affSidebar').innerHTML = renderAffiliateSidebar();
+document.getElementById('adBox1').innerHTML = renderAdBox('300x250');
+document.getElementById('adBox2').innerHTML = renderAdBox('300x250');
+
+let tableData = [], showAll = false, pieInst = null, mainInst = null;
+let currentMode = 'sip', lastResult = null;
+
+// ── SLIDER SYNC ──
+function syncSlider(numId, rangeId) {
+  const v = document.getElementById(numId).value;
+  const r = document.getElementById(rangeId);
+  if (r) r.value = v;
+}
+function syncNum(rangeId, numId) {
+  const v = document.getElementById(rangeId).value;
+  document.getElementById(numId).value = v;
+}
+
+// ── MODE SWITCH ──
+function switchMode(mode, el) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sipSection').classList.toggle('active', mode === 'sip');
+  document.getElementById('lumpsumSection').classList.toggle('active', mode === 'lumpsum');
+  autoCalc();
+}
+
+function autoCalc() {
+  clearTimeout(window._calcTimer);
+  window._calcTimer = setTimeout(calculate, 400);
+}
+
+// ── MAIN CALCULATION ──
+function calculate() {
+  const curAge     = +document.getElementById('curAge').value;
+  const wdAge      = +document.getElementById('withdrawAge').value;
+  const monthlyWD  = +document.getElementById('monthlyWD').value;
+  const postRet    = +document.getElementById('postReturn').value / 100;
+  const inflation  = +document.getElementById('inflationRate').value / 100;
+  const wdAdj      = document.getElementById('withdrawAdj').value;
+
+  if (wdAge <= curAge) { showToast('Withdrawal age must be greater than current age'); return; }
+  if (monthlyWD <= 0) { showToast('Monthly withdrawal must be greater than 0'); return; }
+
+  const growthYears = wdAge - curAge;
+
+  // ── BUILD CORPUS AT WITHDRAWAL AGE ──
+  let corpusAtWD = 0;
+  let totInvested = 0;
+
+  if (currentMode === 'sip') {
+    const sip    = +document.getElementById('sipAmt').value;
+    const stepup = +document.getElementById('sipStepup').value / 100;
+    const sipYrs = +document.getElementById('sipYears').value;
+    const cagr   = +document.getElementById('sipCAGR').value / 100;
+    const mr     = cagr / 12;
+    if (sip <= 0) return;
+    let corpus = 0, mSIP = sip;
+    for (let y = 0; y < sipYrs; y++) {
+      if (y > 0) mSIP *= (1 + stepup);
+      totInvested += mSIP * 12;
+      for (let m = 0; m < 12; m++) corpus = corpus * (1 + mr) + mSIP;
+    }
+    // Extra compounding if growthYears > sipYrs
+    if (growthYears > sipYrs) corpus *= Math.pow(1 + cagr, growthYears - sipYrs);
+    corpusAtWD = corpus;
+  } else {
+    const lump    = +document.getElementById('lumpAmt').value;
+    const lumpYrs = +document.getElementById('lumpYears').value;
+    const cagr    = +document.getElementById('lumpCAGR').value / 100;
+    if (lump <= 0) return;
+    totInvested = lump;
+    corpusAtWD = lump * Math.pow(1 + cagr, lumpYrs);
   }
-  document.getElementById('resultCards').innerHTML=`
-    <div class="result-card highlight"><div class="rc-label">Corpus lasts</div><div class="rc-val">${isImmortal?'♾️ Forever':yr+' years'}</div><div class="rc-sub">${isImmortal?'Principal never depletes!':'depletes in year '+yr}</div></div>
-    <div class="result-card"><div class="rc-label">Withdrawal rate</div><div class="rc-val">${((with0/corpus)*100).toFixed(2)}%</div><div class="rc-sub">annual withdrawal % of corpus</div></div>
-    <div class="result-card" style="border-color:${isImmortal?'var(--green)':'var(--red)'}"><div class="rc-label">Immortal threshold</div><div class="rc-val">${fmtL(immortalCorpus)}</div><div class="rc-sub">${isImmortal?'Your corpus exceeds this ✅':'Need '+fmtL(immortalCorpus-corpus)+' more'}</div></div>
-    <div class="result-card"><div class="rc-label">Initial monthly withdrawal</div><div class="rc-val">${fmt(+document.getElementById('dWith').value)}</div><div class="rc-sub">rising ${document.getElementById('dInf').value}% yearly with inflation</div></div>`;
-  document.getElementById('pieLegend').innerHTML=`
-    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Starting corpus</div><div class="legend-val">${fmtL(corpus)}</div></div></div>
-    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Immortal corpus needed</div><div class="legend-val">${fmtL(immortalCorpus)}</div></div></div>`;
-  if(pieInst)pieInst.destroy();
-  pieInst=new Chart(document.getElementById('pieChart'),{type:'doughnut',data:{labels:['Your corpus','Immortal threshold'],datasets:[{data:[Math.round(corpus),Math.round(immortalCorpus)],backgroundColor:['#1B6B45','#C8860A'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmtL(c.raw)}}}}});
-  if(mainInst)mainInst.destroy();
-  mainInst=new Chart(document.getElementById('mainChart'),{type:'line',data:{labels:labs,datasets:[{label:'Remaining corpus',data:cd,borderColor:'#1B6B45',backgroundColor:'rgba(27,107,69,.1)',fill:true,tension:.4,pointRadius:3},{label:'Annual withdrawal',data:wdData,borderColor:'#C8860A',borderDash:[6,4],fill:false,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtL(c.raw)}}},scales:{y:{ticks:{callback:v=>fmtL(v)},grid:{color:'rgba(0,0,0,.04)'}},x:{title:{display:true,text:'Year'}}}}});
-  renderTable(false);document.getElementById('results').classList.add('visible');setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);}
-function doDownload(){generatePDF({title:'SWP Depletion Calculator',summary:[{label:'Starting corpus',value:fmtL(+document.getElementById('dCorpus').value)},{label:'Monthly withdrawal',value:fmt(+document.getElementById('dWith').value)},{label:'Return rate',value:document.getElementById('dRet').value+'%'}],table:tableData,filename:'FirePlan-SWP-Depletion.pdf'});}
-function renderTable(all){document.getElementById('tableHead').innerHTML=tableData[0].map(h=>`<th>${h}</th>`).join('');const rows=all?tableData.slice(1):tableData.slice(1,11);document.getElementById('tableBody').innerHTML=rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');}
-function toggleTable(){showAll=!showAll;renderTable(showAll);document.getElementById('showMoreBtn').textContent=showAll?'Show less':'Show all';}
-function triggerDownload(){if(isLoggedIn()){doDownload();}else{pendingDownload=doDownload;document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}}
-function shareResult(){if(navigator.share)navigator.share({title:'FirePlan.in Result',url:window.location.href});else navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+
+  if (corpusAtWD <= 0) return;
+
+  // ── SIMULATE WITHDRAWAL YEAR BY YEAR ──
+  const monthlyPostRet = postRet / 12;
+  const immortalThreshold = (postRet - inflation) > 0
+    ? (monthlyWD * 12) / (postRet - inflation)
+    : Infinity;
+
+  let corpus = corpusAtWD;
+  let depletionAge = null;
+  let depletionYear = null;
+  const labels = [], corpusData = [], wdData = [];
+
+  // Build growth phase data first
+  const growthLabels = [], growthCorpus = [];
+  if (currentMode === 'sip') {
+    const sip = +document.getElementById('sipAmt').value;
+    const stepup = +document.getElementById('sipStepup').value / 100;
+    const sipYrs = +document.getElementById('sipYears').value;
+    const cagr = +document.getElementById('sipCAGR').value / 100;
+    const mr = cagr / 12;
+    let c = 0, mSIP = sip;
+    for (let y = 0; y < growthYears; y++) {
+      if (y > 0 && y < sipYrs) mSIP *= (1 + stepup);
+      const curSIP = y < sipYrs ? mSIP : 0;
+      for (let m = 0; m < 12; m++) c = c * (1 + mr) + curSIP;
+      growthLabels.push(curAge + y + 1);
+      growthCorpus.push(Math.round(c));
+    }
+  } else {
+    const lump = +document.getElementById('lumpAmt').value;
+    const lumpYrs = +document.getElementById('lumpYears').value;
+    const cagr = +document.getElementById('lumpCAGR').value / 100;
+    let c = lump;
+    for (let y = 0; y < Math.min(growthYears, lumpYrs); y++) {
+      c *= (1 + cagr);
+      growthLabels.push(curAge + y + 1);
+      growthCorpus.push(Math.round(c));
+    }
+  }
+
+  tableData = [['Age', 'Phase', 'Annual withdrawal', 'Corpus (year end)', 'Status']];
+
+  // Add growth rows
+  growthLabels.forEach((age, i) => {
+    labels.push(age); corpusData.push(growthCorpus[i]); wdData.push(0);
+    tableData.push([age, '📈 Growth', '—', fmtL(growthCorpus[i]), '']);
+  });
+
+  // Withdrawal simulation
+  corpus = corpusAtWD;
+  const maxSimYears = 100 - wdAge;
+  for (let y = 0; y < maxSimYears; y++) {
+    const age = wdAge + y + 1;
+    const annWD = wdAdj === 'inflation'
+      ? monthlyWD * 12 * Math.pow(1 + inflation, y)
+      : monthlyWD * 12;
+    const monthWD = annWD / 12;
+    for (let m = 0; m < 12; m++) {
+      corpus = corpus * (1 + monthlyPostRet) - monthWD;
+      if (corpus <= 0) { corpus = 0; break; }
+    }
+    const pct = Math.min(100, Math.round((corpus / corpusAtWD) * 100));
+    const status = corpus <= 0 ? '❌ Depleted'
+      : corpus >= corpusAtWD ? '✅ Growing'
+      : corpus >= corpusAtWD * 0.5 ? '⚠️ Reducing'
+      : '🔴 Critical';
+    labels.push(age);
+    corpusData.push(Math.round(Math.max(0, corpus)));
+    wdData.push(Math.round(annWD));
+    tableData.push([age, '💸 Withdrawal', fmt(Math.round(monthWD)) + '/mo', corpus > 0 ? fmtL(corpus) : '₹0 (depleted)', status]);
+    if (corpus <= 0 && !depletionAge) { depletionAge = age; depletionYear = y + 1; }
+    if (corpus <= 0) break;
+  }
+
+  const isImmortal = !depletionAge;
+  const corpusAt80 = corpusData[labels.indexOf(80)] || 0;
+  const survivalYears = depletionYear || maxSimYears;
+
+  lastResult = { corpusAtWD, totInvested, depletionAge, isImmortal, survivalYears, wdAge, curAge, growthYears, monthlyWD, immortalThreshold };
+
+  // ── TIMELINE ──
+  document.getElementById('timelineBar').innerHTML = `
+    <div class="timeline-bar">
+      <div class="timeline-phase growth"><strong>${growthYears} years</strong>Growth phase (age ${curAge}–${wdAge})</div>
+      <div class="timeline-phase withdraw"><strong>${depletionAge ? depletionYear + ' years' : '∞'}</strong>Withdrawal phase (age ${wdAge}${depletionAge ? '–' + depletionAge : '+'})</div>
+    </div>`;
+
+  // ── DEPLETION BANNER ──
+  const bannerClass = isImmortal ? 'survives' : depletionAge > 80 ? 'warning' : 'depletes';
+  const bannerAge = isImmortal ? '∞' : depletionAge;
+  const bannerLabel = isImmortal ? 'Corpus never depletes' : `Corpus depletes at age`;
+  const bannerSub = isImmortal
+    ? `Your ₹${fmt(monthlyWD)}/month withdrawal (rising with inflation) is fully sustainable — corpus grows or stays stable forever`
+    : depletionAge > 85
+    ? `Corpus lasts well into old age but depletes at ${depletionAge}. Consider reducing withdrawal slightly for true immortality.`
+    : `Corpus runs out at age ${depletionAge} — ${depletionYear} years of withdrawals. See suggestions below to extend corpus life.`;
+
+  document.getElementById('depletionBanner').innerHTML = `
+    <div class="depletion-banner ${bannerClass}">
+      <div class="label">${bannerLabel}</div>
+      <div class="big-age">${bannerAge}</div>
+      <div class="sub">${bannerSub}</div>
+    </div>`;
+
+  // ── PROGRESS BAR ──
+  const targetAge = 90;
+  const survivalPct = isImmortal ? 100 : Math.min(100, Math.round(((depletionAge - wdAge) / (targetAge - wdAge)) * 100));
+  document.getElementById('progressSection').innerHTML = `
+    <div style="margin-bottom:20px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3);margin-bottom:4px">
+        <span>Corpus survival (vs target age 90)</span>
+        <span style="font-weight:600;color:${survivalPct>=100?'var(--green)':survivalPct>=70?'var(--gold)':'var(--red)'}">${survivalPct}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${survivalPct}%;background:${survivalPct>=100?'var(--green)':survivalPct>=70?'var(--gold)':'var(--red)'}"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--ink-3)"><span>Age ${wdAge}</span><span>Age 90</span></div>
+    </div>`;
+
+  // ── RESULT CARDS ──
+  const annWD0 = monthlyWD * 12;
+  const swrPct = ((annWD0 / corpusAtWD) * 100).toFixed(2);
+  document.getElementById('resultCards').innerHTML = `
+    <div class="result-card ${isImmortal ? 'highlight' : ''}"><div class="rc-label">Corpus at age ${wdAge}</div><div class="rc-val">${fmtL(corpusAtWD)}</div><div class="rc-sub">your retirement starting corpus</div></div>
+    <div class="result-card"><div class="rc-label">Withdrawal rate</div><div class="rc-val">${swrPct}%</div><div class="rc-sub">annual withdrawal % of corpus</div></div>
+    <div class="result-card" style="border-color:${isImmortal?'var(--green)':depletionAge>80?'var(--gold)':'var(--red)'}"><div class="rc-label">Corpus depletes at</div><div class="rc-val" style="color:${isImmortal?'var(--green)':depletionAge>80?'var(--gold)':'var(--red)'}">${isImmortal ? '♾️ Never' : 'Age ' + depletionAge}</div><div class="rc-sub">${isImmortal ? 'Corpus is immortal!' : depletionYear + ' years of withdrawals'}</div></div>
+    <div class="result-card"><div class="rc-label">Immortal threshold</div><div class="rc-val">${isFinite(immortalThreshold) ? fmtL(immortalThreshold) : 'N/A'}</div><div class="rc-sub">${corpusAtWD >= immortalThreshold ? '✅ Your corpus exceeds this' : fmtL(immortalThreshold - corpusAtWD) + ' more needed'}</div></div>`;
+
+  // ── PIE CHART ──
+  const returns = Math.max(0, corpusAtWD - totInvested);
+  document.getElementById('pieLegend').innerHTML = `
+    <div class="legend-item"><div class="legend-dot" style="background:#1B6B45"></div><div><div class="legend-label">Amount invested</div><div class="legend-val">${fmtL(totInvested)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C8860A"></div><div><div class="legend-label">Growth phase returns</div><div class="legend-val">${fmtL(returns)}</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2A9460"></div><div><div class="legend-label">Corpus at age ${wdAge}</div><div class="legend-val">${fmtL(corpusAtWD)}</div></div></div>`;
+
+  if (pieInst) pieInst.destroy();
+  pieInst = new Chart(document.getElementById('pieChart'), {
+    type: 'doughnut',
+    data: { labels: ['Invested', 'Returns'], datasets: [{ data: [Math.round(totInvested), Math.round(returns)], backgroundColor: ['#1B6B45', '#C8860A'], borderWidth: 0, hoverOffset: 6 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + fmtL(c.raw) } } } }
+  });
+
+  // ── MAIN CHART ──
+  if (mainInst) mainInst.destroy();
+  mainInst = new Chart(document.getElementById('mainChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Corpus value', data: corpusData, borderColor: '#1B6B45', backgroundColor: 'rgba(27,107,69,.1)', fill: true, tension: .4, pointRadius: 2, yAxisID: 'y' },
+        { label: 'Annual withdrawal', data: wdData, borderColor: '#C8860A', fill: false, tension: .3, pointRadius: 2, borderDash: [5, 3], yAxisID: 'y' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'top', labels: { boxWidth: 12, font: { size: 11 } } },
+        tooltip: { callbacks: { label: c => c.dataset.label + ': ' + fmtL(c.raw) } }
+      },
+      scales: {
+        y: { ticks: { callback: v => fmtL(v) }, grid: { color: 'rgba(0,0,0,.04)' } },
+        x: { title: { display: true, text: 'Age' } }
+      }
+    }
+  });
+
+  // ── SUGGESTIONS ──
+  buildSuggestions(isImmortal, corpusAtWD, monthlyWD, depletionAge, immortalThreshold, growthYears, wdAge, curAge, inflation, postRet);
+
+  renderTable(false);
+  document.getElementById('results').classList.add('visible');
+  setTimeout(() => document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+function buildSuggestions(isImmortal, corpus, monthlyWD, depletionAge, immortalThreshold, growthYears, wdAge, curAge, inflation, postRet) {
+  if (isImmortal) {
+    document.getElementById('suggestionBox').innerHTML = `
+      <div style="background:var(--green-lt);border:1px solid var(--green);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+        <h4 style="color:var(--green);font-size:14px;margin-bottom:6px">✅ Your withdrawal plan is sustainable!</h4>
+        <p style="font-size:13px;color:var(--ink-2)">At ₹${fmt(monthlyWD)}/month (rising with inflation), your corpus never depletes. You can even consider slightly increasing your withdrawal — use our <a href="immortal-swp-calculator.html" style="color:var(--green)">Immortal SWP Calculator</a> to find the exact maximum.</p>
+      </div>`;
+    return;
+  }
+
+  const suggestions = [];
+  const annWD = monthlyWD * 12;
+  const needForImmortal = isFinite(immortalThreshold) ? immortalThreshold - corpus : 0;
+
+  // Suggestion 1: Reduce withdrawal
+  const safeWD = Math.round(corpus * 0.03 / 12);
+  suggestions.push({
+    icon: '📉',
+    text: `Reduce your starting withdrawal to <strong>${fmt(safeWD)}/month</strong> (3% of corpus annually). This is India's safe withdrawal rate and will make your corpus last significantly longer — potentially forever.`
+  });
+
+  // Suggestion 2: Increase SIP
+  if (currentMode === 'sip') {
+    const currentSIP = +document.getElementById('sipAmt').value;
+    suggestions.push({
+      icon: '📈',
+      text: `Increase your monthly SIP by <strong>₹2,000</strong> — from ${fmt(currentSIP)} to ${fmt(currentSIP + 2000)}. This extra ₹2,000/month for ${+document.getElementById('sipYears').value} years builds a significantly larger corpus at retirement.`
+    });
+  }
+
+  // Suggestion 3: Delay withdrawal
+  suggestions.push({
+    icon: '⏰',
+    text: `Delay withdrawals by <strong>3–5 years</strong> (start at age ${wdAge + 5} instead of ${wdAge}). Each extra year of compounding before withdrawal adds 2–3 years to your corpus life in retirement.`
+  });
+
+  // Suggestion 4: Add step-up
+  if (currentMode === 'sip' && +document.getElementById('sipStepup').value === 0) {
+    suggestions.push({
+      icon: '🪜',
+      text: `Add a <strong>10% annual step-up</strong> to your SIP — increase your investment by 10% every year with your salary hike. This can increase your final corpus by 50–80%, dramatically extending retirement corpus life.`
+    });
+  }
+
+  // Suggestion 5: Higher equity allocation
+  if (+document.getElementById('postReturn').value < 9) {
+    suggestions.push({
+      icon: '📊',
+      text: `Keep <strong>50–60% in equity index funds</strong> even after retirement. This increases your post-retirement return from ${+document.getElementById('postReturn').value}% to 9–10%, extending corpus life by 5–8 years.`
+    });
+  }
+
+  // Suggestion 6: How much more corpus needed
+  if (needForImmortal > 0) {
+    suggestions.push({
+      icon: '💰',
+      text: `To make your corpus truly immortal at this withdrawal level, you need <strong>${fmtL(needForImmortal)} more</strong> in corpus at retirement. This is the gap between your projected corpus and the immortal threshold.`
+    });
+  }
+
+  document.getElementById('suggestionBox').innerHTML = `
+    <div class="suggestion-box">
+      <h4>💡 How to extend your corpus life — try any of these</h4>
+      ${suggestions.map(s => `<div class="suggestion-item"><span class="sug-icon">${s.icon}</span><span>${s.text}</span></div>`).join('')}
+    </div>`;
+}
+
+function renderTable(all) {
+  document.getElementById('tableHead').innerHTML = tableData[0].map(h => `<th>${h}</th>`).join('');
+  const rows = all ? tableData.slice(1) : tableData.slice(1, 16);
+  document.getElementById('tableBody').innerHTML = rows.map(r =>
+    `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`
+  ).join('');
+}
+function toggleTable() { showAll = !showAll; renderTable(showAll); document.getElementById('showMoreBtn').textContent = showAll ? 'Show less' : 'Show all'; }
+function triggerDownload() { if (isLoggedIn()) doDownload(); else { pendingDownload = doDownload; document.getElementById('modalOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; } }
+function doDownload() {
+  generatePDF({ title: 'SWP Depletion Calculator', summary: [
+    { label: 'Corpus at withdrawal age', value: fmtL(lastResult?.corpusAtWD || 0) },
+    { label: 'Monthly withdrawal', value: fmt(+document.getElementById('monthlyWD').value) + '/month' },
+    { label: 'Corpus depletes at', value: lastResult?.isImmortal ? 'Never (Immortal)' : 'Age ' + lastResult?.depletionAge },
+  ], table: tableData, filename: 'MCM-SWP-Depletion.pdf' });
+}
+function shareResult() { if (navigator.share) navigator.share({ title: 'My SWP Plan — MiddleClassMoney.in', url: window.location.href }); else navigator.clipboard.writeText(window.location.href).then(() => showToast('Link copied!')); }
+
+window.addEventListener('load', () => setTimeout(calculate, 300));
 </script>
-<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div><div class="footer-grid"><div><div class="footer-logo">Fire<span>Plan</span>.in</div></div><div class="footer-col"><h4>FIRE tools</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="coast-fire-calculator.html">Coast FIRE</a></div><div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="step-up-sip-calculator.html">Step-up SIP</a></div></div><div class="footer-bottom"><span>© 2026 FirePlan.in</span></div></footer>
-<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button><div class="toast" id="toast"></div>
-</body></html>
+
+<footer>
+  <div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div>
+  <div class="footer-grid">
+    <div><div class="footer-logo">MCM | <span>Middle Class Money</span></div></div>
+    <div class="footer-col"><h4>FIRE & retirement</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="immortal-swp-calculator.html">Immortal SWP</a><a href="retirement-corpus-calculator.html">Retirement</a></div>
+    <div class="footer-col"><h4>Investments</h4><a href="sip-calculator.html">SIP</a><a href="ppf-calculator.html">PPF</a><a href="epf-calculator.html">EPF</a></div>
+    <div class="footer-col"><h4>Tax & others</h4><a href="income-tax-calculator.html">Income tax</a><a href="gst-calculator.html">GST</a><a href="hra-calculator.html">HRA</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 MiddleClassMoney.in</span></div>
+</footer>
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="toast" id="toast"></div>
+</body>
+</html>
