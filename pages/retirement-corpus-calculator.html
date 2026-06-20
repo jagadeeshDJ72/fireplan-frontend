@@ -78,7 +78,7 @@ function calculate(){
   const netExp=Math.max(0,expAtRet-pensionAtRet);
   const r=pr-inf;
   const reqCorpus=r>0?netExp*(1-Math.pow(1+r,-yir))/r:netExp*yir;
-  const mr=pc/12,months=ytr*12;
+  const mr=Math.pow(1+pc,1/12)-1,months=ytr*12;
   const sipFV2=mr>0?sip*(Math.pow(1+mr,months)-1)/mr*(1+mr):sip*months;
   const projCorpus=cur*Math.pow(1+pc,ytr)+sipFV2;
   const gap=reqCorpus-projCorpus,onTrack=gap<=0;

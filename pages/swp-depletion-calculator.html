@@ -420,7 +420,7 @@ function calculate() {
   if (corpusAtWD <= 0) return;
 
   // ── SIMULATE WITHDRAWAL YEAR BY YEAR ──
-  const monthlyPostRet = postRet / 12;
+  const monthlyPostRet = Math.pow(1+postRet,1/12)-1;
   const immortalThreshold = (postRet - inflation) > 0
     ? (monthlyWD * 12) / (postRet - inflation)
     : Infinity;
@@ -476,7 +476,7 @@ function calculate() {
       : monthlyWD * 12;
     const monthWD = annWD / 12;
     for (let m = 0; m < 12; m++) {
-      corpus = corpus * (1 + monthlyPostRet) - monthWD;
+      corpus = corpus * (1 + monthlyPostRetM) - monthWD;
       if (corpus <= 0) { corpus = 0; break; }
     }
     const pct = Math.min(100, Math.round((corpus / corpusAtWD) * 100));

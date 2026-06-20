@@ -107,7 +107,7 @@ function calculate(){
   const yrs=+document.getElementById('sipYears').value;
   const cagr=+document.getElementById('sipCAGR').value/100;
   const inf=+document.getElementById('sipInf').value/100;
-  const mr=cagr/12,months=yrs*12;
+  const mr=Math.pow(1+cagr,1/12)-1,months=yrs*12;
   const maturity=mr>0?sip*(Math.pow(1+mr,months)-1)/mr*(1+mr):sip*months;
   const invested=sip*months;
   const returns=maturity-invested;

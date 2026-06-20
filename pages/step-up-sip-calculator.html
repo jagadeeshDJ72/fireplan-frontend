@@ -79,7 +79,7 @@ function calculate(){
   const stepUp=+document.getElementById('stepUp').value/100;
   const yrs=+document.getElementById('stepYrs').value;
   const cagr=+document.getElementById('stepCAGR').value/100;
-  const mr=cagr/12;
+  const mr=Math.pow(1+cagr,1/12)-1;
   // Flat SIP for comparison
   const flatMonths=yrs*12;
   const flatCorpus=startSIP*(Math.pow(1+mr,flatMonths)-1)/mr*(1+mr);

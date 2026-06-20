@@ -75,7 +75,7 @@ function calculate(){
   const contrib=+document.getElementById('npsContrib').value;
   const ret=+document.getElementById('npsReturn').value/100;
   const annRate=+document.getElementById('npsAnnuity').value/100;
-  const yrs=Math.max(1,60-age);const mr=ret/12,months=yrs*12;
+  const yrs=Math.max(1,60-age);const mr=Math.pow(1+ret,1/12)-1,months=yrs*12;
   if(age>=60){alert('Current age must be less than 60 for NPS planning');return;}
   const corpus=mr>0?contrib*(Math.pow(1+mr,months)-1)/mr*(1+mr):contrib*months;
   const invested=contrib*months;

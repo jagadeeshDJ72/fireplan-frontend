@@ -367,7 +367,7 @@ function calculate() {
   // We want: corpus at end of life ≥ corpusAtWD (immortal condition)
   // OR: corpus at end of life ≥ 0 (at least not depleting)
 
-  const monthlyPostRet = postRet / 12;
+  const monthlyPostRet = Math.pow(1+postRet,1/12)-1;
 
   function simulateWithdrawal(monthlyWD) {
     let c = corpusAtWD;

@@ -125,7 +125,7 @@ function calculate(){
   const aeAtFire=me*12*Math.pow(1+inf,ytf);
   const r=pr-inf;
   const reqCorpus=r>0?aeAtFire*(1-Math.pow(1+r,-yir))/r:aeAtFire*yir;
-  const mr=pc/12,months=ytf*12;
+  const mr=Math.pow(1+pc,1/12)-1,months=ytf*12;
   const sipFV=mr>0?ms*(Math.pow(1+mr,months)-1)/mr*(1+mr):ms*months;
   const projCorpus=cc*Math.pow(1+pc,ytf)+sipFV;
   const gap=reqCorpus-projCorpus,onTrack=gap<=0;
