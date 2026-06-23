@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>MiddleClassMoney.in — Free Financial Calculators for India | SIP, FIRE, PPF, NPS</title>
@@ -259,29 +259,30 @@ document.querySelectorAll('.home-calc-card').forEach(c=>c.style.display='flex');
 </script>
 
 <!-- Google Identity Services -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://accounts.google.com/gsi/client" onload="initGoogleBtn()"></script>
 <script>
 // ── GOOGLE LOGIN CONFIG ──
 const GOOGLE_CLIENT_ID = '837448567230-srcc6hth5drdds8duqi5cn0qudc9r96c.apps.googleusercontent.com';
 const API_URL = 'https://fireplan-api.onrender.com/api';
 
-function openGoogleLogin() {
+function initGoogleBtn() {
+  // Initialize once when Google script loads
   google.accounts.id.initialize({
     client_id: GOOGLE_CLIENT_ID,
     callback: handleGoogleResponse,
     auto_select: false,
     cancel_on_tap_outside: true,
   });
-  google.accounts.id.prompt((notification) => {
-    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-      // Fallback: show One Tap manually
-      google.accounts.id.renderButton(
-        document.getElementById('googleBtnFallback'),
-        { theme: 'outline', size: 'large', text: 'signin_with' }
-      );
-      document.getElementById('googleLoginModal').style.display = 'flex';
-    }
-  });
+  // Pre-render the real Google Sign-In button inside modal
+  google.accounts.id.renderButton(
+    document.getElementById('googleBtnFallback'),
+    { theme: 'filled_blue', size: 'large', text: 'signin_with', width: 280 }
+  );
+}
+
+function openGoogleLogin() {
+  // Show modal — button is already rendered and ready
+  document.getElementById('googleLoginModal').style.display = 'flex';
 }
 
 async function handleGoogleResponse(response) {
@@ -336,14 +337,20 @@ function showToast(msg) {
 document.addEventListener('DOMContentLoaded', updateNavAuth);
 </script>
 
-<!-- Google Login Modal (fallback) -->
-<div id="googleLoginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center">
-  <div style="background:white;border-radius:16px;padding:40px;max-width:360px;width:90%;text-align:center;position:relative">
-    <button onclick="document.getElementById('googleLoginModal').style.display='none'" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:#666">×</button>
-    <div style="font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:#1B6B45;margin-bottom:4px">MCM | <span style="color:#C8860A">Middle Class Money</span></div>
-    <p style="font-size:13px;color:#6B7D72;margin-bottom:24px">Sign in to download your PDF reports and save your calculations.</p>
-    <div id="googleBtnFallback" style="display:flex;justify-content:center;margin-bottom:16px"></div>
-    <p style="font-size:11px;color:#999;margin-top:12px">We only access your name and email. No spam, ever.</p>
+<!-- Google Login Modal -->
+<div id="googleLoginModal" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:white;border-radius:20px;padding:44px 36px;max-width:380px;width:90%;text-align:center;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+    <button onclick="document.getElementById('googleLoginModal').style.display='none'" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:24px;cursor:pointer;color:#999;line-height:1">×</button>
+    <div style="font-size:36px;margin-bottom:12px">💰</div>
+    <div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:#1B6B45;margin-bottom:6px">MCM | <span style="color:#C8860A">Middle Class Money</span></div>
+    <p style="font-size:13px;color:#6B7D72;margin-bottom:28px;line-height:1.6">Sign in to download your personalised PDF reports and save your calculations.</p>
+    <div id="googleBtnFallback" style="display:flex;justify-content:center;margin-bottom:20px;min-height:44px"></div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <div style="flex:1;height:1px;background:#eee"></div>
+      <span style="font-size:11px;color:#999">100% free · No spam</span>
+      <div style="flex:1;height:1px;background:#eee"></div>
+    </div>
+    <p style="font-size:11px;color:#bbb">We only access your name and email address.</p>
   </div>
 </div>
 </body>
