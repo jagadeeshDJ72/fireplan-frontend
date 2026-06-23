@@ -2,306 +2,237 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="google-site-verification" content="Zo1tyGBo6i5-Yvgm8P0SyYKt__x5hu1eDh2xsy1AWT8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>MCM | Middle Class Money — Free Financial Calculators India</title>
-<meta name="description" content="India's most complete financial calculator suite for the middle class. SIP, FIRE, PPF, EPF, NPS, HRA, GST, Gratuity, Sukanya Samriddhi and 14 more free calculators. No signup needed.">
+<title>FirePlan.in — Free FIRE & Financial Calculators for India</title>
+<meta name="description" content="India's most complete FIRE & financial calculator suite. SIP, SWP, FIRE corpus, Coast FIRE, FD laddering, retirement planner and 12 more free tools. No signup needed.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<style>
-/* ── FIXED CARD LAYOUT ── */
-.home-calc-card{display:flex;flex-direction:column;gap:6px;padding:16px}
-.hc-top{display:flex;align-items:center;gap:10px}
-.hc-icon{font-size:22px;flex-shrink:0}
-.hc-name{font-size:14px;font-weight:600;color:var(--ink);line-height:1.3}
-.hc-desc{font-size:12px;color:var(--ink-3);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.hc-desc.expanded{-webkit-line-clamp:unset;overflow:visible}
-.hc-more{font-size:11px;color:var(--green);cursor:pointer;font-weight:500;margin-top:2px;display:inline-block}
-.hc-arrow{color:var(--green);font-size:14px;margin-top:auto;opacity:0;transition:opacity .2s}
-.home-calc-card:hover .hc-arrow{opacity:1}
-/* category badge colors */
-.cat-fire{background:#FEF3DC;color:#C8860A}
-.cat-invest{background:#E8F5EE;color:#1B6B45}
-.cat-loan{background:#EEF2FF;color:#1D4ED8}
-.cat-tax{background:#FEE2E2;color:#B91C1C}
-.cat-plan{background:#F0FDF4;color:#15803D}
-.cat-govt{background:#F5F3FF;color:#7C3AED}
-</style>
 </head>
 <body>
 
-<nav>
+<nav id="mainNav">
   <a href="index.html" class="logo">MCM | <span>Middle Class Money</span></a>
   <div class="nav-links">
     <a href="#calculators">Calculators</a>
     <a href="#fire">What is FIRE?</a>
     <a href="pages/blog.html">Blog</a>
   </div>
-  <a href="#calculators" class="nav-cta">Start calculating →</a>
+  <div style="display:flex;align-items:center;gap:10px" id="navAuth">
+    <button onclick="openModal('login')" style="background:var(--green);color:white;padding:7px 16px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:inherit" id="navLoginBtn">Login / Sign up</button>
+  </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-eyebrow">Free · No signup · Built for middle class India</div>
-  <h1>Your money, <em>calculated clearly</em><br>for middle class India</h1>
-  <p class="hero-sub">23 free calculators — SIP, FIRE, PPF, EPF, NPS, HRA, GST, Sukanya Samriddhi and more. Built around Indian inflation, tax laws, and real numbers.</p>
+  <div class="hero-eyebrow">Free · No signup · Built for India</div>
+  <h1>Plan your <em>financial freedom</em><br>with India's sharpest calculators</h1>
+  <p class="hero-sub">15 free calculators covering FIRE, SIP, SWP, retirement, FD laddering and more — built around Indian inflation, tax laws, and market returns.</p>
   <div class="hero-stats">
-    <div class="stat"><div class="stat-val">23+</div><div class="stat-lbl">Free calculators</div></div>
+    <div class="stat"><div class="stat-val">15+</div><div class="stat-lbl">Free calculators</div></div>
     <div class="stat"><div class="stat-val">₹0</div><div class="stat-lbl">Cost to use</div></div>
     <div class="stat"><div class="stat-val">6%</div><div class="stat-lbl">India inflation modelled</div></div>
     <div class="stat"><div class="stat-val">PDF</div><div class="stat-lbl">Download your plan</div></div>
   </div>
   <div class="search-bar">
-    <input type="text" placeholder="Search... e.g. SIP, PPF, FIRE, HRA, GST" id="searchInput" oninput="filterCards(this.value)">
+    <input type="text" placeholder="Search calculators... e.g. SIP, FIRE, SWP" id="searchInput" oninput="filterCards(this.value)">
     <button onclick="filterCards(document.getElementById('searchInput').value)">Search</button>
   </div>
 </section>
 
+<!-- TOP AD -->
 <div class="ad-strip" style="margin-top:20px">
   <div style="height:90px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--ink-3);font-size:12px">
     📢 Google AdSense 728×90 — paste your ad script here after AdSense approval
   </div>
 </div>
 
+<!-- CALCULATORS -->
 <section class="section" id="calculators">
   <div class="section-hdr">
-    <div><div class="section-title">All calculators</div><div class="section-sub">Click any card to open the full calculator in a new tab</div></div>
+    <div>
+      <div class="section-title">All calculators</div>
+      <div class="section-sub">Click any card to open the full calculator</div>
+    </div>
   </div>
   <div class="tag-filter">
-    <button class="ftag active" onclick="filterTag('all',this)">All (23)</button>
+    <button class="ftag active" onclick="filterTag('all',this)">All (15)</button>
     <button class="ftag" onclick="filterTag('fire',this)">FIRE & Retirement (6)</button>
     <button class="ftag" onclick="filterTag('invest',this)">Investments (4)</button>
-    <button class="ftag" onclick="filterTag('govt',this)">Govt schemes (4)</button>
     <button class="ftag" onclick="filterTag('loan',this)">Loans & EMI (2)</button>
-    <button class="ftag" onclick="filterTag('tax',this)">Tax (4)</button>
-    <button class="ftag" onclick="filterTag('plan',this)">Goal Planning (3)</button>
+    <button class="ftag" onclick="filterTag('tax',this)">Tax (2)</button>
+    <button class="ftag" onclick="filterTag('plan',this)">Goal Planning (1)</button>
   </div>
   <div class="home-calc-grid" id="calcGrid">
 
-    <!-- FIRE & RETIREMENT -->
-    <a href="pages/fire-corpus-calculator.html" target="_blank" class="home-calc-card" data-cat="fire" data-name="fire corpus calculator retirement early financial independence">
-      <div class="hc-accent"></div><span class="hc-badge badge-hot">Most popular</span>
-      <div class="hc-top"><div class="hc-icon">🔥</div><div class="hc-name">FIRE corpus calculator</div></div>
-      <div class="hc-desc" id="d1">Find exactly how much corpus you need to retire early based on your expenses, age, and Indian inflation rate.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d1')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/immortal-swp-calculator.html" target="_blank" class="home-calc-card" data-cat="fire" data-name="immortal swp calculator perpetual corpus never deplete withdrawal">
-      <div class="hc-accent"></div><span class="hc-badge badge-new">Unique</span>
-      <div class="hc-top"><div class="hc-icon">♾️</div><div class="hc-name">Immortal SWP calculator</div></div>
-      <div class="hc-desc" id="d2">What corpus size means your monthly withdrawals never eat into the principal? Find your forever number — unique to MiddleClassMoney.in.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d2')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/coast-fire-calculator.html" target="_blank" class="home-calc-card" data-cat="fire" data-name="coast fire calculator stop contributing compounding">
-      <div class="hc-accent"></div><span class="hc-badge badge-new">Unique</span>
-      <div class="hc-top"><div class="hc-icon">🏖️</div><div class="hc-name">Coast FIRE calculator</div></div>
-      <div class="hc-desc" id="d3">At what savings milestone can you stop contributing and let compounding carry you to FIRE automatically?</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d3')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/lean-fat-fire-calculator.html" target="_blank" class="home-calc-card" data-cat="fire" data-name="lean fire fat fire barista fire compare lifestyle">
+    <a href="pages/fire-corpus-calculator.html" class="home-calc-card" data-cat="fire" data-name="fire corpus calculator retirement early financial independence">
       <div class="hc-accent"></div>
-      <div class="hc-top"><div class="hc-icon">📊</div><div class="hc-name">Lean / Fat FIRE calculator</div></div>
-      <div class="hc-desc" id="d4">Compare Lean FIRE (frugal), Regular FIRE, Fat FIRE (luxury), and Barista FIRE corpus targets side by side.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d4')">Read more ▾</span>
+      <span class="hc-badge badge-hot">Most popular</span>
+      <div class="hc-icon">🔥</div>
+      <div class="hc-name">FIRE corpus calculator</div>
+      <div class="hc-desc">Find exactly how much corpus you need to retire early based on expenses, age, and Indian inflation.</div>
       <div class="hc-arrow">→</div>
     </a>
 
-    <a href="pages/retirement-corpus-calculator.html" target="_blank" class="home-calc-card" data-cat="fire" data-name="retirement corpus calculator india 60 years pension">
-      <div class="hc-accent"></div><span class="hc-badge badge-pop">Popular</span>
-      <div class="hc-top"><div class="hc-icon">🏦</div><div class="hc-name">Retirement corpus calculator</div></div>
-      <div class="hc-desc" id="d5">Plan traditional retirement at 60 with India-specific inflation, pension income, post-retirement returns, and life expectancy.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d5')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/swp-depletion-calculator.html" target="_blank" class="home-calc-card" data-cat="fire" data-name="swp depletion calculator withdrawal years corpus runs out">
+    <a href="pages/immortal-swp-calculator.html" class="home-calc-card" data-cat="fire" data-name="immortal swp calculator perpetual corpus never deplete withdrawal">
       <div class="hc-accent"></div>
-      <div class="hc-top"><div class="hc-icon">📉</div><div class="hc-name">SWP depletion calculator</div></div>
-      <div class="hc-desc" id="d6">How many years before your corpus runs out given your monthly withdrawal amount and expected returns?</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d6')">Read more ▾</span>
+      <span class="hc-badge badge-new">Unique</span>
+      <div class="hc-icon">♾️</div>
+      <div class="hc-name">Immortal SWP calculator</div>
+      <div class="hc-desc">What corpus size means your monthly withdrawals never eat into the principal? Find your forever number.</div>
       <div class="hc-arrow">→</div>
     </a>
 
-    <!-- INVESTMENTS -->
-    <a href="pages/sip-calculator.html" target="_blank" class="home-calc-card" data-cat="invest" data-name="sip calculator mutual fund returns monthly investment">
-      <div class="hc-accent"></div><span class="hc-badge badge-pop">Popular</span>
-      <div class="hc-top"><div class="hc-icon">📈</div><div class="hc-name">SIP calculator</div></div>
-      <div class="hc-desc" id="d7">Calculate monthly SIP returns with step-up option and interactive year-by-year corpus growth chart.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d7')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/step-up-sip-calculator.html" target="_blank" class="home-calc-card" data-cat="invest" data-name="step up sip calculator annual increase increment salary hike">
-      <div class="hc-accent"></div><span class="hc-badge badge-new">Unique</span>
-      <div class="hc-top"><div class="hc-icon">🪜</div><div class="hc-name">Step-up SIP calculator</div></div>
-      <div class="hc-desc" id="d8">See the massive difference when you increase your SIP by 10–15% every year alongside your salary hike.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d8')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/fd-laddering-calculator.html" target="_blank" class="home-calc-card" data-cat="invest" data-name="fd laddering fixed deposit planner post retirement safety">
-      <div class="hc-accent"></div><span class="hc-badge badge-new">Unique</span>
-      <div class="hc-top"><div class="hc-icon">🏗️</div><div class="hc-name">FD laddering planner</div></div>
-      <div class="hc-desc" id="d9">Build a staggered FD strategy for post-retirement safety income. Auto-calculates maturity and reinvestment schedule.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d9')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/lumpsum-calculator.html" target="_blank" class="home-calc-card" data-cat="invest" data-name="lumpsum calculator one time investment returns cagr">
+    <a href="pages/coast-fire-calculator.html" class="home-calc-card" data-cat="fire" data-name="coast fire calculator stop contributing compounding">
       <div class="hc-accent"></div>
-      <div class="hc-top"><div class="hc-icon">💰</div><div class="hc-name">Lumpsum calculator</div></div>
-      <div class="hc-desc" id="d10">How does a one-time investment grow over time at various CAGR rates with inflation-adjusted real returns?</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d10')">Read more ▾</span>
+      <span class="hc-badge badge-new">Unique</span>
+      <div class="hc-icon">🏖️</div>
+      <div class="hc-name">Coast FIRE calculator</div>
+      <div class="hc-desc">At what savings milestone can you stop contributing and let compounding carry you to FIRE?</div>
       <div class="hc-arrow">→</div>
     </a>
 
-    <!-- GOVT SCHEMES -->
-    <a href="pages/ppf-calculator.html" target="_blank" class="home-calc-card" data-cat="govt" data-name="ppf calculator public provident fund 80c tax free returns">
-      <div class="hc-accent"></div><span class="hc-badge badge-pop">Popular</span>
-      <div class="hc-top"><div class="hc-icon">📊</div><div class="hc-name">PPF calculator</div></div>
-      <div class="hc-desc" id="d11">Calculate PPF maturity amount with year-by-year interest. 100% tax-free returns at 7.1% p.a. Includes 80C deduction benefit.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d11')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/epf-calculator.html" target="_blank" class="home-calc-card" data-cat="govt" data-name="epf calculator employee provident fund retirement maturity">
-      <div class="hc-accent"></div><span class="hc-badge badge-pop">Popular</span>
-      <div class="hc-top"><div class="hc-icon">🏢</div><div class="hc-name">EPF calculator</div></div>
-      <div class="hc-desc" id="d12">Calculate EPF maturity at retirement including employer contribution at 8.25% interest rate with salary increment.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d12')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/nps-calculator.html" target="_blank" class="home-calc-card" data-cat="govt" data-name="nps calculator national pension system monthly pension annuity">
+    <a href="pages/lean-fat-fire-calculator.html" class="home-calc-card" data-cat="fire" data-name="lean fire fat fire barista fire compare lifestyle">
       <div class="hc-accent"></div>
-      <div class="hc-top"><div class="hc-icon">🛡️</div><div class="hc-name">NPS calculator</div></div>
-      <div class="hc-desc" id="d13">Calculate NPS corpus at 60, tax-free lumpsum withdrawal (60%), and monthly pension from annuity (40%).</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d13')">Read more ▾</span>
+      <div class="hc-icon">📊</div>
+      <div class="hc-name">Lean / Fat FIRE calculator</div>
+      <div class="hc-desc">Compare Lean, Regular, Fat, and Barista FIRE corpus targets side by side for your lifestyle.</div>
       <div class="hc-arrow">→</div>
     </a>
 
-    <a href="pages/sukanya-samriddhi-calculator.html" target="_blank" class="home-calc-card" data-cat="govt" data-name="sukanya samriddhi yojana calculator ssy daughter maturity">
+    <a href="pages/retirement-corpus-calculator.html" class="home-calc-card" data-cat="fire" data-name="retirement corpus calculator india 60 years pension">
       <div class="hc-accent"></div>
-      <div class="hc-top"><div class="hc-icon">👧</div><div class="hc-name">Sukanya Samriddhi calculator</div></div>
-      <div class="hc-desc" id="d14">Calculate SSY maturity for your daughter at 8.2% interest. 100% tax-free with 80C deduction for up to ₹1.5 lakh/year.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d14')">Read more ▾</span>
+      <span class="hc-badge badge-pop">Popular</span>
+      <div class="hc-icon">🏦</div>
+      <div class="hc-name">Retirement corpus calculator</div>
+      <div class="hc-desc">Plan traditional retirement at 60 with India-specific inflation, post-retirement returns, and life expectancy.</div>
       <div class="hc-arrow">→</div>
     </a>
 
-    <!-- LOANS -->
-    <a href="pages/home-loan-emi-calculator.html" target="_blank" class="home-calc-card" data-cat="loan" data-name="home loan emi calculator india prepayment amortisation">
-      <div class="hc-accent"></div><span class="hc-badge badge-pop">Popular</span>
-      <div class="hc-top"><div class="hc-icon">🏠</div><div class="hc-name">Home loan EMI calculator</div></div>
-      <div class="hc-desc" id="d15">Monthly EMI, total interest paid, and amortisation schedule with prepayment impact analysis.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d15')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/personal-loan-calculator.html" target="_blank" class="home-calc-card" data-cat="loan" data-name="personal loan emi calculator interest total cost">
+    <a href="pages/swp-depletion-calculator.html" class="home-calc-card" data-cat="fire" data-name="swp depletion calculator withdrawal years corpus runs out">
       <div class="hc-accent"></div>
-      <div class="hc-top"><div class="hc-icon">💳</div><div class="hc-name">Personal loan EMI calculator</div></div>
-      <div class="hc-desc" id="d16">Find monthly EMI and compare total interest cost across different tenures and interest rates.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d16')">Read more ▾</span>
+      <div class="hc-icon">📉</div>
+      <div class="hc-name">SWP depletion calculator</div>
+      <div class="hc-desc">How many years before your corpus runs out given your monthly withdrawal and expected returns?</div>
       <div class="hc-arrow">→</div>
     </a>
 
-    <!-- TAX -->
-    <a href="pages/income-tax-calculator.html" target="_blank" class="home-calc-card" data-cat="tax" data-name="income tax calculator new old regime 2025 2026 fy26">
-      <div class="hc-accent"></div><span class="hc-badge badge-hot">Updated FY26</span>
-      <div class="hc-top"><div class="hc-icon">🧾</div><div class="hc-name">Income tax calculator</div></div>
-      <div class="hc-desc" id="d17">Compare old vs new tax regime for FY 2025-26 with ₹12 lakh zero-tax rebate under new regime. Full breakdown.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d17')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/capital-gains-tax-calculator.html" target="_blank" class="home-calc-card" data-cat="tax" data-name="capital gains tax ltcg stcg equity mutual fund property">
+    <a href="pages/sip-calculator.html" class="home-calc-card" data-cat="invest" data-name="sip calculator mutual fund returns monthly investment">
       <div class="hc-accent"></div>
-      <div class="hc-top"><div class="hc-icon">📋</div><div class="hc-name">Capital gains tax calculator</div></div>
-      <div class="hc-desc" id="d18">Calculate LTCG/STCG tax on equity, mutual funds, and property with Budget 2024 rate changes.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d18')">Read more ▾</span>
+      <span class="hc-badge badge-pop">Popular</span>
+      <div class="hc-icon">📈</div>
+      <div class="hc-name">SIP calculator</div>
+      <div class="hc-desc">Calculate monthly SIP returns with step-up option and interactive year-by-year corpus chart.</div>
       <div class="hc-arrow">→</div>
     </a>
 
-    <a href="pages/hra-calculator.html" target="_blank" class="home-calc-card" data-cat="tax" data-name="hra exemption calculator house rent allowance tax saving">
-      <div class="hc-accent"></div><span class="hc-badge badge-new">New</span>
-      <div class="hc-top"><div class="hc-icon">🏘️</div><div class="hc-name">HRA exemption calculator</div></div>
-      <div class="hc-desc" id="d19">Calculate HRA tax exemption for metro and non-metro cities. Find exact tax-free portion of your house rent allowance.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d19')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <a href="pages/gst-calculator.html" target="_blank" class="home-calc-card" data-cat="tax" data-name="gst calculator goods services tax india inclusive exclusive">
-      <div class="hc-accent"></div><span class="hc-badge badge-new">New</span>
-      <div class="hc-top"><div class="hc-icon">🧾</div><div class="hc-name">GST calculator</div></div>
-      <div class="hc-desc" id="d20">Calculate GST amount for all slabs (5%, 12%, 18%, 28%). Supports both inclusive and exclusive GST calculation.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d20')">Read more ▾</span>
-      <div class="hc-arrow">→</div>
-    </a>
-
-    <!-- GOAL PLANNING -->
-    <a href="pages/inflation-calculator.html" target="_blank" class="home-calc-card" data-cat="plan" data-name="inflation calculator india future value expenses cost">
+    <a href="pages/step-up-sip-calculator.html" class="home-calc-card" data-cat="invest" data-name="step up sip calculator annual increase increment salary hike">
       <div class="hc-accent"></div>
-      <div class="hc-top"><div class="hc-icon">📅</div><div class="hc-name">Inflation calculator</div></div>
-      <div class="hc-desc" id="d21">How much will ₹50,000/month expenses cost in 20 years at 6% Indian inflation? Essential for any FIRE or retirement plan.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d21')">Read more ▾</span>
+      <span class="hc-badge badge-new">Unique</span>
+      <div class="hc-icon">🪜</div>
+      <div class="hc-name">Step-up SIP calculator</div>
+      <div class="hc-desc">See the massive difference when you increase SIP by 10–15% every year alongside your salary hike.</div>
       <div class="hc-arrow">→</div>
     </a>
 
-    <a href="pages/rd-calculator.html" target="_blank" class="home-calc-card" data-cat="plan" data-name="rd calculator recurring deposit maturity interest bank post office">
-      <div class="hc-accent"></div><span class="hc-badge badge-new">New</span>
-      <div class="hc-top"><div class="hc-icon">🏦</div><div class="hc-name">RD calculator</div></div>
-      <div class="hc-desc" id="d22">Calculate recurring deposit maturity amount and interest for any bank or post office with quarterly compounding.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d22')">Read more ▾</span>
+    <a href="pages/fd-laddering-calculator.html" class="home-calc-card" data-cat="invest" data-name="fd laddering fixed deposit planner post retirement safety">
+      <div class="hc-accent"></div>
+      <span class="hc-badge badge-new">Unique</span>
+      <div class="hc-icon">🏗️</div>
+      <div class="hc-name">FD laddering planner</div>
+      <div class="hc-desc">Build a staggered FD strategy for post-retirement safety. Auto-calculates maturity and reinvestment schedule.</div>
       <div class="hc-arrow">→</div>
     </a>
 
-    <a href="pages/gratuity-calculator.html" target="_blank" class="home-calc-card" data-cat="plan" data-name="gratuity calculator india payment of gratuity act years service">
-      <div class="hc-accent"></div><span class="hc-badge badge-new">New</span>
-      <div class="hc-top"><div class="hc-icon">🎁</div><div class="hc-name">Gratuity calculator</div></div>
-      <div class="hc-desc" id="d23">Calculate gratuity on resignation or retirement as per Payment of Gratuity Act. Includes ₹20 lakh tax-free limit.</div>
-      <span class="hc-more" onclick="toggleDesc(event,'d23')">Read more ▾</span>
+    <a href="pages/lumpsum-calculator.html" class="home-calc-card" data-cat="invest" data-name="lumpsum calculator one time investment returns cagr">
+      <div class="hc-accent"></div>
+      <div class="hc-icon">💰</div>
+      <div class="hc-name">Lumpsum calculator</div>
+      <div class="hc-desc">How does a one-time investment grow over time at various CAGR rates with inflation-adjusted returns?</div>
+      <div class="hc-arrow">→</div>
+    </a>
+
+    <a href="pages/home-loan-emi-calculator.html" class="home-calc-card" data-cat="loan" data-name="home loan emi calculator india prepayment amortisation">
+      <div class="hc-accent"></div>
+      <span class="hc-badge badge-pop">Popular</span>
+      <div class="hc-icon">🏠</div>
+      <div class="hc-name">Home loan EMI calculator</div>
+      <div class="hc-desc">Monthly EMI, total interest paid, and amortisation schedule with prepayment impact analysis.</div>
+      <div class="hc-arrow">→</div>
+    </a>
+
+    <a href="pages/personal-loan-calculator.html" class="home-calc-card" data-cat="loan" data-name="personal loan emi calculator interest total cost">
+      <div class="hc-accent"></div>
+      <div class="hc-icon">💳</div>
+      <div class="hc-name">Personal loan EMI calculator</div>
+      <div class="hc-desc">Find monthly EMI and compare cost across different tenures and interest rates.</div>
+      <div class="hc-arrow">→</div>
+    </a>
+
+    <a href="pages/income-tax-calculator.html" class="home-calc-card" data-cat="tax" data-name="income tax calculator new old regime 2025 2026 fy26">
+      <div class="hc-accent"></div>
+      <span class="hc-badge badge-hot">Updated FY26</span>
+      <div class="hc-icon">🧾</div>
+      <div class="hc-name">Income tax calculator</div>
+      <div class="hc-desc">Compare old vs new tax regime for FY 2025-26 with ₹12 lakh zero-tax rebate under new regime.</div>
+      <div class="hc-arrow">→</div>
+    </a>
+
+    <a href="pages/capital-gains-tax-calculator.html" class="home-calc-card" data-cat="tax" data-name="capital gains tax ltcg stcg equity mutual fund property">
+      <div class="hc-accent"></div>
+      <div class="hc-icon">📋</div>
+      <div class="hc-name">Capital gains tax calculator</div>
+      <div class="hc-desc">Calculate LTCG/STCG tax on equity, mutual funds, and property with Budget 2024 rate changes.</div>
+      <div class="hc-arrow">→</div>
+    </a>
+
+    <a href="pages/inflation-calculator.html" class="home-calc-card" data-cat="plan" data-name="inflation calculator india future value expenses cost">
+      <div class="hc-accent"></div>
+      <div class="hc-icon">📅</div>
+      <div class="hc-name">Inflation calculator</div>
+      <div class="hc-desc">How much will ₹50,000/month expenses cost in 20 years at 6% Indian inflation? Essential for FIRE planning.</div>
       <div class="hc-arrow">→</div>
     </a>
 
   </div>
 </section>
 
+<!-- MID AD -->
 <div class="ad-strip">
   <div style="height:90px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--ink-3);font-size:12px">
     📢 Google AdSense Banner Ad — paste your ad script here
   </div>
 </div>
 
+<!-- FIRE EXPLAINER -->
 <div class="fire-banner" id="fire">
-  <div><h2>New to FIRE? Start here.</h2><p>FIRE = Financial Independence, Retire Early. Build a corpus large enough that investment returns cover all living expenses — so work becomes a choice, not a necessity. Our calculators show you the exact number and path to get there.</p></div>
-  <button class="banner-btn" onclick="window.open('pages/fire-corpus-calculator.html','_blank')">Calculate my FIRE number →</button>
+  <div>
+    <h2>New to FIRE? Start here.</h2>
+    <p>FIRE = Financial Independence, Retire Early. Build a corpus large enough that investment returns cover all living expenses — so work becomes a choice, not a necessity. Our calculators show you the exact number and path to get there.</p>
+  </div>
+  <button class="banner-btn" onclick="window.location='pages/fire-corpus-calculator.html'">Calculate my FIRE number →</button>
 </div>
 
+<!-- WHY -->
 <section class="section" style="padding-top:0">
-  <div class="section-title" style="margin-bottom:18px">Why MiddleClassMoney.in?</div>
+  <div class="section-title" style="margin-bottom:18px">Why FirePlan.in?</div>
   <div class="why-grid">
-    <div class="why-card"><div class="why-icon">🇮🇳</div><div class="why-title">Built for middle class India</div><div class="why-body">Every calculator uses Indian inflation (6%), CAGR benchmarks, and India-specific tax rules — not US formulas copy-pasted for India.</div></div>
-    <div class="why-card"><div class="why-icon">📄</div><div class="why-title">Download your plan</div><div class="why-body">Every calculator generates a branded PDF with year-by-year projections and action checklist. Free with account signup.</div></div>
+    <div class="why-card"><div class="why-icon">🇮🇳</div><div class="why-title">Built for India</div><div class="why-body">Every calculator uses Indian inflation (6%), CAGR benchmarks, and India-specific tax rules — not US formulas copy-pasted for India.</div></div>
+    <div class="why-card"><div class="why-icon">📄</div><div class="why-title">Download your plan</div><div class="why-body">Every calculator generates a branded PDF report with year-by-year projections and action checklist. Free with account signup.</div></div>
     <div class="why-card"><div class="why-icon">🔒</div><div class="why-title">No data stored</div><div class="why-body">All calculations run in your browser. We never see your numbers. No account needed to calculate — only to download reports.</div></div>
-    <div class="why-card"><div class="why-icon">📊</div><div class="why-title">23 calculators</div><div class="why-body">From SIP to Sukanya Samriddhi, FIRE to GST — the most complete free calculator suite for Indian middle class families.</div></div>
+    <div class="why-card"><div class="why-icon">♾️</div><div class="why-title">Unique tools</div><div class="why-body">The Immortal SWP calculator and FD Laddering Planner exist nowhere else in India — built specifically for the FIRE community.</div></div>
   </div>
 </section>
 
 <footer>
-  <div class="affiliate-note">ⓘ Disclosure: Some links are affiliate links. Opening an account through our links earns us a small commission at no extra cost to you. This keeps all calculators free. MiddleClassMoney.in does not provide personalised investment advice.</div>
+  <div class="affiliate-note">ⓘ Disclosure: Some links are affiliate links. Opening an account through our links earns us a small commission at no extra cost to you. This keeps all calculators free. FirePlan.in does not provide personalised investment advice.</div>
   <div class="footer-grid">
-    <div><div class="footer-logo">MCM | <span>Middle Class Money</span></div><p class="footer-brand-text">India's most complete financial calculator suite for the middle class. Free, no signup required.</p></div>
-    <div class="footer-col"><h4>FIRE & retirement</h4><a href="pages/fire-corpus-calculator.html">FIRE corpus</a><a href="pages/immortal-swp-calculator.html">Immortal SWP</a><a href="pages/coast-fire-calculator.html">Coast FIRE</a><a href="pages/retirement-corpus-calculator.html">Retirement</a><a href="pages/swp-depletion-calculator.html">SWP depletion</a></div>
-    <div class="footer-col"><h4>Investments & govt</h4><a href="pages/sip-calculator.html">SIP</a><a href="pages/ppf-calculator.html">PPF</a><a href="pages/epf-calculator.html">EPF</a><a href="pages/nps-calculator.html">NPS</a><a href="pages/sukanya-samriddhi-calculator.html">Sukanya Samriddhi</a><a href="pages/rd-calculator.html">RD</a></div>
-    <div class="footer-col"><h4>Tax & others</h4><a href="pages/income-tax-calculator.html">Income tax FY26</a><a href="pages/hra-calculator.html">HRA exemption</a><a href="pages/gst-calculator.html">GST</a><a href="pages/capital-gains-tax-calculator.html">Capital gains</a><a href="pages/gratuity-calculator.html">Gratuity</a><a href="pages/home-loan-emi-calculator.html">Home loan EMI</a></div>
+    <div><div class="footer-logo">Fire<span>Plan</span>.in</div><p class="footer-brand-text">India's most complete FIRE & financial calculator suite. Free, no signup required.</p></div>
+    <div class="footer-col"><h4>FIRE calculators</h4><a href="pages/fire-corpus-calculator.html">FIRE corpus</a><a href="pages/immortal-swp-calculator.html">Immortal SWP</a><a href="pages/coast-fire-calculator.html">Coast FIRE</a><a href="pages/lean-fat-fire-calculator.html">Lean / Fat FIRE</a><a href="pages/swp-depletion-calculator.html">SWP depletion</a></div>
+    <div class="footer-col"><h4>Investment tools</h4><a href="pages/sip-calculator.html">SIP calculator</a><a href="pages/step-up-sip-calculator.html">Step-up SIP</a><a href="pages/fd-laddering-calculator.html">FD ladder planner</a><a href="pages/lumpsum-calculator.html">Lumpsum calculator</a></div>
+    <div class="footer-col"><h4>Tax & loans</h4><a href="pages/income-tax-calculator.html">Income tax FY26</a><a href="pages/capital-gains-tax-calculator.html">Capital gains tax</a><a href="pages/home-loan-emi-calculator.html">Home loan EMI</a><a href="pages/personal-loan-calculator.html">Personal loan</a><a href="pages/inflation-calculator.html">Inflation calculator</a></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 MiddleClassMoney.in — All calculators free to use</span><span><a href="pages/privacy.html">Privacy</a> · <a href="pages/disclaimer.html">Disclaimer</a> · <a href="pages/contact.html">Contact</a></span></div>
+  <div class="footer-bottom"><span>© 2026 FirePlan.in — All calculators free to use</span><span><a href="pages/privacy.html">Privacy</a> · <a href="pages/disclaimer.html">Disclaimer</a> · <a href="pages/contact.html">Contact</a></span></div>
 </footer>
 <button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <div class="toast" id="toast"></div>
@@ -319,21 +250,25 @@ function filterCards(q){
   const term=q.toLowerCase().trim();
   document.querySelectorAll('.ftag').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.home-calc-card').forEach(c=>{
-    const match=!term||c.dataset.name.includes(term)||c.querySelector('.hc-desc').textContent.toLowerCase().includes(term)||c.querySelector('.hc-name').textContent.toLowerCase().includes(term);
+    const match=!term||c.dataset.name.includes(term)||c.querySelector('.hc-desc').textContent.toLowerCase().includes(term);
     c.style.display=match?'flex':'none';
   });
 }
-function toggleDesc(e,id){
-  e.preventDefault();e.stopPropagation();
-  const el=document.getElementById(id);
-  const btn=e.target;
-  if(el.classList.contains('expanded')){
-    el.classList.remove('expanded');btn.textContent='Read more ▾';
-  }else{
-    el.classList.add('expanded');btn.textContent='Show less ▴';
-  }
-}
+// Set flex display as default
 document.querySelectorAll('.home-calc-card').forEach(c=>c.style.display='flex');
+</script>
+<script>
+// Update nav auth state on page load
+(function updateNavAuth() {
+  const user = JSON.parse(localStorage.getItem('fp_current') || 'null');
+  const token = localStorage.getItem('fp_token');
+  const navAuth = document.getElementById('navAuth');
+  if (!navAuth) return;
+  if (user && (token || localStorage.getItem('fp_current'))) {
+    navAuth.innerHTML = \`<span style="font-size:13px;color:var(--ink-2);font-weight:500">Hi, \${user.name.split(' ')[0]}</span>
+      <button onclick="handleLogout()" style="background:transparent;border:1.5px solid var(--border);color:var(--ink-2);padding:6px 14px;border-radius:var(--radius-sm);font-size:13px;cursor:pointer;font-family:inherit">Logout</button>\`;
+  }
+})();
 </script>
 </body>
 </html>
