@@ -1,61 +1,217 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Blog — FIRE & Financial Planning India | FirePlan.in</title>
+<title>Blog — FIRE & Financial Planning India | MiddleClassMoney.in</title>
+<meta name="description" content="In-depth articles on FIRE planning, SIP strategy, income tax, mutual funds, and personal finance for middle class India.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
-</head><body>
-<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
-<div class="breadcrumb"><a href="../index.html">Home</a> › Blog — FIRE & Financial Planning India</div>
-<div style="max-width:780px;margin:0 auto;padding:40px 5%">
+<style>
+.blog-hero{background:var(--white);border-bottom:1px solid var(--border);padding:36px 5% 28px;text-align:center}
+.blog-hero h1{font-family:'Sora',sans-serif;font-size:30px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.blog-hero p{font-size:14px;color:var(--ink-3)}
+.blog-layout{max-width:1100px;margin:0 auto;padding:32px 5%;display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start}
+@media(max-width:900px){.blog-layout{grid-template-columns:1fr}}
+.blog-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.filter-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--ink-2);font-family:inherit;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--green);color:white;border-color:var(--green)}
+.blog-grid{display:flex;flex-direction:column;gap:16px}
+.blog-card{display:block;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-decoration:none;transition:border-color .2s,box-shadow .2s}
+.blog-card:hover{border-color:var(--green);box-shadow:0 4px 16px rgba(27,107,69,.1)}
+.bc-cat{font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.bc-title{font-size:18px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.35}
+.bc-excerpt{font-size:13px;color:var(--ink-3);line-height:1.65;margin-bottom:14px}
+.bc-meta{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--ink-3)}
+.bc-dot{width:3px;height:3px;border-radius:50%;background:var(--ink-3)}
+.bc-readmore{font-size:13px;color:var(--green);font-weight:500;margin-top:12px;display:flex;align-items:center;gap:4px}
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200%;animation:shimmer 1.5s infinite;border-radius:6px}
+@keyframes shimmer{0%{background-position:200%}100%{background-position:-200%}}
+.skeleton-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.empty-state{text-align:center;padding:60px 20px;color:var(--ink-3)}
+.empty-state h3{font-size:18px;color:var(--ink);margin-bottom:8px}
+.load-more-wrap{text-align:center;margin-top:20px}
+.btn-load-more{background:var(--white);border:1.5px solid var(--green);color:var(--green);padding:10px 24px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-load-more:hover{background:var(--green);color:white}
 
-<h1 style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;margin-bottom:6px">Blog</h1>
-<p style="color:var(--ink-3);font-size:14px;margin-bottom:32px">FIRE strategies, calculator guides, and financial planning for India</p>
+/* SIDEBAR */
+.blog-sidebar{display:flex;flex-direction:column;gap:16px}
+.sidebar-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.sidebar-card h4{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:14px;text-transform:uppercase;letter-spacing:.05em}
+.category-item{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink-2);cursor:pointer;transition:color .15s}
+.category-item:last-child{border-bottom:none}
+.category-item:hover{color:var(--green)}
+.category-count{background:var(--green-lt);color:var(--green);font-size:11px;font-weight:600;padding:2px 7px;border-radius:10px}
+.calc-link{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink-2);text-decoration:none;transition:color .15s}
+.calc-link:last-child{border-bottom:none}
+.calc-link:hover{color:var(--green)}
+</style>
+</head>
+<body>
+<div id="navBar"></div>
+<div class="breadcrumb"><a href="../index.html">Home</a> › Blog</div>
 
-<div style="display:flex;flex-direction:column;gap:20px">
-
-<a href="#" style="display:block;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:24px;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'">
-<div style="font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">FIRE Planning · June 2026</div>
-<div style="font-size:18px;font-weight:600;color:var(--ink);margin-bottom:8px">What is the FIRE number and how to calculate it for India</div>
-<div style="font-size:13px;color:var(--ink-3);line-height:1.65">The 4% rule was designed for the US. Here's how Indian FIRE planners should think about safe withdrawal rates, given 6% inflation, and higher equity returns from the Nifty 50...</div>
-<div style="margin-top:12px;font-size:13px;color:var(--green);font-weight:500">Read more →</div>
-</a>
-
-<a href="#" style="display:block;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:24px;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'">
-<div style="font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">SWP Strategy · June 2026</div>
-<div style="font-size:18px;font-weight:600;color:var(--ink);margin-bottom:8px">Immortal SWP: How to never run out of money in retirement</div>
-<div style="font-size:13px;color:var(--ink-3);line-height:1.65">The immortal SWP concept means your returns exactly cover your withdrawals — so the principal never depletes. Here's exactly how much corpus you need for this in India...</div>
-<div style="margin-top:12px;font-size:13px;color:var(--green);font-weight:500">Read more →</div>
-</a>
-
-<a href="#" style="display:block;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:24px;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'">
-<div style="font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Income Tax · June 2026</div>
-<div style="font-size:18px;font-weight:600;color:var(--ink);margin-bottom:8px">Old vs new tax regime FY 2025-26: who should switch?</div>
-<div style="font-size:13px;color:var(--ink-3);line-height:1.65">The new regime now offers zero tax up to ₹12 lakh. But for people with home loans, HRA, and 80C investments, the old regime may still win. A complete comparison...</div>
-<div style="margin-top:12px;font-size:13px;color:var(--green);font-weight:500">Read more →</div>
-</a>
-
-<a href="#" style="display:block;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:24px;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'">
-<div style="font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">SIP Strategy · May 2026</div>
-<div style="font-size:18px;font-weight:600;color:var(--ink);margin-bottom:8px">Step-up SIP: why increasing your SIP by 10% yearly changes everything</div>
-<div style="font-size:13px;color:var(--ink-3);line-height:1.65">A ₹10,000 SIP for 20 years at 12% gives ₹1 crore. The same SIP stepped up 10% yearly gives ₹1.75 crore. That 75% extra comes from one simple habit...</div>
-<div style="margin-top:12px;font-size:13px;color:var(--green);font-weight:500">Read more →</div>
-</a>
-
-<a href="#" style="display:block;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:24px;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'">
-<div style="font-size:11px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">COMING SOON</div>
-<div style="font-size:18px;font-weight:600;color:var(--ink);margin-bottom:8px">FD laddering: the safest post-retirement income strategy in India</div>
-<div style="font-size:13px;color:var(--ink-3);line-height:1.65">Split your corpus into 5 FDs of 1–5 year tenures. Every year one FD matures, giving liquidity without selling equity in a downturn. Full walkthrough coming soon...</div>
-</a>
-
+<div class="blog-hero">
+  <h1>Blog</h1>
+  <p>FIRE strategies, calculator guides, and financial planning for India</p>
 </div>
 
+<div class="blog-layout">
+  <!-- MAIN -->
+  <main>
+    <!-- CATEGORY FILTERS -->
+    <div class="blog-filters" id="filterBar">
+      <button class="filter-btn active" onclick="filterByCategory('',this)">All Posts</button>
+      <button class="filter-btn" onclick="filterByCategory('FIRE Planning',this)">FIRE Planning</button>
+      <button class="filter-btn" onclick="filterByCategory('SIP Strategy',this)">SIP Strategy</button>
+      <button class="filter-btn" onclick="filterByCategory('SWP Strategy',this)">SWP Strategy</button>
+      <button class="filter-btn" onclick="filterByCategory('Income Tax',this)">Income Tax</button>
+      <button class="filter-btn" onclick="filterByCategory('Mutual Funds',this)">Mutual Funds</button>
+      <button class="filter-btn" onclick="filterByCategory('Fixed Deposits',this)">Fixed Deposits</button>
+      <button class="filter-btn" onclick="filterByCategory('Personal Finance',this)">Personal Finance</button>
+    </div>
+
+    <!-- BLOG GRID -->
+    <div class="blog-grid" id="blogGrid">
+      <!-- Skeleton loaders -->
+      ${[1,2,3].map(()=>`
+      <div class="skeleton-card">
+        <div class="skeleton" style="height:12px;width:80px;margin-bottom:10px"></div>
+        <div class="skeleton" style="height:22px;margin-bottom:8px"></div>
+        <div class="skeleton" style="height:22px;width:80%;margin-bottom:14px"></div>
+        <div class="skeleton" style="height:14px;margin-bottom:6px"></div>
+        <div class="skeleton" style="height:14px;width:90%;margin-bottom:6px"></div>
+        <div class="skeleton" style="height:14px;width:70%"></div>
+      </div>`).join('')}
+    </div>
+
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+      <button class="btn-load-more" onclick="loadMore()">Load more posts</button>
+    </div>
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="blog-sidebar">
+    <div class="sidebar-card">
+      <h4>Browse by Category</h4>
+      <div id="catList"><div style="color:#999;font-size:13px">Loading...</div></div>
+    </div>
+    <div class="sidebar-card">
+      <h4>Free Calculators</h4>
+      <a href="sip-calculator.html" class="calc-link">SIP Calculator <span style="color:var(--green);font-size:11px;font-weight:600">Try →</span></a>
+      <a href="fire-corpus-calculator.html" class="calc-link">FIRE Corpus <span style="color:var(--green);font-size:11px;font-weight:600">Try →</span></a>
+      <a href="immortal-swp-calculator.html" class="calc-link">Immortal SWP <span style="color:var(--green);font-size:11px;font-weight:600">Try →</span></a>
+      <a href="income-tax-calculator.html" class="calc-link">Income Tax FY26 <span style="color:var(--green);font-size:11px;font-weight:600">Try →</span></a>
+      <a href="fd-laddering-calculator.html" class="calc-link">FD Ladder Planner <span style="color:var(--green);font-size:11px;font-weight:600">Try →</span></a>
+      <a href="../index.html#calculators" class="calc-link" style="color:var(--green);font-weight:600">All 23 calculators <span style="font-size:11px;font-weight:600">→</span></a>
+    </div>
+    <div class="sidebar-card" style="background:var(--green-lt);border-color:var(--green)">
+      <h4 style="color:var(--green)">📥 Get PDF Reports</h4>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.6;margin-bottom:12px">Use any calculator and download a personalised PDF report — free with a quick signup.</p>
+      <a href="sip-calculator.html" style="display:block;background:var(--green);color:white;padding:10px;border-radius:var(--radius-sm);text-align:center;font-size:13px;font-weight:600;text-decoration:none">Try a Calculator →</a>
+    </div>
+  </aside>
 </div>
-<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div>
-<div class="footer-grid"><div><div class="footer-logo">Fire<span>Plan</span>.in</div></div>
-<div class="footer-col"><h4>Calculators</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="sip-calculator.html">SIP</a><a href="income-tax-calculator.html">Income tax</a></div>
-</div><div class="footer-bottom"><span>© 2026 FirePlan.in</span></div></footer>
-<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<div id="footerEl"></div>
 <div class="toast" id="toast"></div>
 <script src="../js/shared.js"></script>
-</body></html>
+<script>
+const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3001/api'
+  : 'https://fireplan-api.onrender.com/api';
+
+document.getElementById('navBar').outerHTML   = renderNav();
+document.getElementById('footerEl').outerHTML = renderFooter();
+
+let currentCategory = '';
+let currentPage     = 1;
+let totalPages      = 1;
+let allPosts        = [];
+
+async function loadPosts(category='', page=1, append=false) {
+  const url = `${API}/blogs?limit=10&page=${page}${category?'&category='+encodeURIComponent(category):''}`;
+  try {
+    const res  = await fetch(url);
+    const data = await res.json();
+    const posts = data.blogs || [];
+    totalPages  = data.pages || 1;
+
+    if (append) {
+      allPosts = [...allPosts, ...posts];
+    } else {
+      allPosts = posts;
+    }
+
+    renderPosts(allPosts, append);
+    buildCategoryList(allPosts);
+    document.getElementById('loadMoreWrap').style.display = page < totalPages ? 'block' : 'none';
+  } catch {
+    // Show empty state if API fails
+    renderEmpty();
+  }
+}
+
+function renderPosts(posts, append=false) {
+  const grid = document.getElementById('blogGrid');
+  if (!posts.length) { renderEmpty(); return; }
+  const html = posts.map(p => `
+    <a href="blog-post.html?slug=${p.slug}" class="blog-card">
+      <div class="bc-cat">${p.category} · ${fmtDate(p.publishedAt)}</div>
+      <div class="bc-title">${p.title}</div>
+      <div class="bc-excerpt">${p.excerpt}</div>
+      <div class="bc-meta">
+        <span>${p.readTime||5} min read</span>
+        <span class="bc-dot"></span>
+        <span>${p.views||0} views</span>
+        ${p.tags&&p.tags.length?`<span class="bc-dot"></span><span>${p.tags.slice(0,2).join(', ')}</span>`:''}
+      </div>
+      <div class="bc-readmore">Read article <span>→</span></div>
+    </a>`).join('');
+  grid.innerHTML = html;
+}
+
+function renderEmpty() {
+  document.getElementById('blogGrid').innerHTML = `
+    <div class="empty-state">
+      <h3>No posts yet</h3>
+      <p>New articles are coming soon. Check back shortly!</p>
+    </div>`;
+}
+
+function filterByCategory(cat, el) {
+  currentCategory = cat;
+  currentPage = 1;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('blogGrid').innerHTML = '<div style="text-align:center;padding:40px;color:#999">Loading...</div>';
+  loadPosts(cat, 1);
+}
+
+function loadMore() {
+  currentPage++;
+  loadPosts(currentCategory, currentPage, true);
+}
+
+function buildCategoryList(posts) {
+  const cats = {};
+  posts.forEach(p => { cats[p.category] = (cats[p.category]||0)+1; });
+  const el = document.getElementById('catList');
+  const entries = Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+  if (!entries.length) { el.innerHTML = '<div style="color:#999;font-size:13px">No categories yet</div>'; return; }
+  el.innerHTML = entries.map(([cat, count]) => `
+    <div class="category-item" onclick="filterByCategory('${cat}',document.querySelector('.filter-btn'))">
+      <span>${cat}</span>
+      <span class="category-count">${count}</span>
+    </div>`).join('');
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  return new Date(d).toLocaleDateString('en-IN', { month:'short', year:'numeric' });
+}
+
+// Initial load
+loadPosts();
+</script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title id="pageTitle">Blog — MiddleClassMoney.in</title>
+<meta name="description" id="pageDesc" content="Financial planning articles for middle class India">
+<link rel="canonical" id="pageCanonical" href="https://middleclassmoney.in/pages/blog-post.html">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+.post-hero{background:var(--white);border-bottom:1px solid var(--border);padding:40px 5% 32px}
+.post-hero-inner{max-width:780px;margin:0 auto}
+.post-category{font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.post-title{font-family:'Sora',sans-serif;font-size:32px;font-weight:700;line-height:1.25;color:var(--ink);margin-bottom:14px}
+.post-meta{display:flex;align-items:center;gap:16px;font-size:13px;color:var(--ink-3);flex-wrap:wrap}
+.post-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--ink-3)}
+.post-layout{max-width:1100px;margin:0 auto;padding:40px 5%;display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start}
+@media(max-width:900px){.post-layout{grid-template-columns:1fr}}
+.post-body{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow)}
+.post-content{line-height:1.85;font-size:15.5px;color:var(--ink-2)}
+.post-content h2{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--ink);margin:32px 0 14px;padding-top:4px}
+.post-content h3{font-family:'Sora',sans-serif;font-size:18px;font-weight:600;color:var(--ink);margin:24px 0 10px}
+.post-content p{margin-bottom:16px}
+.post-content ul,.post-content ol{padding-left:24px;margin-bottom:16px}
+.post-content li{margin-bottom:6px}
+.post-content table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}
+.post-content th{background:var(--green);color:white;padding:10px 14px;text-align:left;font-weight:600}
+.post-content td{border:1px solid var(--border);padding:9px 14px}
+.post-content tr:nth-child(even) td{background:var(--bg)}
+.post-content a{color:var(--green);text-decoration:underline;text-underline-offset:3px}
+.post-content a:hover{color:var(--green-dk)}
+.post-content blockquote{border-left:4px solid var(--green);background:var(--green-lt);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;font-style:italic;color:var(--ink-2)}
+.post-content hr{border:none;border-top:1px solid var(--border);margin:28px 0}
+.post-content strong{color:var(--ink);font-weight:600}
+.post-content code{background:var(--bg);border:1px solid var(--border);padding:2px 6px;border-radius:4px;font-size:13px;font-family:monospace}
+.post-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:20px;border-top:1px solid var(--border)}
+.post-tag{background:var(--green-lt);color:var(--green);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500}
+.post-share{margin-top:20px;padding-top:20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.post-share span{font-size:13px;font-weight:500;color:var(--ink-2)}
+.share-btn{padding:7px 14px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s;font-family:inherit}
+.share-twitter{background:#1DA1F2;color:white}
+.share-whatsapp{background:#25D366;color:white}
+.share-copy{background:var(--bg);color:var(--ink-2);border:1px solid var(--border)}
+.share-copy:hover{background:var(--green);color:white;border-color:var(--green)}
+
+/* SIDEBAR */
+.post-sidebar{display:flex;flex-direction:column;gap:16px}
+.sidebar-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.sidebar-card h4{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:14px;text-transform:uppercase;letter-spacing:.05em}
+.related-post{display:block;padding:10px 0;border-bottom:1px solid var(--border);text-decoration:none;transition:color .15s}
+.related-post:last-child{border-bottom:none;padding-bottom:0}
+.related-post:hover .rp-title{color:var(--green)}
+.rp-cat{font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.rp-title{font-size:13px;font-weight:500;color:var(--ink-2);line-height:1.4}
+.calc-link{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink-2);text-decoration:none;transition:color .15s}
+.calc-link:last-child{border-bottom:none}
+.calc-link:hover{color:var(--green)}
+.calc-link span{font-size:11px;color:var(--green);font-weight:500}
+
+/* LOADING STATE */
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px;height:20px;margin-bottom:12px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.not-found{text-align:center;padding:80px 20px;color:var(--ink-3)}
+.not-found h2{font-size:24px;color:var(--ink);margin-bottom:10px}
+</style>
+</head>
+<body>
+<nav id="navBar"></nav>
+<div class="breadcrumb" id="breadcrumb">
+  <a href="../index.html">Home</a> › <a href="blog.html">Blog</a> › <span id="bcTitle">Loading...</span>
+</div>
+
+<!-- POST HERO -->
+<div class="post-hero" id="postHero" style="display:none">
+  <div class="post-hero-inner">
+    <div class="post-category" id="postCat"></div>
+    <h1 class="post-title" id="postTitleEl"></h1>
+    <div class="post-meta">
+      <span id="postDate"></span>
+      <span class="post-meta-dot"></span>
+      <span id="postReadTime"></span>
+      <span class="post-meta-dot"></span>
+      <span id="postViews"></span>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING SKELETON -->
+<div id="loadingSkeleton" style="max-width:780px;margin:40px auto;padding:0 5%">
+  <div class="skeleton" style="height:14px;width:100px"></div>
+  <div class="skeleton" style="height:36px;margin-top:12px"></div>
+  <div class="skeleton" style="height:36px;width:70%"></div>
+  <div class="skeleton" style="height:14px;width:200px;margin-top:16px"></div>
+</div>
+
+<!-- NOT FOUND -->
+<div id="notFound" style="display:none" class="not-found">
+  <h2>Post not found</h2>
+  <p>This article doesn't exist or may have been removed.</p>
+  <a href="blog.html" style="color:var(--green);font-weight:600;margin-top:12px;display:inline-block">← Back to Blog</a>
+</div>
+
+<!-- POST LAYOUT -->
+<div class="post-layout" id="postLayout" style="display:none">
+  <article class="post-body">
+    <div class="post-content" id="postContent"></div>
+    <div class="post-tags" id="postTagsEl"></div>
+    <div class="post-share">
+      <span>Share:</span>
+      <button class="share-btn share-twitter" onclick="shareTwitter()">𝕏 Twitter</button>
+      <button class="share-btn share-whatsapp" onclick="shareWhatsApp()">WhatsApp</button>
+      <button class="share-btn share-copy" onclick="copyLink()">🔗 Copy Link</button>
+    </div>
+  </article>
+
+  <aside class="post-sidebar">
+    <!-- RELATED POSTS -->
+    <div class="sidebar-card">
+      <h4>Related Posts</h4>
+      <div id="relatedPosts"><div style="color:#999;font-size:13px">Loading...</div></div>
+    </div>
+
+    <!-- CALCULATOR CTA -->
+    <div class="sidebar-card">
+      <h4>Free Calculators</h4>
+      <a href="sip-calculator.html" class="calc-link">SIP Calculator <span>Try →</span></a>
+      <a href="fire-corpus-calculator.html" class="calc-link">FIRE Corpus <span>Try →</span></a>
+      <a href="immortal-swp-calculator.html" class="calc-link">Immortal SWP <span>Try →</span></a>
+      <a href="income-tax-calculator.html" class="calc-link">Income Tax FY26 <span>Try →</span></a>
+      <a href="fd-laddering-calculator.html" class="calc-link">FD Ladder <span>Try →</span></a>
+      <a href="../index.html#calculators" class="calc-link" style="color:var(--green);font-weight:600">All 23 calculators <span>→</span></a>
+    </div>
+
+    <!-- AFFILIATE -->
+    <div class="sidebar-card">
+      <h4>Start Investing</h4>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <a href="https://groww.in" target="_blank" rel="nofollow sponsored" style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg);border-radius:8px;border:1px solid var(--border);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div><div style="font-size:13px;font-weight:600;color:var(--ink)">Groww</div><div style="font-size:11px;color:var(--ink-3)">Zero commission SIP</div></div>
+          <span style="font-size:12px;color:var(--green);font-weight:600">Open →</span>
+        </a>
+        <a href="https://upstox.com" target="_blank" rel="nofollow sponsored" style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg);border-radius:8px;border:1px solid var(--border);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div><div style="font-size:13px;font-weight:600;color:var(--ink)">Upstox</div><div style="font-size:11px;color:var(--ink-3)">Free demat account</div></div>
+          <span style="font-size:12px;color:var(--green);font-weight:600">Open →</span>
+        </a>
+      </div>
+      <p style="font-size:10px;color:var(--ink-3);margin-top:10px">*Affiliate links. We may earn commission.</p>
+    </div>
+  </aside>
+</div>
+
+<div id="footerEl"></div>
+<div class="toast" id="toast"></div>
+<script src="../js/shared.js"></script>
+<script>
+const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3001/api'
+  : 'https://fireplan-api.onrender.com/api';
+
+// Render nav
+document.getElementById('navBar').outerHTML = renderNav();
+document.getElementById('footerEl').outerHTML = renderFooter();
+
+// Get slug from URL
+const params = new URLSearchParams(window.location.search);
+const slug   = params.get('slug');
+
+if (!slug) {
+  showNotFound();
+} else {
+  loadPost(slug);
+}
+
+async function loadPost(slug) {
+  try {
+    const res  = await fetch(`${API}/blogs/${slug}`);
+    if (!res.ok) { showNotFound(); return; }
+    const data = await res.json();
+    renderPost(data.blog);
+    loadRelated(data.blog.category, data.blog._id);
+  } catch {
+    showNotFound();
+  }
+}
+
+function renderPost(p) {
+  // Update meta
+  document.getElementById('pageTitle').textContent  = p.title + ' — MiddleClassMoney.in';
+  document.getElementById('pageDesc').content        = p.excerpt;
+  document.getElementById('pageCanonical').href      = `https://middleclassmoney.in/pages/blog-post.html?slug=${p.slug}`;
+  document.getElementById('bcTitle').textContent     = p.title;
+
+  // Hero
+  document.getElementById('postCat').textContent      = p.category;
+  document.getElementById('postTitleEl').textContent  = p.title;
+  document.getElementById('postDate').textContent     = fmtDate(p.publishedAt);
+  document.getElementById('postReadTime').textContent = `${p.readTime || 5} min read`;
+  document.getElementById('postViews').textContent    = `${p.views || 1} views`;
+
+  // Content
+  document.getElementById('postContent').innerHTML = p.content;
+
+  // Tags
+  if (p.tags && p.tags.length) {
+    document.getElementById('postTagsEl').innerHTML = p.tags.map(t =>
+      `<span class="post-tag">${t}</span>`).join('');
+  }
+
+  // Show
+  document.getElementById('loadingSkeleton').style.display = 'none';
+  document.getElementById('postHero').style.display        = 'block';
+  document.getElementById('postLayout').style.display      = 'grid';
+}
+
+async function loadRelated(category, currentId) {
+  try {
+    const res  = await fetch(`${API}/blogs?category=${encodeURIComponent(category)}&limit=4`);
+    const data = await res.json();
+    const posts = (data.blogs || []).filter(p => p._id !== currentId).slice(0, 3);
+    const el = document.getElementById('relatedPosts');
+    if (!posts.length) {
+      el.innerHTML = '<div style="color:#999;font-size:13px">No related posts yet</div>';
+      return;
+    }
+    el.innerHTML = posts.map(p => `
+      <a href="blog-post.html?slug=${p.slug}" class="related-post">
+        <div class="rp-cat">${p.category}</div>
+        <div class="rp-title">${p.title}</div>
+      </a>`).join('');
+  } catch {}
+}
+
+function showNotFound() {
+  document.getElementById('loadingSkeleton').style.display = 'none';
+  document.getElementById('notFound').style.display = 'block';
+}
+
+// Share functions
+function shareTwitter() {
+  const url  = encodeURIComponent(window.location.href);
+  const text = encodeURIComponent(document.getElementById('postTitleEl').textContent);
+  window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+}
+function shareWhatsApp() {
+  const url  = encodeURIComponent(window.location.href);
+  const text = encodeURIComponent(document.getElementById('postTitleEl').textContent + ' — ');
+  window.open(`https://wa.me/?text=${text}${url}`, '_blank');
+}
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => showToast('Link copied!'));
+}
+function fmtDate(d) {
+  if (!d) return '';
+  return new Date(d).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+}
+</script>
+</body>
+</html>

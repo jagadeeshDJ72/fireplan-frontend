@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin Panel — MiddleClassMoney.in</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#1B6B45;--green-lt:#E8F5EE;--green-md:#2A9460;--green-dk:#134F33;
+  --gold:#C8860A;--ink:#0F1F17;--ink-2:#3A4A40;--ink-3:#6B7D72;
+  --bg:#F6FAF7;--white:#FFFFFF;--border:#D6E8DC;--red:#DC2626;--red-lt:#FEE2E2;
+  --radius:12px;--radius-sm:8px;--shadow:0 1px 3px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
+a{text-decoration:none;color:inherit}
+
+/* LOGIN SCREEN */
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.login-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:40px;max-width:400px;width:100%;box-shadow:var(--shadow)}
+.login-logo{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--green);margin-bottom:6px}
+.login-logo span{color:var(--gold)}
+.login-sub{font-size:13px;color:var(--ink-3);margin-bottom:28px}
+.login-card input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;margin-bottom:12px;outline:none;font-family:inherit}
+.login-card input:focus{border-color:var(--green)}
+.btn-primary{background:var(--green);color:#fff;border:none;padding:12px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;width:100%;transition:background .2s;font-family:inherit}
+.btn-primary:hover{background:var(--green-md)}
+.btn-danger{background:var(--red);color:#fff;border:none;padding:8px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;transition:background .2s;font-family:inherit}
+.btn-danger:hover{background:#b91c1c}
+.btn-outline{background:transparent;color:var(--green);border:1.5px solid var(--green);padding:8px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-outline:hover{background:var(--green-lt)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.err-msg{color:var(--red);font-size:12px;margin-top:8px;display:none}
+
+/* ADMIN LAYOUT */
+#adminApp{display:none;min-height:100vh;flex-direction:column}
+.admin-header{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.admin-logo{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:var(--green)}
+.admin-logo span{color:var(--gold)}
+.header-right{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--ink-3)}
+.admin-body{display:flex;flex:1}
+.sidebar{width:220px;background:var(--white);border-right:1px solid var(--border);padding:16px 0;flex-shrink:0;min-height:calc(100vh - 56px)}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer;border-left:3px solid transparent;transition:all .15s}
+.sidebar-item:hover{background:var(--green-lt);color:var(--green)}
+.sidebar-item.active{background:var(--green-lt);color:var(--green);border-left-color:var(--green)}
+.sidebar-icon{width:16px;text-align:center}
+.main-content{flex:1;padding:28px;overflow-y:auto}
+
+/* SECTION PANELS */
+.panel{display:none}
+.panel.active{display:block}
+.panel-title{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:20px;color:var(--ink)}
+
+/* STATS CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.stat-num{font-size:28px;font-weight:700;color:var(--green);font-family:'Sora',sans-serif}
+.stat-label{font-size:12px;color:var(--ink-3);margin-top:4px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+
+/* TABLE */
+.table-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:24px}
+.table-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.table-header h3{font-size:14px;font-weight:600;color:var(--ink)}
+table{width:100%;border-collapse:collapse}
+th{padding:10px 16px;text-align:left;font-size:11px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;background:var(--bg);border-bottom:1px solid var(--border)}
+td{padding:12px 16px;font-size:13px;color:var(--ink-2);border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--green-lt)}
+.badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-green{background:var(--green-lt);color:var(--green)}
+.badge-gold{background:#FEF3DC;color:var(--gold)}
+.badge-gray{background:#f0f0f0;color:#666}
+
+/* BLOG EDITOR */
+.editor-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;color:var(--ink);background:var(--bg);outline:none;transition:border-color .2s;font-family:inherit}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green);background:var(--white)}
+.form-group textarea{resize:vertical;min-height:80px;line-height:1.6}
+#contentArea{min-height:400px;font-family:'Inter',sans-serif;font-size:14px;line-height:1.7}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;padding:10px;background:var(--bg);border:1.5px solid var(--border);border-bottom:none;border-radius:var(--radius-sm) var(--radius-sm) 0 0}
+.editor-toolbar button{padding:5px 10px;font-size:12px;font-weight:600;background:var(--white);border:1px solid var(--border);border-radius:4px;cursor:pointer;font-family:inherit;color:var(--ink-2);transition:all .15s}
+.editor-toolbar button:hover{background:var(--green);color:var(--white);border-color:var(--green)}
+#contentArea{border-radius:0 0 var(--radius-sm) var(--radius-sm);border:1.5px solid var(--border);padding:14px;outline:none;min-height:420px}
+#contentArea:focus{border-color:var(--green);background:var(--white)}
+.form-actions{display:flex;gap:12px;margin-top:24px;align-items:center}
+.char-count{font-size:12px;color:var(--ink-3)}
+.toggle-wrap{display:flex;align-items:center;gap:10px}
+.toggle{position:relative;width:44px;height:24px}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:#ccc;border-radius:12px;cursor:pointer;transition:.3s}
+.toggle-slider:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:white;border-radius:50%;transition:.3s}
+.toggle input:checked+.toggle-slider{background:var(--green)}
+.toggle input:checked+.toggle-slider:before{transform:translateX(20px)}
+.toggle-label{font-size:13px;font-weight:500;color:var(--ink-2)}
+
+/* SEARCH BAR */
+.search-bar{display:flex;gap:10px;margin-bottom:16px}
+.search-bar input{flex:1;padding:9px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:inherit;outline:none}
+.search-bar input:focus{border-color:var(--green)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;padding:12px 20px;border-radius:var(--radius-sm);font-size:13px;z-index:999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.success{background:var(--green)}
+.toast.error{background:var(--red)}
+
+/* LOADING */
+.loading{text-align:center;padding:40px;color:var(--ink-3);font-size:14px}
+
+@media(max-width:768px){
+  .sidebar{display:none}
+  .form-row{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ── -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">MCM | <span>Admin</span></div>
+    <div class="login-sub">MiddleClassMoney.in — Content Management</div>
+    <input type="password" id="adminKeyInput" placeholder="Enter admin key" onkeydown="if(event.key==='Enter')doAdminLogin()">
+    <button class="btn-primary" onclick="doAdminLogin()">Login →</button>
+    <div class="err-msg" id="loginErr">Invalid admin key. Try again.</div>
+  </div>
+</div>
+
+<!-- ── ADMIN APP ── -->
+<div id="adminApp">
+  <header class="admin-header">
+    <div class="admin-logo">MCM | <span>Admin</span></div>
+    <div class="header-right">
+      <span id="headerStats">Loading...</span>
+      <a href="https://middleclassmoney.in" target="_blank" class="btn-outline btn-sm">View Site ↗</a>
+      <button class="btn-danger btn-sm" onclick="adminLogout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="admin-body">
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-item active" onclick="showPanel('dashboard',this)">
+        <span class="sidebar-icon">📊</span> Dashboard
+      </div>
+      <div class="sidebar-item" onclick="showPanel('newPost',this)">
+        <span class="sidebar-icon">✏️</span> New Blog Post
+      </div>
+      <div class="sidebar-item" onclick="showPanel('allPosts',this)">
+        <span class="sidebar-icon">📝</span> All Posts
+      </div>
+      <div class="sidebar-item" onclick="showPanel('users',this)">
+        <span class="sidebar-icon">👥</span> Users
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- DASHBOARD -->
+      <div id="panel-dashboard" class="panel active">
+        <div class="panel-title">Dashboard</div>
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card"><div class="stat-num" id="sUsers">—</div><div class="stat-label">Registered Users</div></div>
+          <div class="stat-card"><div class="stat-num" id="sDownloads">—</div><div class="stat-label">PDF Downloads</div></div>
+          <div class="stat-card"><div class="stat-num" id="sTotalBlogs">—</div><div class="stat-label">Total Posts</div></div>
+          <div class="stat-card"><div class="stat-num" id="sPubBlogs">—</div><div class="stat-label">Published Posts</div></div>
+        </div>
+        <div class="table-wrap">
+          <div class="table-header"><h3>Recent Users</h3></div>
+          <table><thead><tr><th>Name</th><th>Email</th><th>Plan</th><th>Joined</th></tr></thead>
+          <tbody id="recentUsers"><tr><td colspan="4" class="loading">Loading...</td></tr></tbody></table>
+        </div>
+        <div class="table-wrap">
+          <div class="table-header"><h3>Recent Blog Posts</h3></div>
+          <table><thead><tr><th>Title</th><th>Status</th><th>Views</th><th>Created</th></tr></thead>
+          <tbody id="recentBlogs"><tr><td colspan="4" class="loading">Loading...</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- NEW POST -->
+      <div id="panel-newPost" class="panel">
+        <div class="panel-title" id="editorTitle">New Blog Post</div>
+        <div class="editor-card">
+          <input type="hidden" id="editingId">
+          <div class="form-group">
+            <label>Post Title *</label>
+            <input type="text" id="postTitle" placeholder="e.g. How to start SIP in 2025 — complete guide for beginners">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Category *</label>
+              <select id="postCategory">
+                <option value="">Select category...</option>
+                <option>FIRE Planning</option>
+                <option>SIP Strategy</option>
+                <option>SWP Strategy</option>
+                <option>Income Tax</option>
+                <option>Fixed Deposits</option>
+                <option>Mutual Funds</option>
+                <option>PPF & NPS</option>
+                <option>Retirement</option>
+                <option>Insurance</option>
+                <option>Personal Finance</option>
+                <option>Calculator Guide</option>
+                <option>Market News</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Read Time (minutes)</label>
+              <input type="number" id="postReadTime" value="5" min="1" max="60">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tags (comma separated)</label>
+            <input type="text" id="postTags" placeholder="SIP, mutual funds, beginner, 2025">
+          </div>
+          <div class="form-group">
+            <label>Excerpt / Meta Description * (max 300 chars)</label>
+            <textarea id="postExcerpt" rows="3" placeholder="A short summary shown in blog listing and Google search results. Keep it under 160 characters for best SEO." maxlength="300"></textarea>
+            <div class="char-count"><span id="excerptCount">0</span>/300 characters</div>
+          </div>
+          <div class="form-group">
+            <label>Article Content * (HTML supported)</label>
+            <div class="editor-toolbar">
+              <button onclick="fmt('bold')"><b>B</b></button>
+              <button onclick="fmt('italic')"><i>I</i></button>
+              <button onclick="fmt('underline')"><u>U</u></button>
+              <button onclick="insertTag('h2')">H2</button>
+              <button onclick="insertTag('h3')">H3</button>
+              <button onclick="insertTag('p')">Para</button>
+              <button onclick="insertList('ul')">• List</button>
+              <button onclick="insertList('ol')">1. List</button>
+              <button onclick="insertLink()">🔗 Link</button>
+              <button onclick="insertTable()">⊞ Table</button>
+              <button onclick="insertCallout()">💡 Tip</button>
+              <button onclick="insertDivider()">— Line</button>
+              <button onclick="toggleHtmlMode()" id="htmlModeBtn">&lt;/&gt; HTML</button>
+              <button onclick="previewPost()">👁 Preview</button>
+            </div>
+            <div id="contentArea" contenteditable="true" spellcheck="true"
+              placeholder="Start writing your article here... You can use the toolbar above for formatting, or switch to HTML mode for advanced editing."></div>
+          </div>
+          <div class="form-actions">
+            <div class="toggle-wrap">
+              <label class="toggle">
+                <input type="checkbox" id="postPublished">
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label">Publish immediately</span>
+            </div>
+            <button class="btn-primary" onclick="savePost(false)" id="saveDraftBtn">💾 Save Draft</button>
+            <button class="btn-primary" onclick="savePost(true)" style="background:var(--gold)" id="publishBtn">🚀 Publish</button>
+            <button class="btn-outline" onclick="clearEditor()">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ALL POSTS -->
+      <div id="panel-allPosts" class="panel">
+        <div class="panel-title">All Blog Posts</div>
+        <div class="search-bar">
+          <input type="text" id="postSearch" placeholder="Search posts..." oninput="filterPosts()">
+          <button class="btn-primary" onclick="showPanel('newPost',document.querySelector('.sidebar-item:nth-child(2)'))">+ New Post</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Views</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="allPostsBody"><tr><td colspan="6" class="loading">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div id="panel-users" class="panel">
+        <div class="panel-title">Registered Users</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Plan</th><th>Joined</th></tr></thead>
+            <tbody id="allUsersBody"><tr><td colspan="4" class="loading">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div id="previewModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;overflow-y:auto;padding:40px 20px">
+  <div style="max-width:780px;margin:0 auto;background:#fff;border-radius:12px;padding:40px;position:relative">
+    <button onclick="document.getElementById('previewModal').style.display='none'" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:24px;cursor:pointer;color:#666">×</button>
+    <div id="previewContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ──
+const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3001/api'
+  : 'https://fireplan-api.onrender.com/api';
+
+let ADMIN_KEY = '';
+let allPostsCache = [];
+let htmlMode = false;
+
+// ── LOGIN ──
+function doAdminLogin() {
+  const key = document.getElementById('adminKeyInput').value.trim();
+  if (!key) return;
+  ADMIN_KEY = key;
+  // Test with a real API call
+  fetch(`${API}/admin/stats`, { headers: { 'x-admin-key': key } })
+    .then(r => {
+      if (!r.ok) throw new Error('Invalid key');
+      return r.json();
+    })
+    .then(data => {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminApp').style.display = 'flex';
+      populateDashboard(data);
+      loadAllPosts();
+    })
+    .catch(() => {
+      document.getElementById('loginErr').style.display = 'block';
+      ADMIN_KEY = '';
+    });
+}
+
+function adminLogout() {
+  ADMIN_KEY = '';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminApp').style.display = 'none';
+  document.getElementById('adminKeyInput').value = '';
+  document.getElementById('loginErr').style.display = 'none';
+}
+
+// ── PANEL NAVIGATION ──
+function showPanel(name, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  if (el) el.classList.add('active');
+  if (name === 'allPosts') loadAllPosts();
+  if (name === 'users')    loadUsers();
+  if (name === 'dashboard') loadDashboard();
+}
+
+// ── DASHBOARD ──
+async function loadDashboard() {
+  const data = await apiGet('/admin/stats');
+  if (data) populateDashboard(data);
+}
+
+function populateDashboard(data) {
+  document.getElementById('sUsers').textContent      = data.users      || 0;
+  document.getElementById('sDownloads').textContent  = data.downloads  || 0;
+  document.getElementById('sTotalBlogs').textContent = data.totalBlogs || 0;
+  document.getElementById('sPubBlogs').textContent   = data.pubBlogs   || 0;
+  document.getElementById('headerStats').textContent = `${data.users} users · ${data.pubBlogs} posts`;
+
+  // Recent users
+  const tbody = document.getElementById('recentUsers');
+  if (data.recent && data.recent.length) {
+    tbody.innerHTML = data.recent.map(u => `
+      <tr>
+        <td>${esc(u.name)}</td>
+        <td>${esc(u.email)}</td>
+        <td><span class="badge badge-${u.plan==='pro'?'gold':'green'}">${u.plan}</span></td>
+        <td>${fmtDate(u.joinedAt)}</td>
+      </tr>`).join('');
+  } else {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#999;padding:20px">No users yet</td></tr>';
+  }
+
+  // Recent blogs
+  const btbody = document.getElementById('recentBlogs');
+  if (data.recentBlogs && data.recentBlogs.length) {
+    btbody.innerHTML = data.recentBlogs.map(b => `
+      <tr>
+        <td>${esc(b.title)}</td>
+        <td><span class="badge badge-${b.published?'green':'gray'}">${b.published?'Published':'Draft'}</span></td>
+        <td>${b.views||0}</td>
+        <td>${fmtDate(b.createdAt)}</td>
+      </tr>`).join('');
+  } else {
+    btbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#999;padding:20px">No posts yet</td></tr>';
+  }
+}
+
+// ── ALL POSTS ──
+async function loadAllPosts() {
+  const data = await apiGet('/admin/blogs');
+  if (!data) return;
+  allPostsCache = data.blogs || [];
+  renderPostsTable(allPostsCache);
+}
+
+function renderPostsTable(posts) {
+  const tbody = document.getElementById('allPostsBody');
+  if (!posts.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#999;padding:30px">No posts yet. Create your first post!</td></tr>';
+    return;
+  }
+  tbody.innerHTML = posts.map(p => `
+    <tr>
+      <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.title)}</td>
+      <td>${esc(p.category)}</td>
+      <td><span class="badge badge-${p.published?'green':'gray'}">${p.published?'Published':'Draft'}</span></td>
+      <td>${p.views||0}</td>
+      <td>${fmtDate(p.publishedAt||p.createdAt)}</td>
+      <td style="white-space:nowrap;display:flex;gap:6px">
+        <button class="btn-outline btn-sm" onclick="editPost('${p._id}')">Edit</button>
+        <button class="btn-danger btn-sm" onclick="deletePost('${p._id}','${esc(p.title)}')">Delete</button>
+      </td>
+    </tr>`).join('');
+}
+
+function filterPosts() {
+  const q = document.getElementById('postSearch').value.toLowerCase();
+  const filtered = allPostsCache.filter(p =>
+    p.title.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
+  );
+  renderPostsTable(filtered);
+}
+
+// ── USERS ──
+async function loadUsers() {
+  const data = await apiGet('/admin/stats');
+  if (!data) return;
+  const tbody = document.getElementById('allUsersBody');
+  if (data.recent && data.recent.length) {
+    tbody.innerHTML = data.recent.map(u => `
+      <tr>
+        <td>${esc(u.name)}</td>
+        <td>${esc(u.email)}</td>
+        <td><span class="badge badge-${u.plan==='pro'?'gold':'green'}">${u.plan}</span></td>
+        <td>${fmtDate(u.joinedAt)}</td>
+      </tr>`).join('');
+  } else {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#999;padding:30px">No users yet</td></tr>';
+  }
+}
+
+// ── EDITOR ──
+document.getElementById('postExcerpt').addEventListener('input', function() {
+  document.getElementById('excerptCount').textContent = this.value.length;
+});
+
+function fmt(cmd) { document.execCommand(cmd, false, null); document.getElementById('contentArea').focus(); }
+
+function insertTag(tag) {
+  const sel = window.getSelection();
+  const text = sel.toString() || 'Your text here';
+  document.execCommand('insertHTML', false, `<${tag}>${text}</${tag}><br>`);
+}
+
+function insertList(type) {
+  document.execCommand(type === 'ul' ? 'insertUnorderedList' : 'insertOrderedList', false, null);
+}
+
+function insertLink() {
+  const url = prompt('Enter URL:', 'https://');
+  if (url) {
+    const text = window.getSelection().toString() || 'Link text';
+    document.execCommand('insertHTML', false, `<a href="${url}" target="_blank" rel="noopener">${text}</a>`);
+  }
+}
+
+function insertTable() {
+  const html = `<table style="width:100%;border-collapse:collapse;margin:16px 0">
+    <thead><tr>
+      <th style="border:1px solid #D6E8DC;padding:8px;background:#F6FAF7;text-align:left">Column 1</th>
+      <th style="border:1px solid #D6E8DC;padding:8px;background:#F6FAF7;text-align:left">Column 2</th>
+      <th style="border:1px solid #D6E8DC;padding:8px;background:#F6FAF7;text-align:left">Column 3</th>
+    </tr></thead>
+    <tbody>
+      <tr><td style="border:1px solid #D6E8DC;padding:8px">Data</td><td style="border:1px solid #D6E8DC;padding:8px">Data</td><td style="border:1px solid #D6E8DC;padding:8px">Data</td></tr>
+      <tr><td style="border:1px solid #D6E8DC;padding:8px">Data</td><td style="border:1px solid #D6E8DC;padding:8px">Data</td><td style="border:1px solid #D6E8DC;padding:8px">Data</td></tr>
+    </tbody>
+  </table><br>`;
+  document.execCommand('insertHTML', false, html);
+}
+
+function insertCallout() {
+  document.execCommand('insertHTML', false, `<div style="background:#E8F5EE;border-left:4px solid #1B6B45;padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0"><strong>💡 Tip:</strong> Your tip or important note here.</div><br>`);
+}
+
+function insertDivider() {
+  document.execCommand('insertHTML', false, '<hr style="border:none;border-top:1px solid #D6E8DC;margin:24px 0"><br>');
+}
+
+let rawHtmlContent = '';
+function toggleHtmlMode() {
+  const area = document.getElementById('contentArea');
+  const btn  = document.getElementById('htmlModeBtn');
+  if (!htmlMode) {
+    rawHtmlContent = area.innerHTML;
+    area.contentEditable = 'false';
+    const ta = document.createElement('textarea');
+    ta.id = 'htmlTextarea';
+    ta.value = rawHtmlContent;
+    ta.style.cssText = 'width:100%;min-height:420px;font-family:monospace;font-size:13px;padding:14px;border:1.5px solid #1B6B45;border-radius:0 0 8px 8px;background:#0F1F17;color:#E8F5EE;outline:none;resize:vertical';
+    area.parentNode.insertBefore(ta, area.nextSibling);
+    area.style.display = 'none';
+    btn.textContent = '✅ Done HTML';
+    htmlMode = true;
+  } else {
+    const ta = document.getElementById('htmlTextarea');
+    area.innerHTML = ta ? ta.value : rawHtmlContent;
+    if (ta) ta.remove();
+    area.style.display = '';
+    area.contentEditable = 'true';
+    btn.textContent = '</> HTML';
+    htmlMode = false;
+  }
+}
+
+function getContent() {
+  if (htmlMode) {
+    const ta = document.getElementById('htmlTextarea');
+    return ta ? ta.value : '';
+  }
+  return document.getElementById('contentArea').innerHTML;
+}
+
+function previewPost() {
+  const title   = document.getElementById('postTitle').value || 'Untitled';
+  const content = getContent();
+  const cat     = document.getElementById('postCategory').value;
+  document.getElementById('previewContent').innerHTML = `
+    <div style="font-size:11px;font-weight:600;color:#1B6B45;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">${cat}</div>
+    <h1 style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;margin-bottom:20px;line-height:1.3">${title}</h1>
+    <div style="line-height:1.8;font-size:15px">${content}</div>`;
+  document.getElementById('previewModal').style.display = 'block';
+}
+
+async function savePost(publish) {
+  const title    = document.getElementById('postTitle').value.trim();
+  const excerpt  = document.getElementById('postExcerpt').value.trim();
+  const content  = getContent().trim();
+  const category = document.getElementById('postCategory').value;
+  const tags     = document.getElementById('postTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const readTime = parseInt(document.getElementById('postReadTime').value) || 5;
+  const editId   = document.getElementById('editingId').value;
+
+  if (!title)    { showToast('Title is required', 'error'); return; }
+  if (!excerpt)  { showToast('Excerpt is required', 'error'); return; }
+  if (!content || content === '<br>') { showToast('Content cannot be empty', 'error'); return; }
+  if (!category) { showToast('Please select a category', 'error'); return; }
+
+  const payload = { title, excerpt, content, category, tags, readTime, published: publish };
+  const btn = publish ? document.getElementById('publishBtn') : document.getElementById('saveDraftBtn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
+  try {
+    let res;
+    if (editId) {
+      res = await fetch(`${API}/admin/blogs/${editId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': ADMIN_KEY },
+        body: JSON.stringify(payload)
+      });
+    } else {
+      res = await fetch(`${API}/admin/blogs`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': ADMIN_KEY },
+        body: JSON.stringify(payload)
+      });
+    }
+    const data = await res.json();
+    if (!res.ok) { showToast(data.error || 'Save failed', 'error'); return; }
+    showToast(publish ? '🚀 Post published!' : '💾 Draft saved!', 'success');
+    clearEditor();
+    showPanel('allPosts', document.querySelector('.sidebar-item:nth-child(3)'));
+  } catch {
+    showToast('Network error. Check connection.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = publish ? '🚀 Publish' : '💾 Save Draft';
+  }
+}
+
+async function editPost(id) {
+  // Load all posts to find the one we want
+  const data = await apiGet('/admin/blogs');
+  if (!data) return;
+  const post = data.blogs.find(p => p._id === id);
+  if (!post) { showToast('Post not found', 'error'); return; }
+
+  // Fetch full post content
+  const full = await apiGet(`/blogs/${post.slug}`);
+  if (!full) return;
+  const p = full.blog;
+
+  document.getElementById('editingId').value   = p._id;
+  document.getElementById('postTitle').value   = p.title;
+  document.getElementById('postExcerpt').value = p.excerpt;
+  document.getElementById('postCategory').value = p.category;
+  document.getElementById('postTags').value    = (p.tags||[]).join(', ');
+  document.getElementById('postReadTime').value = p.readTime||5;
+  document.getElementById('postPublished').checked = p.published;
+  document.getElementById('contentArea').innerHTML = p.content;
+  document.getElementById('excerptCount').textContent = p.excerpt.length;
+  document.getElementById('editorTitle').textContent = 'Edit Post';
+
+  showPanel('newPost', document.querySelector('.sidebar-item:nth-child(2)'));
+  window.scrollTo(0,0);
+}
+
+async function deletePost(id, title) {
+  if (!confirm(`Delete "${title}"?\n\nThis cannot be undone.`)) return;
+  const res = await fetch(`${API}/admin/blogs/${id}`, {
+    method: 'DELETE',
+    headers: { 'x-admin-key': ADMIN_KEY }
+  });
+  if (res.ok) {
+    showToast('Post deleted', 'success');
+    loadAllPosts();
+  } else {
+    showToast('Delete failed', 'error');
+  }
+}
+
+function clearEditor() {
+  document.getElementById('editingId').value = '';
+  document.getElementById('postTitle').value = '';
+  document.getElementById('postExcerpt').value = '';
+  document.getElementById('postCategory').value = '';
+  document.getElementById('postTags').value = '';
+  document.getElementById('postReadTime').value = '5';
+  document.getElementById('postPublished').checked = false;
+  document.getElementById('contentArea').innerHTML = '';
+  document.getElementById('excerptCount').textContent = '0';
+  document.getElementById('editorTitle').textContent = 'New Blog Post';
+  if (htmlMode) toggleHtmlMode();
+}
+
+// ── HELPERS ──
+async function apiGet(path) {
+  try {
+    const res = await fetch(`${API}${path}`, { headers: { 'x-admin-key': ADMIN_KEY } });
+    if (!res.ok) return null;
+    return res.json();
+  } catch { return null; }
+}
+
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type?' '+type:'');
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+function fmtDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Enter key on login
+document.getElementById('adminKeyInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doAdminLogin();
+});
+</script>
+</body>
+</html>
