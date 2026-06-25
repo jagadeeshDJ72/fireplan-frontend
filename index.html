@@ -232,7 +232,7 @@
     <div class="footer-col"><h4>Investment tools</h4><a href="pages/sip-calculator.html">SIP calculator</a><a href="pages/step-up-sip-calculator.html">Step-up SIP</a><a href="pages/fd-laddering-calculator.html">FD ladder planner</a><a href="pages/lumpsum-calculator.html">Lumpsum calculator</a></div>
     <div class="footer-col"><h4>Tax & loans</h4><a href="pages/income-tax-calculator.html">Income tax FY26</a><a href="pages/capital-gains-tax-calculator.html">Capital gains tax</a><a href="pages/home-loan-emi-calculator.html">Home loan EMI</a><a href="pages/personal-loan-calculator.html">Personal loan</a><a href="pages/inflation-calculator.html">Inflation calculator</a></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 MiddleClassMoney.in — All calculators free to use</span><span><a href="pages/privacy.html">Privacy</a> · <a href="pages/disclaimer.html">Disclaimer</a> · <a href="pages/contact.html">Contact</a> · <a href="admin.html" style="opacity:.4;font-size:11px">Admin</a></span></div>
+  <div class="footer-bottom"><span>© 2026 MiddleClassMoney.in — All calculators free to use</span><span><a href="pages/privacy.html">Privacy</a> · <a href="pages/disclaimer.html">Disclaimer</a> · <a href="pages/contact.html">Contact</a></span></div>
 </footer>
 <button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <div class="toast" id="toast"></div>
@@ -259,36 +259,26 @@ document.querySelectorAll('.home-calc-card').forEach(c=>c.style.display='flex');
 </script>
 
 <!-- Google Identity Services -->
-<script src="https://accounts.google.com/gsi/client" defer></script>
+<script src="https://accounts.google.com/gsi/client" onload="initGoogleBtn()"></script>
 <script>
 // ── GOOGLE LOGIN CONFIG ──
 const GOOGLE_CLIENT_ID = '837448567230-srcc6hth5drdds8duqi5cn0qudc9r96c.apps.googleusercontent.com';
-// NOTE: API_URL is already declared in shared.js — do NOT redeclare it here
+const API_URL = 'https://fireplan-api.onrender.com/api';
 
 function initGoogleBtn() {
-  if (!window.google || !google.accounts) return;
+  // Initialize once when Google script loads
   google.accounts.id.initialize({
     client_id: GOOGLE_CLIENT_ID,
     callback: handleGoogleResponse,
     auto_select: false,
     cancel_on_tap_outside: true,
   });
+  // Pre-render the real Google Sign-In button inside modal
   google.accounts.id.renderButton(
     document.getElementById('googleBtnFallback'),
     { theme: 'filled_blue', size: 'large', text: 'signin_with', width: 280 }
   );
 }
-
-// Call initGoogleBtn after DOM + Google script are both ready
-document.addEventListener('DOMContentLoaded', () => {
-  // Poll until google is available (handles async script load timing)
-  const wait = setInterval(() => {
-    if (window.google && google.accounts) {
-      clearInterval(wait);
-      initGoogleBtn();
-    }
-  }, 100);
-});
 
 function openGoogleLogin() {
   // Show modal — button is already rendered and ready
@@ -318,14 +308,9 @@ function updateNavAuth() {
   const area = document.getElementById('navAuthArea');
   if (!area) return;
   if (user) {
-    const isAdmin = user.email === 'jagadeeshnaidu172@gmail.com';
-    const adminLink = isAdmin
-      ? `<a href="admin.html" style="background:var(--green);color:white;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;font-family:inherit">⚙️ Admin</a>`
-      : '';
     area.innerHTML = `<div style="display:flex;align-items:center;gap:10px">
       <img src="${user.picture || ''}" onerror="this.style.display='none'" style="width:30px;height:30px;border-radius:50%;border:2px solid var(--green)">
       <span style="font-size:13px;font-weight:500;color:var(--ink-2)">${user.name.split(' ')[0]}</span>
-      ${adminLink}
       <button onclick="handleLogout()" style="background:none;border:1.5px solid var(--border);color:var(--ink-3);padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit">Logout</button>
     </div>`;
   } else {
