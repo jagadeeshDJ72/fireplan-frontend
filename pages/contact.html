@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Contact Us | FirePlan.in</title>
+<title>Contact Us | Middle Class Money</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 </head><body>
-<nav><a href="../index.html" class="logo">Fire<span>Plan</span>.in</a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
+<nav><a href="../index.html" class="logo">MCM | <span>Middle Class Money</span></a><div class="nav-links"><a href="../index.html">Home</a><a href="../index.html#calculators">Calculators</a></div><a href="../index.html#calculators" class="nav-cta">All tools →</a></nav>
 <div class="breadcrumb"><a href="../index.html">Home</a> › Contact Us</div>
 <div style="max-width:780px;margin:0 auto;padding:40px 5%">
 
@@ -16,12 +16,12 @@
 <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px">
 <div style="font-size:24px;margin-bottom:8px">📧</div>
 <div style="font-weight:600;margin-bottom:4px">Email</div>
-<div style="font-size:13px;color:var(--ink-3)">General: <a href="mailto:hello@fireplan.in" style="color:var(--green)">hello@fireplan.in</a><br>Privacy: <a href="mailto:privacy@fireplan.in" style="color:var(--green)">privacy@fireplan.in</a></div>
+<div style="font-size:13px;color:var(--ink-3)">General & Privacy: <a href="mailto:jagadeeshnaidu172@gmail.com" style="color:var(--green)">jagadeeshnaidu172@gmail.com</a></div>
 </div>
 <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px">
 <div style="font-size:24px;margin-bottom:8px">💡</div>
-<div style="font-weight:600;margin-bottom:4px">Suggest a calculator</div>
-<div style="font-size:13px;color:var(--ink-3)">Missing a tool you need? Tell us and we'll build it for our community.</div>
+<div style="font-weight:600;margin-bottom:4px">Suggest a tool</div>
+<div style="font-size:13px;color:var(--ink-3)">Missing a calculator, budget tip, or travel hack? Tell us and we'll build it for the community.</div>
 </div>
 </div>
 
@@ -30,7 +30,7 @@
 <div style="display:flex;flex-direction:column;gap:14px" id="contactFormArea">
   <div><label style="display:block;font-size:13px;font-weight:500;margin-bottom:5px;color:var(--ink-2)">Name</label><input type="text" id="cName" placeholder="Your name" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;outline:none"></div>
   <div><label style="display:block;font-size:13px;font-weight:500;margin-bottom:5px;color:var(--ink-2)">Email</label><input type="email" id="cEmail" placeholder="you@example.com" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;outline:none"></div>
-  <div><label style="display:block;font-size:13px;font-weight:500;margin-bottom:5px;color:var(--ink-2)">Message</label><textarea id="cMsg" rows="5" placeholder="Your message or calculator suggestion..." style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;outline:none;resize:vertical"></textarea></div>
+  <div><label style="display:block;font-size:13px;font-weight:500;margin-bottom:5px;color:var(--ink-2)">Message</label><textarea id="cMsg" rows="5" placeholder="Your message, calculator suggestion, or budget travel tip idea..." style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;outline:none;resize:vertical"></textarea></div>
   <button onclick="submitContact()" style="background:var(--green);color:white;border:none;padding:12px 24px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s">Send message</button>
 </div>
 <div id="contactSuccess" style="display:none;text-align:center;padding:24px;color:var(--green)">
@@ -44,17 +44,16 @@
 function submitContact(){
   const n=document.getElementById('cName').value,e=document.getElementById('cEmail').value,m=document.getElementById('cMsg').value;
   if(!n||!e||!m){alert('Please fill all fields');return;}
-  // In production: POST to /api/contact
   document.getElementById('contactFormArea').style.display='none';
   document.getElementById('contactSuccess').style.display='block';
 }
 </script>
 
 </div>
-<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not investment advice.</div>
-<div class="footer-grid"><div><div class="footer-logo">Fire<span>Plan</span>.in</div></div>
+<footer><div class="affiliate-note">ⓘ Affiliate links may earn commission. Not financial advice.</div>
+<div class="footer-grid"><div><div class="footer-logo">MCM | <span>Middle Class Money</span></div></div>
 <div class="footer-col"><h4>Calculators</h4><a href="fire-corpus-calculator.html">FIRE corpus</a><a href="sip-calculator.html">SIP</a><a href="income-tax-calculator.html">Income tax</a></div>
-</div><div class="footer-bottom"><span>© 2026 FirePlan.in</span></div></footer>
+</div><div class="footer-bottom"><span>© 2026 MiddleClassMoney.in — All tools free to use</span></div></footer>
 <button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <div class="toast" id="toast"></div>
 <script src="../js/shared.js"></script>
