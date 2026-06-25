@@ -126,6 +126,38 @@ tr:hover td{background:#fafffe}
 /* GRID 2 COL */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:800px){.g2{grid-template-columns:1fr}.sidebar{display:none}.frow{grid-template-columns:1fr}}
+
+/* IMAGE UPLOAD */
+.img-drop{border:2px dashed var(--bdr);border-radius:var(--rs);padding:22px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);position:relative}
+.img-drop:hover,.img-drop.drag{border-color:var(--g);background:var(--glt)}
+.img-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-drop .drop-icon{font-size:28px;margin-bottom:6px}
+.img-drop .drop-txt{font-size:13px;color:var(--ink3)}
+.img-drop .drop-txt b{color:var(--g)}
+.img-preview{margin-top:10px;position:relative;display:inline-block}
+.img-preview img{max-height:160px;max-width:100%;border-radius:var(--rs);border:1.5px solid var(--bdr);display:block}
+.img-preview .img-remove{position:absolute;top:-8px;right:-8px;background:var(--red);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:14px;cursor:pointer;line-height:22px;text-align:center;padding:0}
+.img-uploading{font-size:12px;color:var(--ink3);margin-top:6px;display:none}
+.img-url-row{display:flex;gap:8px;margin-top:8px}
+.img-url-row input{flex:1;padding:8px 11px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:13px;font-family:inherit;outline:none}
+.img-url-row input:focus{border-color:var(--g)}
+.img-url-row button{padding:8px 13px;font-size:12px;white-space:nowrap}
+
+/* INLINE IMG MODAL */
+.imodal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:600;align-items:center;justify-content:center}
+.imodal-bg.open{display:flex}
+.imodal{background:#fff;border-radius:12px;padding:28px;width:90%;max-width:480px;box-shadow:0 8px 40px rgba(0,0,0,.18)}
+.imodal h3{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--ink)}
+.imodal .tabs{display:flex;gap:0;border:1.5px solid var(--bdr);border-radius:var(--rs);overflow:hidden;margin-bottom:16px}
+.imodal .tab{flex:1;padding:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:var(--bg);color:var(--ink2);font-family:inherit;transition:all .15s}
+.imodal .tab.active{background:var(--g);color:#fff}
+.imodal label{display:block;font-size:11px;font-weight:600;color:var(--ink2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.imodal input[type=text]{width:100%;padding:9px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:13px;font-family:inherit;outline:none;margin-bottom:12px}
+.imodal input[type=text]:focus{border-color:var(--g)}
+.imodal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+.align-btns{display:flex;gap:6px;margin-bottom:12px}
+.align-btn{padding:5px 12px;font-size:12px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--bg);cursor:pointer;font-family:inherit;color:var(--ink2);transition:all .15s}
+.align-btn.sel{border-color:var(--g);background:var(--glt);color:var(--g);font-weight:600}
 </style>
 </head>
 <body>
@@ -233,6 +265,25 @@ tr:hover td{background:#fafffe}
           </div>
           <div class="fg"><label>Tags (comma separated)</label>
             <input type="text" id="postTags" placeholder="SIP, mutual funds, beginner, 2025"></div>
+          <!-- COVER IMAGE -->
+          <div class="fg">
+            <label>Cover Image <span style="font-weight:400;color:var(--ink3)">(shown at top of post &amp; in listing cards)</span></label>
+            <div class="img-drop" id="coverDrop" ondragover="handleDrag(event,true)" ondragleave="handleDrag(event,false)" ondrop="handleDrop(event)">
+              <input type="file" id="coverFile" accept="image/*" onchange="uploadCover(this.files[0])">
+              <div class="drop-icon">🖼️</div>
+              <div class="drop-txt"><b>Click to upload</b> or drag &amp; drop<br><span style="font-size:12px">JPG, PNG, WebP — max 5MB</span></div>
+            </div>
+            <div class="img-uploading" id="coverUploading">⏳ Uploading image...</div>
+            <div id="coverPreview" style="display:none" class="img-preview">
+              <img id="coverPreviewImg" src="" alt="Cover">
+              <button class="img-remove" onclick="removeCover()" title="Remove image">×</button>
+            </div>
+            <div class="img-url-row">
+              <input type="text" id="coverImageUrl" placeholder="Or paste image URL directly...">
+              <button class="btn btn-o btn-sm" onclick="applyCoverUrl()">Use URL</button>
+            </div>
+          </div>
+
           <div class="fg"><label>Excerpt / Meta Description * <span style="font-weight:400;color:var(--ink3)">(shown in Google search)</span></label>
             <textarea id="postExcerpt" rows="3" maxlength="300" oninput="document.getElementById('excCount').textContent=this.value.length" placeholder="150-160 characters ideal for SEO..."></textarea>
             <div class="ccount"><span id="excCount">0</span>/300 characters</div>
@@ -251,6 +302,7 @@ tr:hover td{background:#fafffe}
               <button onclick="insTable()">⊞ Table</button>
               <button onclick="insTip()">💡 Tip</button>
               <button onclick="insHr()">— Line</button>
+              <button onclick="openInlineImg()" title="Insert image at cursor">🖼 Image</button>
               <button onclick="toggleHtml('contentArea','htmlTA')" id="htmlBtn">&lt;/&gt; HTML</button>
               <button onclick="previewPost()">👁 Preview</button>
             </div>
@@ -495,7 +547,8 @@ async function savePost(publish) {
   if(!content||content==='<br>') { toast('Content cannot be empty','err'); return; }
   if(!cat)     { toast('Select a category','err'); return; }
 
-  const payload = { title, excerpt, content, category:cat, tags, readTime:read, published:publish };
+  const coverImage = document.getElementById('coverImageUrl').value.trim();
+  const payload = { title, excerpt, content, category:cat, tags, readTime:read, published:publish, coverImage };
   try {
     const url = id ? `${API}/admin/blogs/${id}` : `${API}/admin/blogs`;
     const r = await fetch(url, {
@@ -524,6 +577,13 @@ async function editPost(id, slug) {
   document.getElementById('postRead').value     = p.readTime||5;
   document.getElementById('postPub').checked    = p.published;
   document.getElementById('contentArea').innerHTML = p.content;
+  if (p.coverImage) {
+    document.getElementById('coverImageUrl').value = p.coverImage;
+    document.getElementById('coverPreviewImg').src = p.coverImage;
+    document.getElementById('coverPreview').style.display = 'inline-block';
+  } else {
+    removeCover();
+  }
   document.getElementById('excCount').textContent  = p.excerpt.length;
   document.getElementById('postEditorTitle').textContent = 'Edit Post';
   show('newPost', document.querySelector('.sitem:nth-child(3)'));
@@ -549,6 +609,7 @@ function clearPostEditor() {
   document.getElementById('contentArea').innerHTML='';
   document.getElementById('excCount').textContent='0';
   document.getElementById('postEditorTitle').textContent='New Blog Post';
+  removeCover();
   // Reset html mode
   if(htmlModes['contentArea']){ toggleHtml('contentArea','htmlTA'); }
 }
@@ -729,5 +790,233 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
+
+<!-- INLINE IMAGE MODAL -->
+<div class="imodal-bg" id="inlineImgModal">
+  <div class="imodal">
+    <h3>🖼️ Insert Image into Content</h3>
+    <div class="tabs">
+      <button class="tab active" onclick="switchImgTab('upload')">Upload File</button>
+      <button class="tab" onclick="switchImgTab('url')">Paste URL</button>
+    </div>
+
+    <!-- Upload tab -->
+    <div id="imgTabUpload">
+      <div class="img-drop" style="margin-bottom:10px" ondragover="handleInlineDrag(event,true)" ondragleave="handleInlineDrag(event,false)" ondrop="handleInlineDrop(event)">
+        <input type="file" id="inlineFile" accept="image/*" onchange="uploadInline(this.files[0])">
+        <div class="drop-icon">📁</div>
+        <div class="drop-txt"><b>Click to select</b> or drag image here</div>
+      </div>
+      <div class="img-uploading" id="inlineUploading">⏳ Uploading...</div>
+      <div id="inlinePreviewWrap" style="display:none;margin-bottom:10px" class="img-preview">
+        <img id="inlinePreviewImg" src="" style="max-height:120px;max-width:100%;border-radius:6px;border:1.5px solid var(--bdr)">
+      </div>
+    </div>
+
+    <!-- URL tab -->
+    <div id="imgTabUrl" style="display:none">
+      <label>Image URL</label>
+      <input type="text" id="inlineUrlInput" placeholder="https://example.com/image.jpg">
+    </div>
+
+    <label>Alt Text (for SEO)</label>
+    <input type="text" id="inlineAlt" placeholder="Describe the image briefly...">
+
+    <label>Caption (optional)</label>
+    <input type="text" id="inlineCaption" placeholder="e.g. SIP growth chart — 20 years at 12%">
+
+    <label>Alignment</label>
+    <div class="align-btns">
+      <button class="align-btn sel" onclick="setAlign('left',this)">◀ Left</button>
+      <button class="align-btn" onclick="setAlign('center',this)">◼ Center</button>
+      <button class="align-btn" onclick="setAlign('right',this)">▶ Right</button>
+      <button class="align-btn" onclick="setAlign('full',this)">⬛ Full Width</button>
+    </div>
+
+    <div class="imodal-actions">
+      <button class="btn" style="background:#f0f0f0;color:var(--ink2)" onclick="closeInlineImg()">Cancel</button>
+      <button class="btn btn-g" onclick="insertInlineImg()">Insert Image</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// CLOUDINARY CONFIG — replace with your values
+// Sign up free at cloudinary.com then paste:
+const CLOUDINARY_CLOUD = 'YOUR_CLOUD_NAME';       // e.g. 'middleclassmoney'
+const CLOUDINARY_PRESET = 'YOUR_UPLOAD_PRESET';   // unsigned preset name
+// ══════════════════════════════════════════════
+
+let inlineImgUrl = '';
+let inlineImgAlign = 'center';
+let inlineSavedRange = null;
+
+// ── COVER IMAGE ──
+function handleDrag(e, over) {
+  e.preventDefault();
+  document.getElementById('coverDrop').classList.toggle('drag', over);
+}
+function handleDrop(e) {
+  e.preventDefault();
+  handleDrag(e, false);
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) uploadCover(file);
+}
+
+async function uploadCover(file) {
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { toast('Image too large. Max 5MB.', 'err'); return; }
+  document.getElementById('coverUploading').style.display = 'block';
+  const url = await uploadToCloudinary(file);
+  document.getElementById('coverUploading').style.display = 'none';
+  if (url) showCoverPreview(url);
+  else toast('Upload failed. Check Cloudinary config.', 'err');
+}
+
+function showCoverPreview(url) {
+  document.getElementById('coverImageUrl').value = url;
+  document.getElementById('coverPreviewImg').src = url;
+  document.getElementById('coverPreview').style.display = 'inline-block';
+}
+
+function removeCover() {
+  document.getElementById('coverImageUrl').value = '';
+  document.getElementById('coverPreviewImg').src = '';
+  document.getElementById('coverPreview').style.display = 'none';
+  document.getElementById('coverFile').value = '';
+}
+
+function applyCoverUrl() {
+  const url = document.getElementById('coverImageUrl').value.trim();
+  if (!url) { toast('Enter an image URL first', 'err'); return; }
+  showCoverPreview(url);
+}
+
+// ── INLINE IMAGE MODAL ──
+function openInlineImg() {
+  // Save cursor position in contentArea
+  const sel = window.getSelection();
+  if (sel.rangeCount > 0) inlineSavedRange = sel.getRangeAt(0).cloneRange();
+  document.getElementById('inlineImgModal').classList.add('open');
+  inlineImgUrl = '';
+  document.getElementById('inlineFile').value = '';
+  document.getElementById('inlineUrlInput').value = '';
+  document.getElementById('inlineAlt').value = '';
+  document.getElementById('inlineCaption').value = '';
+  document.getElementById('inlinePreviewWrap').style.display = 'none';
+  document.getElementById('inlineUploading').style.display = 'none';
+  switchImgTab('upload');
+  setAlign('center', document.querySelector('.align-btn:nth-child(2)'));
+}
+
+function closeInlineImg() {
+  document.getElementById('inlineImgModal').classList.remove('open');
+}
+
+function switchImgTab(tab) {
+  document.getElementById('imgTabUpload').style.display = tab === 'upload' ? 'block' : 'none';
+  document.getElementById('imgTabUrl').style.display    = tab === 'url'    ? 'block' : 'none';
+  document.querySelectorAll('.imodal .tab').forEach((t, i) => {
+    t.classList.toggle('active', (i === 0 && tab === 'upload') || (i === 1 && tab === 'url'));
+  });
+}
+
+function setAlign(val, btn) {
+  inlineImgAlign = val;
+  document.querySelectorAll('.align-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+
+function handleInlineDrag(e, over) {
+  e.preventDefault();
+  e.currentTarget.classList.toggle('drag', over);
+}
+function handleInlineDrop(e) {
+  e.preventDefault();
+  handleInlineDrag(e, false);
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) uploadInline(file);
+}
+
+async function uploadInline(file) {
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { toast('Image too large. Max 5MB.', 'err'); return; }
+  document.getElementById('inlineUploading').style.display = 'block';
+  const url = await uploadToCloudinary(file);
+  document.getElementById('inlineUploading').style.display = 'none';
+  if (url) {
+    inlineImgUrl = url;
+    document.getElementById('inlinePreviewImg').src = url;
+    document.getElementById('inlinePreviewWrap').style.display = 'block';
+  } else {
+    toast('Upload failed. Check Cloudinary config.', 'err');
+  }
+}
+
+function insertInlineImg() {
+  const url = inlineImgUrl || document.getElementById('inlineUrlInput').value.trim();
+  if (!url) { toast('Upload or paste an image URL first', 'err'); return; }
+
+  const alt     = document.getElementById('inlineAlt').value.trim() || 'image';
+  const caption = document.getElementById('inlineCaption').value.trim();
+  const align   = inlineImgAlign;
+
+  let style = 'max-width:100%;height:auto;border-radius:8px;display:block;';
+  let wrap   = '';
+  let wrapEnd = '';
+
+  if (align === 'left') {
+    style += 'float:left;margin:0 18px 12px 0;max-width:45%;';
+  } else if (align === 'right') {
+    style += 'float:right;margin:0 0 12px 18px;max-width:45%;';
+  } else if (align === 'center') {
+    style += 'margin:16px auto;max-width:80%;';
+  } else {
+    style += 'width:100%;margin:16px 0;';
+  }
+
+  let imgTag = `<img src="${url}" alt="${alt}" style="${style}">`;
+
+  let html = '';
+  if (caption) {
+    html = `<figure style="margin:16px 0;text-align:${align==='full'?'center':align}">${imgTag}<figcaption style="font-size:12px;color:#888;margin-top:6px;font-style:italic">${caption}</figcaption></figure><br>`;
+  } else {
+    html = `<div style="text-align:${align==='full'?'center':align}">${imgTag}</div><br>`;
+  }
+
+  // Restore cursor and insert
+  const area = document.getElementById('contentArea');
+  area.focus();
+  if (inlineSavedRange) {
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(inlineSavedRange);
+  }
+  document.execCommand('insertHTML', false, html);
+
+  closeInlineImg();
+  toast('Image inserted!', 'ok');
+}
+
+// ── CLOUDINARY UPLOAD ──
+async function uploadToCloudinary(file) {
+  if (CLOUDINARY_CLOUD === 'YOUR_CLOUD_NAME') {
+    toast('⚠️ Set up Cloudinary first — see instructions', 'err');
+    return null;
+  }
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLOUDINARY_PRESET);
+  try {
+    const r = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+      method: 'POST', body: fd
+    });
+    const d = await r.json();
+    return d.secure_url || null;
+  } catch { return null; }
+}
+</script>
+
 </body>
 </html>
