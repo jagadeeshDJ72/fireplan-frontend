@@ -63,6 +63,7 @@
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .not-found{text-align:center;padding:80px 20px;color:var(--ink-3)}
 .not-found h2{font-size:24px;color:var(--ink);margin-bottom:10px}
+.post-cover{width:100%;max-height:420px;object-fit:cover;border-radius:var(--radius);margin-bottom:28px;display:block}
 </style>
 </head>
 <body>
@@ -104,6 +105,7 @@
 <!-- POST LAYOUT -->
 <div class="post-layout" id="postLayout" style="display:none">
   <article class="post-body">
+    <img id="postCoverImg" src="" alt="" class="post-cover" style="display:none">
     <div class="post-content" id="postContent"></div>
     <div class="post-tags" id="postTagsEl"></div>
     <div class="post-share">
@@ -197,6 +199,14 @@ function renderPost(p) {
   document.getElementById('postDate').textContent     = fmtDate(p.publishedAt);
   document.getElementById('postReadTime').textContent = `${p.readTime || 5} min read`;
   document.getElementById('postViews').textContent    = `${p.views || 1} views`;
+
+  // Cover image
+  if (p.coverImage) {
+    const img = document.getElementById('postCoverImg');
+    img.src = p.coverImage;
+    img.alt = p.title;
+    img.style.display = 'block';
+  }
 
   // Content
   document.getElementById('postContent').innerHTML = p.content;
