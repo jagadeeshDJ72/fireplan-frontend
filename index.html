@@ -259,26 +259,36 @@ document.querySelectorAll('.home-calc-card').forEach(c=>c.style.display='flex');
 </script>
 
 <!-- Google Identity Services -->
-<script src="https://accounts.google.com/gsi/client" onload="initGoogleBtn()"></script>
+<script src="https://accounts.google.com/gsi/client" defer></script>
 <script>
 // ── GOOGLE LOGIN CONFIG ──
 const GOOGLE_CLIENT_ID = '837448567230-srcc6hth5drdds8duqi5cn0qudc9r96c.apps.googleusercontent.com';
-const API_URL = 'https://fireplan-api.onrender.com/api';
+// NOTE: API_URL is already declared in shared.js — do NOT redeclare it here
 
 function initGoogleBtn() {
-  // Initialize once when Google script loads
+  if (!window.google || !google.accounts) return;
   google.accounts.id.initialize({
     client_id: GOOGLE_CLIENT_ID,
     callback: handleGoogleResponse,
     auto_select: false,
     cancel_on_tap_outside: true,
   });
-  // Pre-render the real Google Sign-In button inside modal
   google.accounts.id.renderButton(
     document.getElementById('googleBtnFallback'),
     { theme: 'filled_blue', size: 'large', text: 'signin_with', width: 280 }
   );
 }
+
+// Call initGoogleBtn after DOM + Google script are both ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Poll until google is available (handles async script load timing)
+  const wait = setInterval(() => {
+    if (window.google && google.accounts) {
+      clearInterval(wait);
+      initGoogleBtn();
+    }
+  }, 100);
+});
 
 function openGoogleLogin() {
   // Show modal — button is already rendered and ready
@@ -308,9 +318,14 @@ function updateNavAuth() {
   const area = document.getElementById('navAuthArea');
   if (!area) return;
   if (user) {
+    const isAdmin = user.email === 'jagadeeshnaidu172@gmail.com';
+    const adminLink = isAdmin
+      ? `<a href="admin.html" style="background:var(--green);color:white;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;font-family:inherit">⚙️ Admin</a>`
+      : '';
     area.innerHTML = `<div style="display:flex;align-items:center;gap:10px">
       <img src="${user.picture || ''}" onerror="this.style.display='none'" style="width:30px;height:30px;border-radius:50%;border:2px solid var(--green)">
       <span style="font-size:13px;font-weight:500;color:var(--ink-2)">${user.name.split(' ')[0]}</span>
+      ${adminLink}
       <button onclick="handleLogout()" style="background:none;border:1.5px solid var(--border);color:var(--ink-3);padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit">Logout</button>
     </div>`;
   } else {
