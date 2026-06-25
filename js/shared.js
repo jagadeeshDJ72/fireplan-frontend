@@ -11,7 +11,7 @@ const fmtYr  = n => n+' yr'+(n===1?'':'s');
 // ── BACKEND API CONFIG ──
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:3001/api'
-  : 'https://fireplan-api.onrender.com/api';
+  : 'https://fireplan-backend.onrender.com/api';
 
 // Token helpers
 const getToken  = () => localStorage.getItem('fp_token');
