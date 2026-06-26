@@ -427,6 +427,7 @@ function doLogin() {
     .then(r => { if(!r.ok) throw 0; return r.json(); })
     .then(d => {
       KEY = k;
+      localStorage.setItem('mcm_admin_key', k);
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('app').style.display = 'flex';
       populateDashboard(d);
@@ -436,8 +437,25 @@ function doLogin() {
 }
 document.getElementById('keyInput').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
+// Auto-login on refresh if key saved
+(function() {
+  const saved = localStorage.getItem('mcm_admin_key');
+  if (!saved) return;
+  fetch(API + '/admin/stats', { headers:{'x-admin-key': saved} })
+    .then(r => { if(!r.ok) throw 0; return r.json(); })
+    .then(d => {
+      KEY = saved;
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      populateDashboard(d);
+      loadPosts();
+    })
+    .catch(() => localStorage.removeItem('mcm_admin_key'));
+})();
+
 function doLogout() {
   KEY='';
+  localStorage.removeItem('mcm_admin_key');
   document.getElementById('app').style.display='none';
   document.getElementById('loginScreen').style.display='flex';
   document.getElementById('keyInput').value='';
@@ -844,9 +862,8 @@ function esc(s) {
 // ══════════════════════════════════════════════
 // CLOUDINARY CONFIG — replace with your values
 // Sign up free at cloudinary.com then paste:
-const CLOUDINARY_CLOUD = 'dyttglkem';
-const CLOUDINARY_PRESET = 'mcm_blog';
-
+const CLOUDINARY_CLOUD = 'YOUR_CLOUD_NAME';       // e.g. 'middleclassmoney'
+const CLOUDINARY_PRESET = 'YOUR_UPLOAD_PRESET';   // unsigned preset name
 // ══════════════════════════════════════════════
 
 let inlineImgUrl = '';
