@@ -157,7 +157,7 @@ function renderPosts(posts, append=false) {
   const grid = document.getElementById('blogGrid');
   if (!posts.length) { renderEmpty(); return; }
   const html = posts.map(p => `
-    <a href="blog-post.html?slug=${p.slug}" class="blog-card${p.coverImage ? ' has-thumb' : ''}">
+    <a href="blog-post.html?slug=${p.slug}" class="blog-card${p.coverImage ? ' has-thumb' : ''}" target="_blank" rel="noopener">
       ${p.coverImage ? `<img src="${p.coverImage}" alt="${p.title}" class="bc-thumb" loading="lazy">` : ''}
       <div class="bc-cat" style="${p.coverImage ? 'margin-top:0' : ''}">${p.category} · ${fmtDate(p.publishedAt)}</div>
       <div class="bc-title">${p.title}</div>
