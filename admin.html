@@ -200,6 +200,9 @@ tr:hover td{background:#fafffe}
       <div class="slabel">Users</div>
       <div class="sitem" onclick="show('users',this)">👥 All Users</div>
 
+      <div class="slabel">Monetisation</div>
+      <div class="sitem" onclick="show('books',this)">📚 Books</div>
+
       <div class="sdivider"></div>
       <div class="sitem" onclick="window.open('https://middleclassmoney.in/pages/blog.html','_blank')">🔗 Live Blog</div>
       <div class="sitem" onclick="window.open('https://search.google.com/search-console','_blank')">📈 Search Console</div>
@@ -399,6 +402,66 @@ tr:hover td{background:#fafffe}
         </table></div>
       </div>
 
+      <!-- ═══ BOOKS ═══ -->
+      <div id="panel-books" class="panel">
+        <div class="ptitle">📚 Books Manager</div>
+
+        <!-- ADD FORM (collapsed by default) -->
+        <div class="ecard" style="margin-bottom:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <span style="font-size:13px;font-weight:600;color:var(--ink2)">Add a new book</span>
+            <button class="btn btn-g btn-sm" onclick="toggleBookForm()">+ Add Book</button>
+          </div>
+          <div id="bookFormInner" style="display:none">
+            <div class="frow">
+              <div class="fg"><label>Book Title *</label><input type="text" id="bkTitle" placeholder="e.g. Rich Dad Poor Dad"></div>
+              <div class="fg"><label>Author *</label><input type="text" id="bkAuthor" placeholder="e.g. Robert Kiyosaki"></div>
+            </div>
+            <div class="frow">
+              <div class="fg"><label>Category</label>
+                <select id="bkCat">
+                  <option>Personal Finance</option>
+                  <option>Investing</option>
+                  <option>Stock Market</option>
+                  <option>Mutual Funds</option>
+                  <option>Insurance</option>
+                  <option>Retirement &amp; FIRE</option>
+                  <option>Mindset &amp; Wealth</option>
+                  <option>Real Estate</option>
+                </select>
+              </div>
+              <div class="fg"><label>Display Order (lower = first)</label><input type="number" id="bkOrder" value="0" min="0"></div>
+            </div>
+            <div class="fg"><label>Amazon Affiliate Link</label><input type="text" id="bkAmazon" placeholder="https://www.amazon.in/dp/... (your affiliate tracking URL)"></div>
+            <div class="fg"><label>Flipkart Affiliate Link</label><input type="text" id="bkFlipkart" placeholder="https://www.flipkart.com/... (your affiliate tracking URL)"></div>
+            <div class="fg">
+              <label>Cover Image * <span style="font-weight:400;color:var(--ink3)">(upload book cover)</span></label>
+              <div class="img-drop" id="bkCoverDrop">
+                <input type="file" id="bkCoverFile" accept="image/*" onchange="uploadBookCover(this.files[0])">
+                <div class="drop-icon">📖</div>
+                <div class="drop-txt"><b>Click to upload</b> cover image<br><span style="font-size:12px">JPG, PNG — max 5MB</span></div>
+              </div>
+              <div class="img-uploading" id="bkUploading">⏳ Uploading image...</div>
+              <div id="bkCoverPreview" style="display:none" class="img-preview">
+                <img id="bkCoverPreviewImg" src="" alt="Cover">
+                <button class="img-remove" onclick="removeBkCover()" title="Remove">×</button>
+              </div>
+              <input type="hidden" id="bkCoverUrl">
+            </div>
+            <div class="factions">
+              <button class="btn btn-gold" onclick="submitBook()">💾 Save Book</button>
+              <button class="btn" style="background:#f0f0f0;color:var(--ink2)" onclick="toggleBookForm()">Cancel</button>
+              <span id="bkStatus" style="font-size:13px;color:var(--g);display:none">✓ Saved!</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOOKS LIST -->
+        <div id="booksList">
+          <div style="text-align:center;padding:40px;color:#999">Loading books...</div>
+        </div>
+      </div>
+
     </main>
   </div>
 </div>
@@ -472,6 +535,7 @@ function show(name, el) {
   if(name==='allPages') loadPages();
   if(name==='users')    loadUsers();
   if(name==='dashboard') loadDash();
+  if(name==='books')    loadBooks();
 }
 
 // ── DASHBOARD ──
@@ -803,10 +867,127 @@ function fmtDate(d) {
   if(!d) return '—';
   return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
 }
-function esc(s) {
-  if(!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+// ── BOOKS ──
+function toggleBookForm() {
+  const inner = document.getElementById('bookFormInner');
+  const open  = inner.style.display === 'none';
+  inner.style.display = open ? 'block' : 'none';
+  if (open) {
+    ['bkTitle','bkAmazon','bkFlipkart','bkCoverUrl'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('bkAuthor').value = '';
+    document.getElementById('bkOrder').value  = '0';
+    document.getElementById('bkCoverFile').value = '';
+    document.getElementById('bkCoverPreview').style.display = 'none';
+    document.getElementById('bkStatus').style.display = 'none';
+  }
 }
+
+async function uploadBookCover(file) {
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { toast('Image too large. Max 5MB.', 'err'); return; }
+  document.getElementById('bkUploading').style.display = 'block';
+  const url = await uploadToCloudinary(file);
+  document.getElementById('bkUploading').style.display = 'none';
+  if (url) {
+    document.getElementById('bkCoverUrl').value = url;
+    document.getElementById('bkCoverPreviewImg').src = url;
+    document.getElementById('bkCoverPreview').style.display = 'inline-block';
+  } else {
+    toast('Cover upload failed', 'err');
+  }
+}
+
+function removeBkCover() {
+  document.getElementById('bkCoverUrl').value = '';
+  document.getElementById('bkCoverPreviewImg').src = '';
+  document.getElementById('bkCoverPreview').style.display = 'none';
+  document.getElementById('bkCoverFile').value = '';
+}
+
+async function submitBook() {
+  const title       = document.getElementById('bkTitle').value.trim();
+  const author      = document.getElementById('bkAuthor').value.trim();
+  const amazonLink  = document.getElementById('bkAmazon').value.trim();
+  const flipkartLink= document.getElementById('bkFlipkart').value.trim();
+  const category    = document.getElementById('bkCat').value;
+  const displayOrder= parseInt(document.getElementById('bkOrder').value) || 0;
+  const coverImage  = document.getElementById('bkCoverUrl').value.trim();
+
+  if (!title)       { toast('Book title required', 'err'); return; }
+  if (!author)      { toast('Author required', 'err'); return; }
+  if (!coverImage)  { toast('Upload a cover image first', 'err'); return; }
+  if (!amazonLink && !flipkartLink) { toast('Add at least one affiliate link', 'err'); return; }
+
+  try {
+    const r = await fetch(`${API}/admin/books`, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-admin-key': KEY },
+      body: JSON.stringify({ title, author, coverImage, amazonLink, flipkartLink, category, displayOrder })
+    });
+    const d = await r.json();
+    if (!r.ok) { toast(d.error || 'Save failed', 'err'); return; }
+    document.getElementById('bkStatus').style.display = 'inline';
+    toast('📚 Book added!', 'ok');
+    setTimeout(() => { toggleBookForm(); loadBooks(); }, 1200);
+  } catch { toast('Network error', 'err'); }
+}
+
+async function loadBooks() {
+  const container = document.getElementById('booksList');
+  try {
+    const r = await fetch(`${API}/books`);
+    if (!r.ok) throw new Error();
+    const d = await r.json();
+    const books = d.books || [];
+
+    if (!books.length) {
+      container.innerHTML = `<div style="text-align:center;padding:40px;color:#999">No books yet. Click "+ Add Book" to get started.</div>`;
+      return;
+    }
+
+    // Group by category
+    const grouped = {};
+    books.forEach(b => {
+      if (!grouped[b.category]) grouped[b.category] = [];
+      grouped[b.category].push(b);
+    });
+
+    let html = '';
+    for (const [cat, items] of Object.entries(grouped)) {
+      html += `<div style="margin-bottom:28px">
+        <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;padding-bottom:8px;border-bottom:1px solid var(--bdr);margin-bottom:14px">${esc(cat)}</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px">`;
+      items.forEach(book => {
+        html += `<div style="background:var(--white);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)">
+          <div style="height:170px;overflow:hidden;background:#f5f5f5">
+            <img src="${esc(book.coverImage)}" alt="${esc(book.title)}" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="padding:10px 12px">
+            <p style="margin:0 0 2px;font-size:12px;font-weight:700;color:var(--ink);line-height:1.3">${esc(book.title)}</p>
+            <p style="margin:0 0 8px;font-size:11px;color:var(--ink3)">${esc(book.author)}</p>
+            <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px">
+              ${book.amazonLink  ? `<a href="${esc(book.amazonLink)}"  target="_blank" style="font-size:10px;background:#ff9900;color:#fff;padding:3px 7px;border-radius:4px;text-decoration:none;font-weight:600">Amazon ↗</a>` : ''}
+              ${book.flipkartLink? `<a href="${esc(book.flipkartLink)}" target="_blank" style="font-size:10px;background:#2874f0;color:#fff;padding:3px 7px;border-radius:4px;text-decoration:none;font-weight:600">Flipkart ↗</a>` : ''}
+            </div>
+            <button onclick="deleteBook('${book._id}','${esc(book.title)}')" class="btn btn-r btn-xs" style="width:100%">🗑 Remove</button>
+          </div>
+        </div>`;
+      });
+      html += `</div></div>`;
+    }
+    container.innerHTML = html;
+  } catch {
+    container.innerHTML = `<div style="color:var(--red);padding:20px">Failed to load books. Check backend connection.</div>`;
+  }
+}
+
+async function deleteBook(id, title) {
+  if (!confirm(`Remove "${title}" from the books page?`)) return;
+  const r = await fetch(`${API}/admin/books/${id}`, { method:'DELETE', headers:{'x-admin-key':KEY} });
+  if (r.ok) { toast('Book removed', 'ok'); loadBooks(); }
+  else toast('Delete failed', 'err');
+}
+
 </script>
 
 <!-- INLINE IMAGE MODAL -->
@@ -862,8 +1043,8 @@ function esc(s) {
 // ══════════════════════════════════════════════
 // CLOUDINARY CONFIG — replace with your values
 // Sign up free at cloudinary.com then paste:
-const CLOUDINARY_CLOUD = 'YOUR_CLOUD_NAME';       // e.g. 'middleclassmoney'
-const CLOUDINARY_PRESET = 'YOUR_UPLOAD_PRESET';   // unsigned preset name
+const CLOUDINARY_CLOUD = 'dyttglkem';
+const CLOUDINARY_PRESET = 'mcm_blog';
 // ══════════════════════════════════════════════
 
 let inlineImgUrl = '';
